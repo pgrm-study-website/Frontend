@@ -10,45 +10,81 @@ const Login = () => {
           <span className="page-text">login</span>
         </TextContainer>
       </div>
-      <LoginContainer action="#">
-        <label htmlFor="inputEmail" className="form__label">
-          email
-        </label>
-        <input
-          type="text"
-          id="inputEmail"
-          className="form__input"
-          placeholder="input email"
-        />
-        <label htmlFor="inputPwd" className="form__label">
-          password
-        </label>
-        <input
-          type="text"
-          id="inputPwd"
-          className="form__input"
-          placeholder="password"
-        />
+      <LoginContainer>
+        <form action="" className="form">
+          <label htmlFor="inputEmail" className="form__label">
+            email
+          </label>
+          <input
+            type="text"
+            id="inputEmail"
+            className="form__input"
+            placeholder="input email"
+          />
+          <label htmlFor="inputPwd" className="form__label">
+            password
+          </label>
+          <input
+            type="text"
+            id="inputPwd"
+            className="form__input"
+            placeholder="password"
+          />
+          <input type="submit" value="Login submit" className="form__submit" />
+        </form>
+        <LinkConatiner>
+          <div>ID / PW 찾기</div>
+          <div>회원가입</div>
+        </LinkConatiner>
+        <SocialContainer className="social">
+          <div className="social__title"></div>
+          <div className="social__icons">
+            <img src={require('../assets/image/google-icon.png')} alt="" />
+            <img src={require('../assets/image/google-icon.png')} alt="" />
+          </div>
+        </SocialContainer>
       </LoginContainer>
     </Template>
   );
 };
+const LinkConatiner = styled.div`
+  padding: 30px 0;
+  display: flex;
+  justify-content: space-around;
+`;
+const SocialContainer = styled.div`
+  .social__title {
+  }
+  .social__icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    img {
+      width: 50px;
+    }
+  }
+`;
+
 const Template = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100vh;
+  color: #484848;
   background-color: #eee;
 `;
-const LoginContainer = styled.form`
+const LoginContainer = styled.div`
+  z-index: 10;
   width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
   .form__label {
     font-size: 24px;
-    color: #484848;
   }
   .form__input {
     border: none;
@@ -57,6 +93,14 @@ const LoginContainer = styled.form`
     height: 40px;
     border-radius: 5px;
     background-color: #e3e3e3;
+  }
+  .form__submit {
+    border: none;
+    color: #484848;
+    padding: 10px;
+    font-size: 20px;
+    width: 100%;
+    height: 40px;
   }
 `;
 const TrapezoidStyle = styled.div`
