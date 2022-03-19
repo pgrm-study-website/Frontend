@@ -9,6 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from 'modules';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import Login from 'pages/Login';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -63,7 +64,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<div>Main</div>} />
-        <Route path="/login" element={<div>Login</div>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<div>Sign Up</div>} />
         <Route path="/*" element={<div>Not Found</div>} />
       </Routes>
