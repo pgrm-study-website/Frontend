@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from 'components/Button';
-import Trapezoid from 'components/TrapezoidBox';
+import Button from 'components/common/Button';
+import Trapezoid from 'components/sign/TrapezoidBox';
 import styled from 'styled-components';
-import SignTemplate from 'components/SignTemplate';
+import SignTemplate from 'components/sign/SignTemplate';
 function SignUp() {
   return (
     <SignTemplate>
