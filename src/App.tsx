@@ -14,6 +14,9 @@ import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
 
 import Login from 'pages/Login';
 import Main from 'pages/main/Main';
+import Sidebar from 'components/sidebar/Sidebar';
+import Header from 'components/header/Header';
+import Footer from 'components/footer/Footer';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -119,11 +122,14 @@ const App = () => {
             path="/*"
             element={
               <Wrapper>
+                <Sidebar />
+                <Header />
                 <Routes>
                   <Route path="" element={<Main />} />
                   <Route path="write" element={<div>Write</div>} />
                   <Route path="*" element={<div>Not Found</div>} />
                 </Routes>
+                <Footer />
               </Wrapper>
             }
           />
