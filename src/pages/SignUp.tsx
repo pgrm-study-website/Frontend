@@ -31,7 +31,6 @@ function SignUp() {
               className="form__input"
               placeholder="input email"
             />
-            <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
           </FormItem>
           <FormItem>
             <Label htmlFor="inputPwd" className="form__label">
@@ -43,7 +42,6 @@ function SignUp() {
               className="form__input"
               placeholder="input password"
             />
-            <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
           </FormItem>
           <FormItem>
             <Label htmlFor="inputPwdContirm" className="form__label">
@@ -57,40 +55,15 @@ function SignUp() {
             />
           </FormItem>
           <FormItem>
-            <Label htmlFor="inputEmail" className="form__label">
-              email
+            <Label htmlFor="inputNickname" className="form__label">
+              nickname
             </Label>
             <InputText
               type="text"
-              id="inputEmail"
+              id="inputNickname"
               className="form__input"
-              placeholder="input email"
+              placeholder="input nickname"
             />
-            <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
-          </FormItem>
-          <FormItem>
-            <Label htmlFor="inputEmail" className="form__label">
-              email
-            </Label>
-            <InputText
-              type="text"
-              id="inputEmail"
-              className="form__input"
-              placeholder="input email"
-            />
-            <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
-          </FormItem>
-          <FormItem>
-            <Label htmlFor="inputEmail" className="form__label">
-              email
-            </Label>
-            <InputText
-              type="text"
-              id="inputEmail"
-              className="form__input"
-              placeholder="input email"
-            />
-            <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
           </FormItem>
         </FormGrid>
         <ClauseContainer></ClauseContainer>
