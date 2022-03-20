@@ -31,14 +31,14 @@ const Login = () => {
             className="form__input"
             placeholder="input password"
           />
+
           <Button value="Login" className="btn--grey">
             Login
           </Button>
-          {/* <input type="submit" value="Login submit" className="form__submit" /> */}
         </form>
         <LinkConatiner>
-          <div>ID / PW 찾기</div>
-          <div>회원가입</div>
+          <a href="/pwd_find">비밀번호 찾기</a>
+          <a href="/join">회원가입</a>
         </LinkConatiner>
         <SocialContainer className="social">
           <div className="social__title"></div>
@@ -55,6 +55,9 @@ const LinkConatiner = styled.div`
   padding: 30px 0;
   display: flex;
   justify-content: space-around;
+`;
+const LinkItem = styled.div`
+  text-align: center;
 `;
 const SocialContainer = styled.div`
   .social__title {
