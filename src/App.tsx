@@ -8,6 +8,10 @@ import LeeSeoyun from 'assets/fonts/LeeSeoyun.ttf';
 import SUITMedium from 'assets/fonts/SUIT-Medium.ttf';
 import SuncheonR from 'assets/fonts/SuncheonR.ttf';
 import YUniverseB from 'assets/fonts/YUniverse-B.ttf';
+import MaruBuriLight from 'assets/fonts/MaruBuriLight.ttf';
+import NanumSquareR from 'assets/fonts/NanumSquareR.ttf';
+import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
+
 import SignUp from 'pages/SignUp';
 import Login from 'pages/Login';
 
@@ -37,6 +41,20 @@ const GlobalStyles = createGlobalStyle`
     }
     em{
       font-style: italic;
+    }
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #4f4f4f;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #929292;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 5px white;
     }
   }
   html {
@@ -74,6 +92,19 @@ const GlobalStyles = createGlobalStyle`
     font-family: YUniverse-B;
     src: url(${YUniverseB}) format("truetype");
   }
+  @font-face {
+    font-family: MaruBuriLight;
+    src: url(${MaruBuriLight}) format("truetype");
+  }
+  @font-face {
+    font-family: NanumSquareR;
+    src: url(${NanumSquareR}) format("truetype");
+  }
+  @font-face {
+    font-family: Cafe24SsurroundAir;
+    src: url(${Cafe24SsurroundAir}) format("truetype");
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 `;
 
 const App = () => {
@@ -91,7 +122,7 @@ const App = () => {
                 <Routes>
                   <Route path="" element={<div>Main</div>} />
                   <Route path="write" element={<div>Write</div>} />
-                  <Route path="" element={<div>Not Found</div>} />
+                  <Route path="*" element={<div>Not Found</div>} />
                 </Routes>
               </Wrapper>
             }
@@ -106,13 +137,20 @@ export default App;
 
 const Wrapper = styled.div`
   background-color: #323232;
-  width: min(calc(500% / 6), calc(100% - 180px));
-  max-width: 1250px;
+  width: 1250px;
   height: 100%;
   min-height: 100vh;
-  margin-left: max(180px, max(calc(100% / 6), calc(50% - 500px)));
+  margin-left: calc(50% - 500px);
   display: flex;
   flex-direction: column;
+  @media all and (max-width: 1510px) {
+    width: calc(100% - 215px);
+    margin-left: 215px;
+  }
+  @media all and (max-width: 1090px) {
+    width: calc(100% - 180px);
+    margin-left: 180px;
+  }
   @media all and (max-width: 900px) {
     width: 100%;
     margin-left: 0;
