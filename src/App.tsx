@@ -4,12 +4,11 @@ import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import { hot } from 'react-hot-loader';
 
-import BeanpoleLight from 'assets/font/Beanpole-Light.ttf';
-import Goyang from 'assets/font/Goyang.ttf';
-import LeeSeoyun from 'assets/font/LeeSeoyun.ttf';
-import SUITMedium from 'assets/font/SUIT-Medium.ttf';
-import SuncheonR from 'assets/font/SuncheonR.ttf';
-import YUniverseB from 'assets/font/YUniverse-B.ttf';
+import Goyang from 'assets/fonts/Goyang.ttf';
+import LeeSeoyun from 'assets/fonts/LeeSeoyun.ttf';
+import SUITMedium from 'assets/fonts/SUIT-Medium.ttf';
+import SuncheonR from 'assets/fonts/SuncheonR.ttf';
+import YUniverseB from 'assets/fonts/YUniverse-B.ttf';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -53,10 +52,6 @@ const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
-  }
-  @font-face {
-    font-family: Beanpole-Light;
-    src: url(${BeanpoleLight}) format("truetype");
   }
   @font-face {
     font-family: Goyang;
