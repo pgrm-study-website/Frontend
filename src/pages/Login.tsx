@@ -1,3 +1,4 @@
+import Button from 'components/Button';
 import React from 'react';
 import styled from 'styled-components';
 const Login = () => {
@@ -12,25 +13,28 @@ const Login = () => {
       </div>
       <LoginContainer>
         <form action="" className="form">
-          <label htmlFor="inputEmail" className="form__label">
+          <Label htmlFor="inputEmail" className="form__label">
             email
-          </label>
-          <input
+          </Label>
+          <InputText
             type="text"
             id="inputEmail"
             className="form__input"
             placeholder="input email"
           />
-          <label htmlFor="inputPwd" className="form__label">
+          <Label htmlFor="inputPwd" className="form__label">
             password
-          </label>
-          <input
+          </Label>
+          <InputText
             type="text"
             id="inputPwd"
             className="form__input"
-            placeholder="password"
+            placeholder="input password"
           />
-          <input type="submit" value="Login submit" className="form__submit" />
+          <Button value="Login" className="btn--grey">
+            Login
+          </Button>
+          {/* <input type="submit" value="Login submit" className="form__submit" /> */}
         </form>
         <LinkConatiner>
           <div>ID / PW 찾기</div>
@@ -65,7 +69,17 @@ const SocialContainer = styled.div`
     }
   }
 `;
-
+const Label = styled.label`
+  font-size: 24px;
+`;
+const InputText = styled.input`
+  border: none;
+  padding: 10px;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #e3e3e3;
+`;
 const Template = styled.div`
   display: flex;
   align-items: center;
@@ -83,24 +97,8 @@ const LoginContainer = styled.div`
     flex-direction: column;
     gap: 10px;
   }
-  .form__label {
-    font-size: 24px;
-  }
-  .form__input {
-    border: none;
-    padding: 10px;
-    width: 100%;
-    height: 40px;
-    border-radius: 5px;
-    background-color: #e3e3e3;
-  }
-  .form__submit {
-    border: none;
-    color: #484848;
-    padding: 10px;
-    font-size: 20px;
-    width: 100%;
-    height: 40px;
+  .btn--grey {
+    margin-top: 20px;
   }
 `;
 const TrapezoidStyle = styled.div`
