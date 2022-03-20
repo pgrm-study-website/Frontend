@@ -1,5 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BiCommentDots } from 'react-icons/bi';
+import {
+  BsFillPersonFill,
+  BsFillStarFill,
+  BsFillEyeFill,
+} from 'react-icons/bs';
 import { postType } from './Recommend';
 import PostCategory from 'components/post/postCategory';
 import PostTag from 'components/post/postTag';
@@ -18,12 +24,17 @@ const PostItem = ({ post }: postType) => {
       </FirstWrapper>
       <SecondWrapper>
         <PersonWrapper>
+          <BsFillPersonFill />
           <div>{post.headcount.now}</div>
+          <div>/</div>
           <div>{post.headcount.max}</div>
         </PersonWrapper>
         <EtcWrapper>
+          <BsFillStarFill />
           <div>{post.star}</div>
+          <BiCommentDots />
           <div>{post.comment}</div>
+          <BsFillEyeFill />
           <div>{post.view}</div>
         </EtcWrapper>
       </SecondWrapper>
@@ -79,9 +90,15 @@ const PersonWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  svg {
+    margin: 0 3px 0 0;
+  }
 `;
 const EtcWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  svg {
+    margin: 0 3px 0 8px;
+  }
 `;

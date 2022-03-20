@@ -178,13 +178,36 @@ const testDataList = [
 
 const Recommend = () => {
   const [page, setPage] = useState(0);
-  const projectsWrapper = useRef<HTMLDivElement>(null);
+  const messageDiv = useRef<HTMLDivElement>(null);
+  const postListDiv = useRef<HTMLDivElement>(null);
 
   let timer: NodeJS.Timeout | null = null;
   const updateCount = () => {
     if (timer === null) {
       timer = setInterval(() => {
         setPage(page => (page + 1) % 3);
+        postListDiv.current?.animate(
+          [
+            { opacity: 0, transform: 'translateY(-5%)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          {
+            duration: 500,
+            easing: 'linear',
+            fill: 'forwards',
+          },
+        );
+        messageDiv.current?.animate(
+          [
+            { opacity: 0, transform: 'translateY(-5%)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          {
+            duration: 500,
+            easing: 'linear',
+            fill: 'forwards',
+          },
+        );
       }, 5000);
     }
   };
@@ -198,20 +221,20 @@ const Recommend = () => {
   }, [page]);
 
   const onClick = (dir: string) => {
-    if (projectsWrapper.current === null) return;
+    if (postListDiv.current === null) return;
     if (dir === 'left') {
-      projectsWrapper.current.scrollLeft =
-        Math.ceil(projectsWrapper.current.scrollLeft / 320) * 320 - 320;
+      postListDiv.current.scrollLeft =
+        Math.ceil(postListDiv.current.scrollLeft / 320) * 320 - 320;
     } else {
-      projectsWrapper.current.scrollLeft =
-        Math.floor(projectsWrapper.current.scrollLeft / 320) * 320 + 320;
+      postListDiv.current.scrollLeft =
+        Math.floor(postListDiv.current.scrollLeft / 320) * 320 + 320;
     }
   };
 
   return (
     <Wrapper>
-      <MessageText>{testDataList[page].text}</MessageText>
-      <ProjectsWrapper ref={projectsWrapper}>
+      <MessageText ref={messageDiv}>{testDataList[page].text}</MessageText>
+      <PostListWrapper ref={postListDiv}>
         {testDataList[page].list.map((i, idx) => (
           <PostItem key={idx} post={i} />
         ))}
@@ -221,7 +244,7 @@ const Recommend = () => {
         <MoveRightButton onClick={() => onClick('right')}>
           <BsArrowRight />
         </MoveRightButton> */}
-      </ProjectsWrapper>
+      </PostListWrapper>
     </Wrapper>
   );
 };
@@ -250,7 +273,7 @@ const MessageText = styled.div`
   font-family: SuncheonR;
   color: white;
 `;
-const ProjectsWrapper = styled.div`
+const PostListWrapper = styled.div`
   width: 100%;
   height: 200px;
   overflow-x: auto;
