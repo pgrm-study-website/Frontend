@@ -1,11 +1,13 @@
 import Button from 'components/Button';
+import Trapezoid from 'components/TrapezoidBox';
 import React from 'react';
 import styled from 'styled-components';
+
 const Login = () => {
   return (
     <Template>
       <div>
-        <TrapezoidStyle />
+        <Trapezoid />
         <TextContainer>
           <span className="page-text text--large">플밍</span>
           <span className="page-text">login</span>
@@ -104,18 +106,7 @@ const LoginContainer = styled.div`
     margin-top: 20px;
   }
 `;
-const TrapezoidStyle = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-bottom: 200px solid transparent;
-  border-left: 100vw solid #4cbbc2;
-  &::before {
-    content: '';
-    height: 130px;
-    display: block;
-  }
-`;
+
 const TextContainer = styled.div`
   position: absolute;
   top: 100px;
