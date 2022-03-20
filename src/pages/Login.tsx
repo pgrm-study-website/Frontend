@@ -1,11 +1,12 @@
 import Button from 'components/Button';
+import SignTemplate from 'components/SignTemplate';
 import Trapezoid from 'components/TrapezoidBox';
 import React from 'react';
 import styled from 'styled-components';
 
 const Login = () => {
   return (
-    <Template>
+    <SignTemplate>
       <div>
         <Trapezoid />
         <TextContainer>
@@ -50,7 +51,7 @@ const Login = () => {
           </div>
         </SocialContainer>
       </LoginContainer>
-    </Template>
+    </SignTemplate>
   );
 };
 const LinkConatiner = styled.div`
@@ -85,15 +86,7 @@ const InputText = styled.input`
   border-radius: 5px;
   background-color: #e3e3e3;
 `;
-const Template = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  color: #484848;
-  background-color: #eee;
-`;
+
 const LoginContainer = styled.div`
   z-index: 10;
   width: 300px;
