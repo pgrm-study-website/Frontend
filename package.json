@@ -63,15 +63,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.0",
-    "react-hot-loader": "^4.5.3",
     "redux-devtools-extension": "^2.13.9"
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "react-hot-loader/babel"
-    ]
   }
 }

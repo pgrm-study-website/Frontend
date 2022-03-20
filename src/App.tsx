@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
-import { hot } from 'react-hot-loader';
 
 import Goyang from 'assets/fonts/Goyang.ttf';
 import LeeSeoyun from 'assets/fonts/LeeSeoyun.ttf';
@@ -81,15 +80,39 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<div>Main</div>} />
           <Route path="/login" element={<div>Login</div>} />
           <Route path="/signup" element={<div>Sign Up</div>} />
-          <Route path="/write" element={<div>Write</div>} />
-          <Route path="/*" element={<div>Not Found</div>} />
+          <Route
+            path="/*"
+            element={
+              <Wrapper>
+                <Routes>
+                  <Route path="" element={<div>Main</div>} />
+                  <Route path="write" element={<div>Write</div>} />
+                  <Route path="" element={<div>Not Found</div>} />
+                </Routes>
+              </Wrapper>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
   );
 };
 
-export default hot(module)(App);
+export default App;
+
+const Wrapper = styled.div`
+  background-color: #323232;
+  width: min(calc(500% / 6), calc(100% - 180px));
+  max-width: 1250px;
+  height: 100%;
+  min-height: 100vh;
+  margin-left: max(180px, max(calc(100% / 6), calc(50% - 500px)));
+  display: flex;
+  flex-direction: column;
+  @media all and (max-width: 900px) {
+    width: 100%;
+    margin-left: 0;
+  }
+`;
