@@ -7,13 +7,8 @@ import styled from 'styled-components';
 const Login = () => {
   return (
     <SignTemplate>
-      <div>
-        <Trapezoid />
-        <TextContainer>
-          <span className="page-text text--large">플밍</span>
-          <span className="page-text">login</span>
-        </TextContainer>
-      </div>
+      <Trapezoid text={'login'} />
+
       <LoginContainer>
         <form action="" className="form">
           <Label htmlFor="inputEmail" className="form__label">
@@ -100,15 +95,4 @@ const LoginContainer = styled.div`
   }
 `;
 
-const TextContainer = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  font-size: 64px;
-  color: #fff;
-  .text--large {
-    font-size: 100px;
-    margin-right: 50px;
-  }
-`;
 export default Login;

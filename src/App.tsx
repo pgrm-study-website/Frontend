@@ -9,6 +9,7 @@ import SUITMedium from 'assets/fonts/SUIT-Medium.ttf';
 import SuncheonR from 'assets/fonts/SuncheonR.ttf';
 import YUniverseB from 'assets/fonts/YUniverse-B.ttf';
 import SignUp from 'pages/SignUp';
+import Login from 'pages/Login';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -81,7 +82,7 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<div>Login</div>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/*"
