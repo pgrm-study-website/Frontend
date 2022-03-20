@@ -13,6 +13,7 @@ import NanumSquareR from 'assets/fonts/NanumSquareR.ttf';
 import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
 
 import Login from 'pages/Login';
+import Write from 'pages/write/Write';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -120,7 +121,7 @@ const App = () => {
               <Wrapper>
                 <Routes>
                   <Route path="" element={<div>Main</div>} />
-                  <Route path="write" element={<div>Write</div>} />
+                  <Route path="write" element={<Write />} />
                   <Route path="*" element={<div>Not Found</div>} />
                 </Routes>
               </Wrapper>
