@@ -46,7 +46,7 @@ const Login = () => {
           <div className="social__title"></div>
           <div className="social__icons">
             <img src={require('../assets/image/google-icon.png')} alt="" />
-            <img src={require('../assets/image/google-icon.png')} alt="" />
+            <img src={require('../assets/image/git-icon.png')} alt="" />
           </div>
         </SocialContainer>
       </LoginContainer>
