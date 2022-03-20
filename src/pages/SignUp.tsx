@@ -18,6 +18,7 @@ function SignUp() {
               className="form__input"
               placeholder="input name"
               name="username"
+              required
             />
             <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
           </FormItem>
@@ -29,7 +30,9 @@ function SignUp() {
               type="text"
               id="inputEmail"
               className="form__input"
+              name="email"
               placeholder="input email"
+              required
             />
           </FormItem>
           <FormItem>
@@ -39,8 +42,10 @@ function SignUp() {
             <InputText
               type="password"
               id="inputPwd"
+              name="password"
               className="form__input"
               placeholder="input password"
+              required
             />
           </FormItem>
           <FormItem>
@@ -49,9 +54,11 @@ function SignUp() {
             </Label>
             <InputText
               type="password"
+              name="passwordContrim"
               id="inputPwdContirm"
               className="form__input"
               placeholder="input email"
+              required
             />
           </FormItem>
           <FormItem>
@@ -60,13 +67,23 @@ function SignUp() {
             </Label>
             <InputText
               type="text"
+              name="nickname"
               id="inputNickname"
               className="form__input"
               placeholder="input nickname"
+              required
             />
           </FormItem>
         </FormGrid>
-        <ClauseContainer></ClauseContainer>
+        <ClauseContainer>
+          <ClauseCheck
+            type="checkbox"
+            name="clauseCheck"
+            id="clauseCheck"
+            required
+          />
+          <label htmlFor="clauseCheck">약관 동의</label>
+        </ClauseContainer>
         <Button value="Login" className="btn btn--grey">
           회원가입
         </Button>
@@ -75,12 +92,12 @@ function SignUp() {
     </SignTemplate>
   );
 }
-const ClauseContainer = styled.div``;
+const ClauseCheck = styled.input``;
+const ClauseContainer = styled.div`
+  margin: 20px 0;
+`;
 const Form = styled.form`
   z-index: 10;
-  .btn {
-    margin-top: 20px;
-  }
 `;
 const FormGrid = styled.div`
   display: grid;
