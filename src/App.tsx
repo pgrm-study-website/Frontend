@@ -107,7 +107,6 @@ const GlobalStyles = createGlobalStyle`
     font-family: Cafe24SsurroundAir;
     src: url(${Cafe24SsurroundAir}) format("truetype");
   }
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 `;
 
 const App = () => {
