@@ -54,18 +54,6 @@ const testDataList = [
         view: 12,
       },
       {
-        name: '파이썬 코딩테스트 스터디',
-        category: '스터디',
-        tags: ['Python'],
-        headcount: {
-          now: 3,
-          max: 4,
-        },
-        star: 22,
-        comment: 12,
-        view: 120,
-      },
-      {
         name: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
         category: '프로젝트',
         tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
