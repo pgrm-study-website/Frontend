@@ -6,7 +6,7 @@ import {
   BsFillStarFill,
   BsFillEyeFill,
 } from 'react-icons/bs';
-import { postType } from './Recommend';
+import { postType } from './PostList';
 import PostCategory from 'components/post/postCategory';
 import PostTag from 'components/post/postTag';
 
@@ -45,40 +45,36 @@ const PostItem = ({ post }: postType) => {
 export default PostItem;
 
 const Wrapper = styled.div`
-  width: calc(calc(100% - calc(20px * 3)) / 4);
-  min-width: calc(calc(100% - calc(20px * 3)) / 4);
-  height: 100%;
-  background-color: white;
+  width: calc(calc(100% - calc(10px * 3)) / 3);
+  min-width: calc(calc(100% - calc(10px * 3)) / 3);
+  height: 200px;
+  background-color: #f2f2f2;
+  border: 1px solid #c2c2c2;
   overflow: hidden;
   border-radius: 10px;
   padding: 10px;
-  & + & {
-    margin-left: 20px;
-  }
+  margin: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: transform 0.15s linear;
+  transition: border 0.15s linear, background-color 0.15s linear;
   &:hover {
-    transform: scale(105%);
-  }
-  @media all and (max-width: 1205px) {
-    width: calc(calc(100% - calc(20px * 2)) / 3);
-    min-width: calc(calc(100% - calc(20px * 2)) / 3);
+    border: 1px solid #686868;
+    background-color: #ffffff;
   }
   @media all and (max-width: 930px) {
-    width: calc(calc(100% - calc(20px * 1)) / 2);
-    min-width: calc(calc(100% - calc(20px * 1)) / 2);
+    width: calc(calc(100% - calc(10px * 2)) / 2);
+    min-width: calc(calc(100% - calc(10px * 2)) / 2);
   }
   @media all and (max-width: 900px) {
-    width: calc(calc(100% - calc(20px * 2)) / 3);
-    min-width: calc(calc(100% - calc(20px * 2)) / 3);
+    width: calc(calc(100% - calc(10px * 3)) / 3);
+    min-width: calc(calc(100% - calc(10px * 3)) / 3);
   }
   @media all and (max-width: 750px) {
-    width: calc(calc(100% - calc(20px * 1)) / 2);
-    min-width: calc(calc(100% - calc(20px * 1)) / 2);
+    width: calc(calc(100% - calc(10px * 2)) / 2);
+    min-width: calc(calc(100% - calc(10px * 2)) / 2);
   }
   @media all and (max-width: 510px) {
     width: 100%;

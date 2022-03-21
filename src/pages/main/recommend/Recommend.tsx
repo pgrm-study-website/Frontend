@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import PostItem from './PostItem';
 
 export type postType = {
@@ -149,9 +148,9 @@ const testDataList = [
         view: 12,
       },
       {
-        name: '데이터 분석 스터디 같이 하실분~~',
+        name: '데이터 분석 스터디 같이 하실분~~ 긴 제목을 가진 게시물',
         category: '스터디',
-        tags: ['Python', 'DeepLearning'],
+        tags: ['Python', 'DeepLearning', 'FrontEnd', 'BackEnd', 'Node.js'],
         headcount: {
           now: 5,
           max: 6,
@@ -186,29 +185,23 @@ const Recommend = () => {
     if (timer === null) {
       timer = setInterval(() => {
         setPage(page => (page + 1) % 3);
+        messageDiv.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
+          duration: 300,
+          easing: 'linear',
+          fill: 'forwards',
+        });
         postListDiv.current?.animate(
           [
             { opacity: 0, transform: 'translateY(-5%)' },
             { opacity: 1, transform: 'translateY(0)' },
           ],
           {
-            duration: 500,
+            duration: 300,
             easing: 'linear',
             fill: 'forwards',
           },
         );
-        messageDiv.current?.animate(
-          [
-            { opacity: 0, transform: 'translateY(-5%)' },
-            { opacity: 1, transform: 'translateY(0)' },
-          ],
-          {
-            duration: 500,
-            easing: 'linear',
-            fill: 'forwards',
-          },
-        );
-      }, 5000);
+      }, 10000);
     }
   };
   useEffect(() => {
@@ -220,17 +213,6 @@ const Recommend = () => {
     };
   }, [page]);
 
-  const onClick = (dir: string) => {
-    if (postListDiv.current === null) return;
-    if (dir === 'left') {
-      postListDiv.current.scrollLeft =
-        Math.ceil(postListDiv.current.scrollLeft / 320) * 320 - 320;
-    } else {
-      postListDiv.current.scrollLeft =
-        Math.floor(postListDiv.current.scrollLeft / 320) * 320 + 320;
-    }
-  };
-
   return (
     <Wrapper>
       <MessageText ref={messageDiv}>{testDataList[page].text}</MessageText>
@@ -238,12 +220,6 @@ const Recommend = () => {
         {testDataList[page].list.map((i, idx) => (
           <PostItem key={idx} post={i} />
         ))}
-        {/* <MoveLeftButton onClick={() => onClick('left')}>
-          <BsArrowLeft />
-        </MoveLeftButton>
-        <MoveRightButton onClick={() => onClick('right')}>
-          <BsArrowRight />
-        </MoveRightButton> */}
       </PostListWrapper>
     </Wrapper>
   );
@@ -255,7 +231,7 @@ const Wrapper = styled.div`
   position: relative;
   background-color: #474747;
   width: 100%;
-  height: 300px;
+  min-height: 300px;
   padding: 25px 20px;
   display: flex;
   flex-direction: column;
@@ -268,48 +244,17 @@ const Wrapper = styled.div`
   user-select: none;
 `;
 const MessageText = styled.div`
-  height: 25px;
+  line-height: 30px;
   font-size: 25px;
+  margin-bottom: 15px;
   font-family: SuncheonR;
   color: white;
 `;
 const PostListWrapper = styled.div`
   width: 100%;
   height: 200px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: visible;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  scroll-behavior: smooth;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-const MoveButton = styled.div`
-  position: absolute;
-  top: 135px;
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  background-color: #333333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  svg {
-    color: white;
-    width: 28px;
-    height: 28px;
-  }
-  cursor: pointer;
-  transition: background-color 0.15s linear;
-  &:hover {
-    background-color: #646464;
-  }
-`;
-const MoveLeftButton = styled(MoveButton)`
-  left: 10px;
-`;
-const MoveRightButton = styled(MoveButton)`
-  right: 10px;
 `;
