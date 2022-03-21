@@ -1,18 +1,14 @@
-import Button from 'components/Button';
-import Trapezoid from 'components/TrapezoidBox';
+import Button from 'components/common/Button';
+import SignTemplate from 'components/sign/SignTemplate';
+import Trapezoid from 'components/sign/TrapezoidBox';
 import React from 'react';
 import styled from 'styled-components';
 
 const Login = () => {
   return (
-    <Template>
-      <div>
-        <Trapezoid />
-        <TextContainer>
-          <span className="page-text text--large">플밍</span>
-          <span className="page-text">login</span>
-        </TextContainer>
-      </div>
+    <SignTemplate>
+      <Trapezoid text={'login'} />
+
       <LoginContainer>
         <form action="" className="form">
           <Label htmlFor="inputEmail" className="form__label">
@@ -50,7 +46,7 @@ const Login = () => {
           </div>
         </SocialContainer>
       </LoginContainer>
-    </Template>
+    </SignTemplate>
   );
 };
 const LinkConatiner = styled.div`
@@ -85,15 +81,7 @@ const InputText = styled.input`
   border-radius: 5px;
   background-color: #e3e3e3;
 `;
-const Template = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  color: #484848;
-  background-color: #eee;
-`;
+
 const LoginContainer = styled.div`
   z-index: 10;
   width: 300px;
@@ -107,15 +95,4 @@ const LoginContainer = styled.div`
   }
 `;
 
-const TextContainer = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  font-size: 64px;
-  color: #fff;
-  .text--large {
-    font-size: 100px;
-    margin-right: 50px;
-  }
-`;
 export default Login;
