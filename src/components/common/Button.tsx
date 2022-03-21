@@ -18,7 +18,7 @@ const ButtonBox = styled.button`
   padding: 10px;
   font-size: 20px;
   width: 100%;
-  height: 40px;
+  /* height: 40px; */
 
   &.btn--grey {
     background-color: #848484; //임의 지정

@@ -12,6 +12,7 @@ import MaruBuriLight from 'assets/fonts/MaruBuriLight.ttf';
 import NanumSquareR from 'assets/fonts/NanumSquareR.ttf';
 import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
 
+import SignUp from 'pages/SignUp';
 import Login from 'pages/Login';
 
 const GlobalStyles = createGlobalStyle`
@@ -113,7 +114,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<div>Sign Up</div>} />
+          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/*"
             element={
