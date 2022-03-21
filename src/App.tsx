@@ -15,6 +15,7 @@ import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
 import SignUp from 'pages/SignUp';
 import Login from 'pages/Login';
 import Main from 'pages/main/Main';
+import Write from 'pages/write/Write';
 import Sidebar from 'components/sidebar/Sidebar';
 import Header from 'components/header/Header';
 import Footer from 'components/footer/Footer';
@@ -108,7 +109,6 @@ const GlobalStyles = createGlobalStyle`
     font-family: Cafe24SsurroundAir;
     src: url(${Cafe24SsurroundAir}) format("truetype");
   }
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 `;
 
 const App = () => {
@@ -127,7 +127,7 @@ const App = () => {
                 <Header />
                 <Routes>
                   <Route path="" element={<Main />} />
-                  <Route path="write" element={<div>Write</div>} />
+                  <Route path="write" element={<Write />} />
                   <Route path="*" element={<div>Not Found</div>} />
                 </Routes>
                 <Footer />
