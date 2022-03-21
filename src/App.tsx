@@ -142,13 +142,14 @@ const App = () => {
 export default App;
 
 const Wrapper = styled.div`
-  background-color: #323232;
+  background-color: #f1f1f1;
   width: 1250px;
   height: 100%;
   min-height: 100vh;
   margin-left: calc(50% - 500px);
   display: flex;
   flex-direction: column;
+  align-items: center;
   @media all and (max-width: 1510px) {
     width: calc(100% - 215px);
     margin-left: 215px;
