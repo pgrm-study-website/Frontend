@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Banner from './banner/Banner';
-import Recommend from './recommend/Recommend';
-import PostList from './postList/PostList';
+import Banner from './Banner';
+import Recommend from './Recommend';
+import PostList from './PostList';
 
 const Main = () => {
   return (
