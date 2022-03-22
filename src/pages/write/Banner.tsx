@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Banner = () => {
+const Banner = ({ isNewPost }: { isNewPost: boolean }) => {
   return (
     <Wrapper>
-      <LargeText>Create New Team</LargeText>
+      <LargeText>{isNewPost ? 'Create New Team' : 'Edit Post'}</LargeText>
     </Wrapper>
   );
 };

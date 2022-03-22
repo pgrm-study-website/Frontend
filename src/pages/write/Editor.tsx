@@ -1,9 +1,13 @@
 import React, { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { changeField } from 'modules/post/writePosts';
 
-const Editor = () => {
+const Editor = ({ content }: { content: string }) => {
+  const dispatch = useDispatch();
+
   const QuillRef = useRef<ReactQuill>();
   const modules = {
     toolbar: {
@@ -39,6 +43,8 @@ const Editor = () => {
       <NameText>본문</NameText>
       <QuillWrapper>
         <ReactQuill
+          value={content}
+          onChange={e => dispatch(changeField({ key: 'content', value: e }))}
           ref={element => {
             if (element !== null) {
               QuillRef.current = element;
@@ -69,8 +75,8 @@ const NameText = styled.div`
 const QuillWrapper = styled.div`
   background-color: white;
   .ql-editor {
-    padding: 20px 15px 100px 15px;
-    min-height: 420px;
+    padding: 20px 15px 20px 15px;
+    min-height: 450px;
     max-height: 550px;
   }
 `;

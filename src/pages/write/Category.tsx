@@ -1,17 +1,34 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { changeField } from 'modules/post/writePosts';
 
-const projectClassList = ['스터디', '프로젝트', '공모전', '기타'];
+const categoryList: {
+  [key: string]: string;
+} = {
+  study: '스터디',
+  project: '프로젝트',
+  competition: '공모전',
+  etc: '기타',
+};
 
-const Category = () => {
+const Category = ({ category }: { category: string }) => {
+  const dispatch = useDispatch();
+
   return (
     <Wrapper>
       <NameText>카테고리</NameText>
       <ChoiceWrapper>
-        {projectClassList.map(item => (
+        {Object.keys(categoryList).map(item => (
           <Choice key={item}>
-            <Checkbox type="checkbox" name={item} />
-            {item}
+            <Checkbox
+              type="checkbox"
+              onChange={() =>
+                dispatch(changeField({ key: 'category', value: item }))
+              }
+              checked={category === item}
+            />
+            {categoryList[item]}
           </Choice>
         ))}
       </ChoiceWrapper>

@@ -1,11 +1,20 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { changeField } from 'modules/post/writePosts';
 
-const Title = () => {
+const Title = ({ title }: { title: string }) => {
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <NameText>제목</NameText>
-      <TitleInput placeholder="ex) 자바 스터디 같이 해요~!" />
+      <TitleInput
+        placeholder="ex) 자바 스터디 같이 해요~!"
+        value={title}
+        onChange={e =>
+          dispatch(changeField({ key: 'title', value: e.target.value }))
+        }
+      />
     </Wrapper>
   );
 };
