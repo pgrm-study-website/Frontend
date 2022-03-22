@@ -6,10 +6,20 @@ import {
   BsFillStarFill,
   BsFillEyeFill,
 } from 'react-icons/bs';
-import { postType } from './PostList';
 import PostCategory from 'components/posts/PostCategory';
 import PostTagA from 'components/posts/PostTagA';
 
+type postType = {
+  post: {
+    name: string;
+    category: string;
+    tags: string[];
+    headcount: { now: number; max: number };
+    star: number;
+    comment: number;
+    view: number;
+  };
+};
 const PostItem = ({ post }: postType) => {
   return (
     <Wrapper>
