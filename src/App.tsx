@@ -21,6 +21,7 @@ import Main from 'pages/main/Main';
 import List from 'pages/posts/list/List';
 import Write from 'pages/posts/write/Write';
 import Read from 'pages/posts/read/Read';
+import NotFound from 'components/common/NotFound';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -134,7 +135,7 @@ const App = () => {
                     <Route path="write" element={<Write />} />
                     <Route path=":id" element={<Read />} />
                   </Route>
-                  <Route path="*" element={<div>Not Found</div>} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Footer />
               </Wrapper>
