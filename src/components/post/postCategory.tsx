@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { GiPencil, GiSpellBook, GiPodiumWinner } from 'react-icons/gi';
+import styled from 'styled-components';
 
 const iconList: {
   [key: string]: any;
@@ -10,11 +10,7 @@ const iconList: {
   공모전: <GiPodiumWinner />,
 };
 
-interface propsType {
-  category: string;
-}
-
-const postCategory = ({ category }: propsType) => {
+const PostCategory = ({ category }: { category: string }) => {
   return (
     <Wrapper>
       {iconList[category]}
@@ -23,7 +19,7 @@ const postCategory = ({ category }: propsType) => {
   );
 };
 
-export default postCategory;
+export default PostCategory;
 
 const Wrapper = styled.div`
   display: flex;
