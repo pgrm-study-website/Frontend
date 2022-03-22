@@ -7,8 +7,8 @@ import {
   BsFillEyeFill,
 } from 'react-icons/bs';
 import { postType } from './Recommend';
-import PostCategory from 'components/post/postCategory';
-import PostTag from 'components/post/postTag';
+import PostCategory from 'components/post/PostCategory';
+import PostTagA from 'components/post/PostTagA';
 
 const PostItem = ({ post }: postType) => {
   return (
@@ -18,7 +18,7 @@ const PostItem = ({ post }: postType) => {
         <PostCategory category={post.category} />
         <TagWrapper>
           {post.tags.map(i => (
-            <PostTag key={i} tag={i} />
+            <PostTagA key={i} tag={i} />
           ))}
         </TagWrapper>
       </FirstWrapper>

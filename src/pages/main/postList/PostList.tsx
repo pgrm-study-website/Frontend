@@ -114,7 +114,7 @@ const testDataList = [
   {
     name: '포폴용 프로젝트 프론트엔드 구합니다.',
     category: '프로젝트',
-    tags: ['FrontEnd', 'Vue'],
+    tags: ['FrontEnd', 'Vue.js'],
     headcount: {
       now: 3,
       max: 4,
