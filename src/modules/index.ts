@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { all } from 'redux-saga/effects';
 
 import loading from 'modules/loading';
-import writePosts, { writePostsSaga } from 'modules/post/writePosts';
+import writePosts, { writePostsSaga } from 'modules/posts/writePosts';
 
 const rootReducer = combineReducers({ loading, writePosts });
 

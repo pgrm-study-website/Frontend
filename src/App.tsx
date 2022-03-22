@@ -12,13 +12,15 @@ import MaruBuriLight from 'assets/fonts/MaruBuriLight.ttf';
 import NanumSquareR from 'assets/fonts/NanumSquareR.ttf';
 import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
 
-import SignUp from 'pages/SignUp';
-import Login from 'pages/Login';
+import Login from 'pages/users/Login';
+import SignUp from 'pages/users/SignUp';
+import Sidebar from 'components/sections/sidebar/Sidebar';
+import Header from 'components/sections/header/Header';
+import Footer from 'components/sections/footer/Footer';
 import Main from 'pages/main/Main';
-import Write from 'pages/write/Write';
-import Sidebar from 'components/sidebar/Sidebar';
-import Header from 'components/header/Header';
-import Footer from 'components/footer/Footer';
+import List from 'pages/posts/list/List';
+import Write from 'pages/posts/write/Write';
+import Read from 'pages/posts/read/Read';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -109,7 +111,6 @@ const GlobalStyles = createGlobalStyle`
     font-family: Cafe24SsurroundAir;
     src: url(${Cafe24SsurroundAir}) format("truetype");
   }
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 `;
 
 const App = () => {
@@ -118,17 +119,21 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
           <Route
-            path="/*"
+            path="*"
             element={
               <Wrapper>
                 <Sidebar />
                 <Header />
                 <Routes>
                   <Route path="" element={<Main />} />
-                  <Route path="write" element={<Write />} />
+                  <Route path="posts/*">
+                    <Route path="" element={<List />} />
+                    <Route path="write" element={<Write />} />
+                    <Route path=":id" element={<Read />} />
+                  </Route>
                   <Route path="*" element={<div>Not Found</div>} />
                 </Routes>
                 <Footer />

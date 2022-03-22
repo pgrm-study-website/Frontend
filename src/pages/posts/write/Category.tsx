@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { changeField } from 'modules/post/writePosts';
+import { changeField } from 'modules/posts/writePosts';
 
 const categoryList: {
   [key: string]: string;
