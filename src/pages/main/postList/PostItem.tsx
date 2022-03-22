@@ -7,8 +7,8 @@ import {
   BsFillEyeFill,
 } from 'react-icons/bs';
 import { postType } from './PostList';
-import PostCategory from 'components/post/PostCategory';
-import PostTagA from 'components/post/PostTagA';
+import PostCategory from 'components/posts/PostCategory';
+import PostTagA from 'components/posts/PostTagA';
 
 const PostItem = ({ post }: postType) => {
   return (

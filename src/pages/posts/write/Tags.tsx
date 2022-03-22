@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { tagList } from 'lib/utils/tagDatabase';
-import PostTagB from 'components/post/PostTagB';
-import { changeField } from 'modules/post/writePosts';
-import PostTagA from 'components/post/PostTagA';
+import PostTagB from 'components/posts/PostTagB';
+import { changeField } from 'modules/posts/writePosts';
+import PostTagA from 'components/posts/PostTagA';
 
 const Tags = ({ tags }: { tags: string[] }) => {
   const dispatch = useDispatch();

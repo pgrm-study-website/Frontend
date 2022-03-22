@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from 'modules';
-import { initWrite } from 'modules/post/writePosts';
+import { initWrite } from 'modules/posts/writePosts';
 
 import Banner from './Banner';
 import Title from './Title';

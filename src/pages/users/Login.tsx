@@ -1,6 +1,6 @@
 import Button from 'components/common/Button';
-import SignTemplate from 'components/sign/SignTemplate';
-import Trapezoid from 'components/sign/TrapezoidBox';
+import SignTemplate from 'components/users/SignTemplate';
+import Trapezoid from 'components/users/TrapezoidBox';
 import React from 'react';
 import styled from 'styled-components';
 

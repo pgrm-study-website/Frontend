@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { changeField } from 'modules/post/writePosts';
+import { changeField } from 'modules/posts/writePosts';
 
 const Editor = ({ content }: { content: string }) => {
   const dispatch = useDispatch();
