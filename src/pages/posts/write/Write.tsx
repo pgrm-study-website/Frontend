@@ -30,7 +30,7 @@ const Write = () => {
   }, [dispatch]);
   useEffect(() => {
     if (result) {
-      navigate(`/project/read/${result}`);
+      navigate(`/posts/${result}`);
     }
   }, [navigate, result]);
 
