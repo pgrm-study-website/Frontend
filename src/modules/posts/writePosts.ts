@@ -17,11 +17,11 @@ const UPDATE_FAILURE = 'writePosts/UPDATE_FAILURE';
 export const initWrite = createAction(INIT_WRITE)();
 export const changeField =
   createAction(CHANGE_FIELD)<{ key: string; value: any }>();
-export const setOriginal = createAction(SET_ORIGINAL)<postsAPI.postType>();
-export const write = createAction(WRITE)<postsAPI.postType>();
+export const setOriginal = createAction(SET_ORIGINAL)<postsAPI.postInputType>();
+export const write = createAction(WRITE)<postsAPI.postInputType>();
 export const writeSuccess = createAction(WRITE_SUCCESS)<number>();
 export const writeFailure = createAction(WRITE_FAILURE)<AxiosError>();
-export const update = createAction(UPDATE)<postsAPI.postType>();
+export const update = createAction(UPDATE)<postsAPI.postInputType>();
 export const updateSuccess = createAction(UPDATE_SUCCESS)<number>();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 
@@ -44,26 +44,26 @@ const actions = {
   updateSuccess,
   updateFailure,
 };
-type writePostAction = ActionType<typeof actions>;
-type writePostState = {
-  post: postsAPI.postType;
+type writePostsAction = ActionType<typeof actions>;
+type writePostsState = {
+  post: postsAPI.postInputType;
   result: number | null;
-  error: AxiosError | null;
 };
-const initialState: writePostState = {
+const initialState: writePostsState = {
   post: {
     postId: null,
     userId: 7, //임시
     title: '',
-    tags: [],
     category: 'etc',
+    tags: [],
     content: '',
+    participantMax: 4,
+    period: 3,
   },
   result: null,
-  error: null,
 };
 
-const writePosts = createReducer<writePostState, writePostAction>(
+const writePosts = createReducer<writePostsState, writePostsAction>(
   initialState,
   {
     [INIT_WRITE]: () => initialState,
@@ -89,7 +89,7 @@ const writePosts = createReducer<writePostState, writePostAction>(
     }),
     [WRITE_FAILURE]: (state, { payload: error }) => {
       alert('write error');
-      return { ...state, error };
+      return state;
     },
     [UPDATE]: state => ({
       ...state,
@@ -102,7 +102,7 @@ const writePosts = createReducer<writePostState, writePostAction>(
     }),
     [UPDATE_FAILURE]: (state, { payload: error }) => {
       alert('update error');
-      return { ...state, error };
+      return state;
     },
   },
 );

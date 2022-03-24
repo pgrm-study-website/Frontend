@@ -2,13 +2,13 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { BsPencil } from 'react-icons/bs';
 import styled from 'styled-components';
-import { postType } from 'lib/api/posts';
+import { postInputType } from 'lib/api/posts';
 
 const WriteButton = ({
   post,
   loading,
 }: {
-  post: postType;
+  post: postInputType;
   loading: boolean;
 }) => {
   const dispatch = useDispatch();
