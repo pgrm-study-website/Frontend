@@ -5,6 +5,7 @@ import PostItem from 'components/posts/PostItem';
 
 const testDataList = [
   {
+    postId: 1,
     name: 'Node.js 스터디 같이 하실분~~',
     category: '스터디',
     tags: ['Node.js', 'JavaScript'],
@@ -17,6 +18,7 @@ const testDataList = [
     view: 17,
   },
   {
+    postId: 1,
     name: '포폴용 프로젝트 디자이너 구합니다.',
     category: '프로젝트',
     tags: ['Designer', 'UI/UX'],
@@ -29,6 +31,7 @@ const testDataList = [
     view: 47,
   },
   {
+    postId: 1,
     name: '공모전 앱 만드실 분??',
     category: '공모전',
     tags: ['FrontEnd', 'BackEnd'],
@@ -41,6 +44,7 @@ const testDataList = [
     view: 12,
   },
   {
+    postId: 1,
     name: '파이썬 코딩테스트 스터디',
     category: '스터디',
     tags: ['Python'],
@@ -53,6 +57,7 @@ const testDataList = [
     view: 120,
   },
   {
+    postId: 1,
     name: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
     category: '프로젝트',
     tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
@@ -65,6 +70,7 @@ const testDataList = [
     view: 72,
   },
   {
+    postId: 1,
     name: '포폴용 프로젝트 디자이너 구합니다.',
     category: '프로젝트',
     tags: ['Designer', 'UI/UX'],
@@ -77,6 +83,7 @@ const testDataList = [
     view: 447,
   },
   {
+    postId: 1,
     name: '공모전 앱 만드실 분??',
     category: '공모전',
     tags: ['FrontEnd', 'BackEnd', 'IOS', 'Android'],
@@ -89,6 +96,7 @@ const testDataList = [
     view: 1200,
   },
   {
+    postId: 1,
     name: 'Node.js 스터디 같이 하실분~~',
     category: '스터디',
     tags: ['Node.js', 'JavaScript'],
@@ -101,6 +109,7 @@ const testDataList = [
     view: 467,
   },
   {
+    postId: 1,
     name: '포폴용 프로젝트 프론트엔드 구합니다.',
     category: '프로젝트',
     tags: ['FrontEnd', 'Vue.js'],
@@ -113,6 +122,7 @@ const testDataList = [
     view: 47,
   },
   {
+    postId: 1,
     name: '공모전 프로젝트 만드실 분??',
     category: '공모전',
     tags: ['FrontEnd', 'BackEnd'],
@@ -125,6 +135,7 @@ const testDataList = [
     view: 12,
   },
   {
+    postId: 1,
     name: '데이터 분석 스터디 같이 하실분~~ 긴 제목을 가진 게시물',
     category: '스터디',
     tags: ['Python', 'DeepLearning', 'FrontEnd', 'BackEnd', 'Node.js'],
@@ -137,6 +148,7 @@ const testDataList = [
     view: 17,
   },
   {
+    postId: 1,
     name: '파이썬 코딩테스트 스터디',
     category: '스터디',
     tags: ['Python'],
@@ -199,7 +211,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   min-height: 800px;
-  padding: 50px 20px 30px 20px;
+  padding: 40px 20px 30px 20px;
 
   -ms-user-select: none;
   -moz-user-select: -moz-none;

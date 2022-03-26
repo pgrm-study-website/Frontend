@@ -12,7 +12,7 @@ const Editor = ({ content }: { content: string }) => {
   const modules = {
     toolbar: {
       container: [
-        [{ size: ['small', false, 'large', 'huge'] }],
+        [{ size: ['small', false, 'large'] }],
         ['bold', 'italic', 'underline', 'strike'],
         [{ color: [] }, { background: [] }],
         ['blockquote'],
