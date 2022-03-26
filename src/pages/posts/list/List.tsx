@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 import PostItem from 'components/posts/PostItem';
@@ -164,6 +164,10 @@ const testDataList = [
 
 const List = () => {
   const [foldOption, setFoldOption] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Wrapper>
