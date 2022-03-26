@@ -65,6 +65,12 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;
 const Wrapper2 = styled.div`
   width: 100%;
