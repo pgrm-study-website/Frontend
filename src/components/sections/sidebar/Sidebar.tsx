@@ -5,31 +5,43 @@ import { BsPersonCircle } from 'react-icons/bs';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { IoIosNotifications } from 'react-icons/io';
 import { AiOutlineMessage } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 const Sidebar = () => {
   return (
     <Wrapper>
-      <Title>플밍</Title>
+      <Title>
+        <Link to="/">플밍</Link>
+      </Title>
       <NotificationContainer>
+        {/* 모달로 표시할지, 링크를 옮길지 결정후 정리 */}
+        {/* <Link to="/notification"> */}
         <IoIosNotifications />
+        {/* </Link> */}
       </NotificationContainer>
       <Profile>
         <img src={img} alt="profile" />
         <Name>seuha516</Name>
       </Profile>
       <LinkContainer>
-        <LinkItem>
+        <LinkItem to="/mypage">
           <LinkIcon>
             <BsPersonCircle />
           </LinkIcon>
           <LinkText>mypage</LinkText>
         </LinkItem>
-        <LinkItem>
+        <LinkItem
+          //logout 링크 추가 필요
+          to="/message"
+        >
           <LinkIcon>
             <AiOutlineMessage />
           </LinkIcon>
           <LinkText>message</LinkText>
         </LinkItem>
-        <LinkItem>
+        <LinkItem
+          //logout 링크 추가 필요
+          to="/"
+        >
           <LinkIcon>
             <AiOutlineLogout />
           </LinkIcon>
@@ -61,7 +73,7 @@ const LinkContainer = styled.div`
   flex-direction: column;
   color: #242424;
 `;
-const LinkItem = styled.div`
+const LinkItem = styled(Link)`
   display: flex;
   height: 30px;
   font-size: 20px;
