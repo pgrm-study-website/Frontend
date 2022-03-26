@@ -1,6 +1,7 @@
-import UserInfo from 'components/common/UserInfo';
 import React from 'react';
 import styled from 'styled-components';
+
+import UserInfo from 'components/common/UserInfo';
 
 const Participant = ({
   participantNum,
