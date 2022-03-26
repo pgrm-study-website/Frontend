@@ -5,6 +5,7 @@ import PostItem from 'components/posts/PostItem';
 
 const testDataList = [
   {
+    postId: 1,
     name: 'Node.js 스터디 같이 하실분~~',
     category: '스터디',
     tags: ['Node.js', 'JavaScript'],
@@ -17,6 +18,7 @@ const testDataList = [
     view: 17,
   },
   {
+    postId: 1,
     name: '포폴용 프로젝트 디자이너 구합니다.',
     category: '프로젝트',
     tags: ['Designer', 'UI/UX'],
@@ -29,6 +31,7 @@ const testDataList = [
     view: 47,
   },
   {
+    postId: 1,
     name: '공모전 앱 만드실 분??',
     category: '공모전',
     tags: ['FrontEnd', 'BackEnd'],
@@ -41,6 +44,7 @@ const testDataList = [
     view: 12,
   },
   {
+    postId: 1,
     name: '파이썬 코딩테스트 스터디',
     category: '스터디',
     tags: ['Python'],
@@ -53,6 +57,7 @@ const testDataList = [
     view: 120,
   },
   {
+    postId: 1,
     name: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
     category: '프로젝트',
     tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
@@ -65,6 +70,7 @@ const testDataList = [
     view: 72,
   },
   {
+    postId: 1,
     name: '포폴용 프로젝트 디자이너 구합니다.',
     category: '프로젝트',
     tags: ['Designer', 'UI/UX'],

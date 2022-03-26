@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { BiCommentDots } from 'react-icons/bi';
 import {
@@ -11,6 +12,7 @@ import PostTagA from 'components/posts/PostTagA';
 
 type postType = {
   post: {
+    postId: number;
     name: string;
     category: string;
     tags: string[];
@@ -22,7 +24,7 @@ type postType = {
 };
 const PostItem = ({ post }: postType) => {
   return (
-    <Wrapper>
+    <Wrapper to={`/posts/${post.postId}`}>
       <FirstWrapper>
         <Name>{post.name}</Name>
         <PostCategory category={post.category} />
@@ -54,7 +56,7 @@ const PostItem = ({ post }: postType) => {
 
 export default PostItem;
 
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
   width: calc(calc(100% - calc(10px * 3)) / 3);
   min-width: calc(calc(100% - calc(10px * 3)) / 3);
   height: 200px;

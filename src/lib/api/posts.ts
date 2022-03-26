@@ -23,6 +23,7 @@ export type postType = postInputType & {
   status: number;
   participantNum: number;
   viewCount: number;
+  createDate: Date;
   updateDate: Date;
 };
 export type postInputType = {

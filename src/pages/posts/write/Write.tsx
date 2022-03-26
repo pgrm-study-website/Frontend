@@ -17,13 +17,14 @@ const Write = () => {
     ({ writePosts, loading }: RootState) => ({
       post: writePosts.post,
       result: writePosts.result,
-      loading: loading['writePost/WRITE'] || loading['writePost/UPDATE'],
+      loading: loading['writePosts/WRITE'] || loading['writePosts/UPDATE'],
     }),
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     return () => {
       dispatch(initWrite());
     };
