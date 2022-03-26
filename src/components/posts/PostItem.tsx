@@ -60,7 +60,7 @@ const Wrapper = styled(Link)`
   width: calc(calc(100% - calc(10px * 3)) / 3);
   min-width: calc(calc(100% - calc(10px * 3)) / 3);
   height: 200px;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   border: 1px solid #c2c2c2;
   overflow: hidden;
   border-radius: 10px;

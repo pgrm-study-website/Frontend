@@ -210,7 +210,7 @@ export const styleList: {
     color1: '#4b9f50',
   },
   'Node.js': {
-    color1: '#bb9b26',
+    color1: '#24893f',
   },
   Oracle: {
     color1: '#9f4b4b',
