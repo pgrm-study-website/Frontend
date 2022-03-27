@@ -1,69 +1,55 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import PostItem from './PostItem';
 
-export type postType = {
-  post: {
-    name: string;
-    category: string;
-    tags: string[];
-    headcount: { now: number; max: number };
-    star: number;
-    comment: number;
-    view: number;
-  };
-};
+import RecommendPostItem from './RecommendPostItem';
+
 const testDataList = [
   {
     text: '마감 임박! 전승하님만 오시면 출발합니다.',
     list: [
       {
-        name: 'Node.js 스터디 같이 하실분~~',
-        category: '스터디',
+        postId: 1,
+        title: 'Node.js 스터디 같이 하실분~~',
+        category: 1,
         tags: ['Node.js', 'JavaScript'],
-        headcount: {
-          now: 5,
-          max: 6,
-        },
-        star: 3,
-        comment: 2,
-        view: 17,
+        status: 1,
+        participantNum: 5,
+        participantMax: 6,
+        period: 3,
+        viewCount: 26,
       },
       {
-        name: '포폴용 프로젝트 디자이너 구합니다.',
-        category: '프로젝트',
+        postId: 1,
+        title: '포폴용 프로젝트 디자이너 구합니다.',
+        category: 2,
         tags: ['Designer', 'UI/UX'],
-        headcount: {
-          now: 3,
-          max: 4,
-        },
-        star: 5,
-        comment: 8,
-        view: 47,
+        status: 1,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: '공모전 앱 만드실 분??',
-        category: '공모전',
+        postId: 1,
+        title: '공모전 앱 만드실 분??',
+        category: 0,
         tags: ['FrontEnd', 'BackEnd'],
-        headcount: {
-          now: 2,
-          max: 3,
-        },
-        star: 0,
-        comment: 1,
-        view: 12,
+        status: 1,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-        category: '프로젝트',
+        postId: 1,
+        title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
+        category: 1,
         tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-        headcount: {
-          now: 4,
-          max: 6,
-        },
-        star: 10,
-        comment: 21,
-        view: 72,
+        status: 1,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
     ],
   },
@@ -71,40 +57,37 @@ const testDataList = [
     text: '지금 인기있는 게시물을 확인해보세요.',
     list: [
       {
-        name: '포폴용 프로젝트 디자이너 구합니다.',
-        category: '프로젝트',
+        postId: 1,
+        title: '포폴용 프로젝트 디자이너 구합니다.',
+        category: 2,
         tags: ['Designer', 'UI/UX'],
-        headcount: {
-          now: 3,
-          max: 4,
-        },
-        star: 25,
-        comment: 28,
-        view: 447,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: '공모전 앱 만드실 분??',
-        category: '공모전',
+        postId: 1,
+        title: '공모전 앱 만드실 분??',
+        category: 1,
         tags: ['FrontEnd', 'BackEnd', 'IOS', 'Android'],
-        headcount: {
-          now: 2,
-          max: 3,
-        },
-        star: 60,
-        comment: 21,
-        view: 1200,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: 'Node.js 스터디 같이 하실분~~',
-        category: '스터디',
+        postId: 1,
+        title: 'Node.js 스터디 같이 하실분~~',
+        category: 2,
         tags: ['Node.js', 'JavaScript'],
-        headcount: {
-          now: 5,
-          max: 6,
-        },
-        star: 333,
-        comment: 22,
-        view: 467,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
     ],
   },
@@ -112,52 +95,48 @@ const testDataList = [
     text: '전승하님이 관심 있을만한 팀을 모아봤어요.',
     list: [
       {
-        name: '포폴용 프로젝트 프론트엔드 구합니다.',
-        category: '프로젝트',
+        postId: 1,
+        title: '포폴용 프로젝트 프론트엔드 구합니다.',
+        category: 0,
         tags: ['FrontEnd', 'Vue.js'],
-        headcount: {
-          now: 3,
-          max: 4,
-        },
-        star: 5,
-        comment: 8,
-        view: 47,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: '공모전 프로젝트 만드실 분??',
-        category: '공모전',
+        postId: 1,
+        title: '공모전 프로젝트 만드실 분??',
+        category: 1,
         tags: ['FrontEnd', 'BackEnd'],
-        headcount: {
-          now: 12,
-          max: 13,
-        },
-        star: 0,
-        comment: 1,
-        view: 12,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: '데이터 분석 스터디 같이 하실분~~ 긴 제목을 가진 게시물',
-        category: '스터디',
+        postId: 1,
+        title: '데이터 분석 스터디 같이 하실분~~ 긴 제목을 가진 게시물',
+        category: 2,
         tags: ['Python', 'DeepLearning', 'FrontEnd', 'BackEnd', 'Node.js'],
-        headcount: {
-          now: 5,
-          max: 6,
-        },
-        star: 3,
-        comment: 2,
-        view: 17,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
       {
-        name: '파이썬 코딩테스트 스터디',
-        category: '스터디',
+        postId: 1,
+        title: '파이썬 코딩테스트 스터디',
+        category: 0,
         tags: ['Python'],
-        headcount: {
-          now: 3,
-          max: 4,
-        },
-        star: 22,
-        comment: 12,
-        view: 120,
+        status: 0,
+        participantNum: 4,
+        participantMax: 5,
+        period: 4,
+        viewCount: 126,
       },
     ],
   },
@@ -169,7 +148,7 @@ const Recommend = () => {
   const postListDiv = useRef<HTMLDivElement>(null);
 
   let timer: NodeJS.Timeout | null = null;
-  const updateCount = () => {
+  const changePage = () => {
     if (timer === null) {
       timer = setInterval(() => {
         setPage(page => (page + 1) % 3);
@@ -192,8 +171,9 @@ const Recommend = () => {
       }, 10000);
     }
   };
+
   useEffect(() => {
-    updateCount();
+    changePage();
     return () => {
       if (timer !== null) {
         clearInterval(timer);
@@ -206,7 +186,7 @@ const Recommend = () => {
       <MessageText ref={messageDiv}>{testDataList[page].text}</MessageText>
       <PostListWrapper ref={postListDiv}>
         {testDataList[page].list.map((i, idx) => (
-          <PostItem key={idx} post={i} />
+          <RecommendPostItem key={idx} post={i} />
         ))}
       </PostListWrapper>
     </Wrapper>

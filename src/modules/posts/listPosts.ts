@@ -9,7 +9,8 @@ const LIST_SUCCESS = 'listPosts/LIST_SUCCESS';
 const LIST_FAILURE = 'listPosts/LIST_FAILURE';
 
 export const list = createAction(LIST)<string>();
-export const listSuccess = createAction(LIST_SUCCESS)<postsAPI.postListType>();
+export const listSuccess =
+  createAction(LIST_SUCCESS)<postsAPI.postListItemType[]>();
 export const listFailure = createAction(LIST_FAILURE)<AxiosError>();
 
 const listSaga = createRequestSaga(LIST, postsAPI.list);
@@ -25,7 +26,7 @@ const actions = {
 };
 type listPostsAction = ActionType<typeof actions>;
 type listPostsState = {
-  list: postsAPI.postListType | null;
+  list: postsAPI.postListItemType[] | null;
   error: AxiosError | null;
 };
 const initialState: listPostsState = {

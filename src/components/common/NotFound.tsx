@@ -5,12 +5,14 @@ import styled from 'styled-components';
 
 const NotFound = () => {
   useEffect(() => {
+    window.scrollTo(0, 0);
     const htmlTitle = document.querySelector('title');
     htmlTitle!.innerHTML = 'Not Found';
     return () => {
       htmlTitle!.innerHTML = 'Plming';
     };
   }, []);
+
   return (
     <Wrapper>
       <NumberText>404</NumberText>

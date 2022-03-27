@@ -1,86 +1,75 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import PostItem from 'components/posts/PostItem';
 
 const testDataList = [
   {
     postId: 1,
-    name: 'Node.js 스터디 같이 하실분~~',
-    category: '스터디',
-    tags: ['Node.js', 'JavaScript'],
-    headcount: {
-      now: 5,
-      max: 6,
-    },
-    star: 3,
-    comment: 2,
-    view: 17,
-  },
-  {
-    postId: 1,
-    name: '포폴용 프로젝트 디자이너 구합니다.',
-    category: '프로젝트',
+    title: '포폴용 프로젝트 디자이너 구합니다.',
+    category: 2,
     tags: ['Designer', 'UI/UX'],
-    headcount: {
-      now: 3,
-      max: 4,
-    },
-    star: 5,
-    comment: 8,
-    view: 47,
+    status: 1,
+    participantNum: 4,
+    participantMax: 5,
+    period: 4,
+    viewCount: 126,
   },
   {
     postId: 1,
-    name: '공모전 앱 만드실 분??',
-    category: '공모전',
+    title: '공모전 앱 만드실 분??',
+    category: 0,
     tags: ['FrontEnd', 'BackEnd'],
-    headcount: {
-      now: 2,
-      max: 3,
-    },
-    star: 0,
-    comment: 1,
-    view: 12,
+    status: 1,
+    participantNum: 4,
+    participantMax: 5,
+    period: 4,
+    viewCount: 126,
   },
   {
     postId: 1,
-    name: '파이썬 코딩테스트 스터디',
-    category: '스터디',
-    tags: ['Python'],
-    headcount: {
-      now: 3,
-      max: 4,
-    },
-    star: 22,
-    comment: 12,
-    view: 120,
-  },
-  {
-    postId: 1,
-    name: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-    category: '프로젝트',
+    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
+    category: 1,
     tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-    headcount: {
-      now: 4,
-      max: 6,
-    },
-    star: 10,
-    comment: 21,
-    view: 72,
+    status: 1,
+    participantNum: 4,
+    participantMax: 5,
+    period: 4,
+    viewCount: 126,
   },
   {
     postId: 1,
-    name: '포폴용 프로젝트 디자이너 구합니다.',
-    category: '프로젝트',
+    title: '포폴용 프로젝트 디자이너 구합니다.',
+    category: 2,
     tags: ['Designer', 'UI/UX'],
-    headcount: {
-      now: 3,
-      max: 4,
-    },
-    star: 25,
-    comment: 28,
-    view: 447,
+    status: 1,
+    participantNum: 4,
+    participantMax: 5,
+    period: 4,
+    viewCount: 126,
+  },
+  {
+    postId: 1,
+    title: '공모전 앱 만드실 분??',
+    category: 0,
+    tags: ['FrontEnd', 'BackEnd'],
+    status: 1,
+    participantNum: 4,
+    participantMax: 5,
+    period: 4,
+    viewCount: 126,
+  },
+  {
+    postId: 1,
+    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
+    category: 1,
+    tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
+    status: 1,
+    participantNum: 4,
+    participantMax: 5,
+    period: 4,
+    viewCount: 126,
   },
 ];
 
@@ -88,7 +77,7 @@ const PostList = () => {
   return (
     <Wrapper>
       <HeaderWrapper>
-        <MessageText>게시물 목록</MessageText>
+        <MessageText>최신 게시물</MessageText>
         <MoreWrapper to="/posts">더보기</MoreWrapper>
       </HeaderWrapper>
       <PostListWrapper>

@@ -85,6 +85,8 @@ const UserImage = styled.img`
 `;
 const Nickname = styled.div`
   font-size: 18px;
+  font-family: NanumSquareR;
+  margin-top: 1px;
 `;
 const QuestionImage = styled.div`
   width: 30px;

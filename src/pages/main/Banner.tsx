@@ -46,8 +46,9 @@ const Wrapper = styled.div`
   }
 `;
 const SmallText = styled.div`
-  font-size: 40px;
-  font-family: LeeSeoyun;
+  font-size: 27px;
+  font-family: SuncheonR;
+  line-height: 36px;
   margin-right: 30px;
   text-align: center;
   word-break: keep-all;
@@ -57,6 +58,6 @@ const SmallText = styled.div`
 `;
 const LargeText = styled.div`
   font-size: 110px;
-  margin-top: -15px;
-  font-family: Goyang;
+  font-family: YUniverse-B;
+  margin-top: 5px;
 `;

@@ -5,12 +5,14 @@ import styled from 'styled-components';
 
 const Error = () => {
   useEffect(() => {
+    window.scrollTo(0, 0);
     const htmlTitle = document.querySelector('title');
     htmlTitle!.innerHTML = 'Error';
     return () => {
       htmlTitle!.innerHTML = 'Plming';
     };
   }, []);
+
   return (
     <Wrapper>
       <NumberText>?</NumberText>

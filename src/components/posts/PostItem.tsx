@@ -1,32 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { BsFillPersonFill, BsFillEyeFill } from 'react-icons/bs';
 import styled from 'styled-components';
-import { BiCommentDots } from 'react-icons/bi';
-import {
-  BsFillPersonFill,
-  BsFillStarFill,
-  BsFillEyeFill,
-} from 'react-icons/bs';
+import { postListItemType } from 'lib/api/posts';
+
 import PostCategory from 'components/posts/PostCategory';
 import PostTagA from 'components/posts/PostTagA';
 
-type postType = {
-  post: {
-    postId: number;
-    name: string;
-    category: string;
-    tags: string[];
-    headcount: { now: number; max: number };
-    star: number;
-    comment: number;
-    view: number;
-  };
-};
-const PostItem = ({ post }: postType) => {
+const PostItem = ({ post }: { post: postListItemType }) => {
   return (
     <Wrapper to={`/posts/${post.postId}`}>
       <FirstWrapper>
-        <Name>{post.name}</Name>
+        <Name>{post.title}</Name>
         <PostCategory category={post.category} />
         <TagWrapper>
           {post.tags.map(i => (
@@ -37,17 +22,13 @@ const PostItem = ({ post }: postType) => {
       <SecondWrapper>
         <PersonWrapper>
           <BsFillPersonFill />
-          <div>{post.headcount.now}</div>
+          <div>{post.participantNum}</div>
           <div>/</div>
-          <div>{post.headcount.max}</div>
+          <div>{post.participantMax}</div>
         </PersonWrapper>
         <EtcWrapper>
-          <BsFillStarFill />
-          <div>{post.star}</div>
-          <BiCommentDots />
-          <div>{post.comment}</div>
           <BsFillEyeFill />
-          <div>{post.view}</div>
+          <div>{post.viewCount}</div>
         </EtcWrapper>
       </SecondWrapper>
     </Wrapper>
@@ -71,7 +52,7 @@ const Wrapper = styled(Link)`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: border 0.15s linear, background-color 0.15s linear;
+  transition: border 0.15s linear;
   &:hover {
     border: 1px solid #686868;
     background-color: #ffffff;
@@ -150,12 +131,6 @@ const EtcWrapper = styled.div`
     margin: 0 3px 0 8px;
   }
   svg:nth-child(1) {
-    color: #c3be32;
-  }
-  svg:nth-child(3) {
-    color: #1a457a;
-  }
-  svg:nth-child(5) {
-    color: #19522b;
+    color: #818181;
   }
 `;
