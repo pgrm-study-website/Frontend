@@ -19,7 +19,13 @@ const Category = ({ category }: { category: number }) => {
               dispatch(changeField({ key: 'category', value: idx }))
             }
           >
-            <Checkbox type="checkbox" checked={category === idx} />
+            <Checkbox
+              type="checkbox"
+              checked={category === idx}
+              onChange={() =>
+                dispatch(changeField({ key: 'category', value: idx }))
+              }
+            />
             {categoryList[idx]}
           </Choice>
         ))}
@@ -34,7 +40,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 40px;
 `;
 const NameText = styled.div`
   font-size: 30px;
@@ -56,6 +62,16 @@ const Choice = styled.div`
     margin-left: 15px;
   }
   cursor: pointer;
+  @media all and (max-width: 400px) {
+    font-size: 15px;
+    & + & {
+      margin-left: 8px;
+    }
+    input {
+      width: 15px;
+      height: 15px;
+    }
+  }
 `;
 const Checkbox = styled.input`
   width: 20px;
