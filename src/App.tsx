@@ -11,6 +11,7 @@ import YUniverseB from 'assets/fonts/YUniverse-B.ttf';
 import MaruBuriLight from 'assets/fonts/MaruBuriLight.ttf';
 import NanumSquareR from 'assets/fonts/NanumSquareR.ttf';
 import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
+import Bazzi from 'assets/fonts/Bazzi.ttf';
 
 import Login from 'pages/users/Login';
 import SignUp from 'pages/users/SignUp';
@@ -112,6 +113,15 @@ const GlobalStyles = createGlobalStyle`
     font-family: Cafe24SsurroundAir;
     src: url(${Cafe24SsurroundAir}) format("truetype");
   }
+  @font-face {
+    font-family: 'Bazzi';
+    src: url(${Bazzi}) format('truetype');
+
+}@font-face {
+    font-family: 'KOTRAHOPE';  font-weight: normal;
+  font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+}
 `;
 
 const App = () => {
@@ -126,6 +136,7 @@ const App = () => {
             path="*"
             element={
               <Wrapper>
+                <button id="sidebarCollapse" />
                 <Sidebar />
                 <Header />
                 <Routes>

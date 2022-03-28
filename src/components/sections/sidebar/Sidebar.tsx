@@ -1,65 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import img from 'assets/images/profile.png';
 import { BsPersonCircle } from 'react-icons/bs';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { IoIosNotifications } from 'react-icons/io';
 import { AiOutlineMessage } from 'react-icons/ai';
+import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 const Sidebar = () => {
+  const [open, setOpen] = useState(false);
   return (
     <Wrapper>
-      <Title>
-        <Link to="/">플밍</Link>
-      </Title>
-      <NotificationContainer>
-        {/* 모달로 표시할지, 링크를 옮길지 결정후 정리 */}
-        {/* <Link to="/notification"> */}
-        <IoIosNotifications />
-        {/* </Link> */}
-      </NotificationContainer>
-      <Profile>
-        <img src={img} alt="profile" />
-        <Name>seuha516</Name>
-      </Profile>
-      <LinkContainer>
-        <LinkItem to="/mypage">
-          <LinkIcon>
-            <BsPersonCircle />
-          </LinkIcon>
-          <LinkText>mypage</LinkText>
-        </LinkItem>
-        <LinkItem
-          //logout 링크 추가 필요
-          to="/message"
-        >
-          <LinkIcon>
-            <AiOutlineMessage />
-          </LinkIcon>
-          <LinkText>message</LinkText>
-        </LinkItem>
-        <LinkItem
-          //logout 링크 추가 필요
-          to="/"
-        >
-          <LinkIcon>
-            <AiOutlineLogout />
-          </LinkIcon>
-          <LinkText>logout</LinkText>
-        </LinkItem>
-      </LinkContainer>
+      <Button onClick={() => setOpen(!open)}>
+        <FaBars />
+      </Button>
+      <Container open={open}>
+        <Title>
+          <Link to="/">Plming</Link>
+        </Title>
+        <Profile>
+          <img src={img} alt="profile" />
+          <Name>seuha516</Name>
+        </Profile>
+        <LinkContainer>
+          <LinkItem to="/mypage">
+            <LinkIcon>
+              <BsPersonCircle />
+            </LinkIcon>
+            <LinkText>mypage</LinkText>
+          </LinkItem>
+          <LinkItem
+            //logout 링크 추가 필요
+            to="/message"
+          >
+            <LinkIcon>
+              <AiOutlineMessage />
+            </LinkIcon>
+            <LinkText>message</LinkText>
+          </LinkItem>
+          <Item>
+            <LinkIcon>
+              <IoIosNotifications />
+            </LinkIcon>
+            <LinkText>notification</LinkText>
+          </Item>
+          <LinkItem
+            //logout 링크 추가 필요
+            to="/"
+          >
+            <LinkIcon>
+              <AiOutlineLogout />
+            </LinkIcon>
+            <LinkText>logout</LinkText>
+          </LinkItem>
+        </LinkContainer>
+      </Container>
     </Wrapper>
   );
 };
 
 export default Sidebar;
-const NotificationContainer = styled.div`
-  position: absolute;
-  font-size: 20px;
-  color: #242424;
-  right: 20px;
+const Button = styled.button`
+  background-color: #4cbbc2;
+
+  border: none;
+  width: fit-content;
+`;
+const Container = styled.div<{ open: boolean }>`
+  transform: ${props => (props.open ? 'translateX(0)' : 'translateX(-200px) ')};
+  transition: all 1s;
 `;
 const Title = styled.div`
+  font-family: 'Bazzi';
   font-size: 50px;
   color: #fff;
 `;
@@ -80,6 +92,13 @@ const LinkItem = styled(Link)`
   align-items: center;
   justify-content: center;
 `;
+const Item = styled.div`
+  display: flex;
+  height: 30px;
+  align-items: center;
+  font-size: 20px;
+  justify-content: center;
+`;
 const LinkText = styled.div`
   width: 100px;
   text-align: left;
@@ -87,7 +106,7 @@ const LinkText = styled.div`
 const LinkIcon = styled.div`
   width: 40px;
   position: relative;
-  top: 4px;
+  top: 2px;
 `;
 const Name = styled.div`
   font-size: 20px;
@@ -104,8 +123,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  font-family: 'KOTRAHOPE';
   gap: 20px;
   padding: 20px;
+  font-weight: normal;
+  font-style: normal;
+  overflow: hidden;
   @media all and (max-width: 1510px) {
     width: 215px;
   }
