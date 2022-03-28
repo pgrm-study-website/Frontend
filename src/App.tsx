@@ -137,19 +137,20 @@ const App = () => {
             path="*"
             element={
               <Wrapper>
-                <button id="sidebarCollapse" />
                 <Sidebar />
-                <Header />
-                <Routes>
-                  <Route path="" element={<Main />} />
-                  <Route path="posts/*">
-                    <Route path="" element={<List />} />
-                    <Route path="write" element={<Write />} />
-                    <Route path=":id" element={<Read />} />
-                  </Route>
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <Footer />
+                <ContentWrapper>
+                  <Header />
+                  <Routes>
+                    <Route path="" element={<Main />} />
+                    <Route path="posts/*">
+                      <Route path="" element={<List />} />
+                      <Route path="write" element={<Write />} />
+                      <Route path=":id" element={<Read />} />
+                    </Route>
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                  <Footer />
+                </ContentWrapper>
               </Wrapper>
             }
           />
@@ -163,23 +164,17 @@ export default App;
 
 const Wrapper = styled.div`
   background-color: #f1f1f1;
-  width: 1250px;
+  width: min(100%, 1500px);
   height: 100%;
   min-height: 100vh;
-  margin-left: calc(50% - 500px);
+  margin-left: max(0px, calc(50% - 750px));
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+`;
+const ContentWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  @media all and (max-width: 1510px) {
-    width: calc(100% - 215px);
-    margin-left: 215px;
-  }
-  @media all and (max-width: 1090px) {
-    width: calc(100% - 180px);
-    margin-left: 180px;
-  }
-  @media all and (max-width: 900px) {
-    width: 100%;
-    margin-left: 0;
-  }
+  transition: all 0.5s linear;
 `;

@@ -38,15 +38,15 @@ const RecommendPostItem = ({ post }: { post: postListItemType }) => {
 export default RecommendPostItem;
 
 const Wrapper = styled(Link)`
-  width: calc(calc(100% - calc(20px * 3)) / 4);
-  min-width: calc(calc(100% - calc(20px * 3)) / 4);
+  width: calc(calc(100% - calc(25px * 3)) / 4);
+  min-width: calc(calc(100% - calc(25px * 3)) / 4);
   height: 100%;
   background-color: white;
   overflow: hidden;
   border-radius: 10px;
   padding: 10px;
   & + & {
-    margin-left: 20px;
+    margin-left: 25.1px;
   }
   display: flex;
   flex-direction: column;
@@ -58,20 +58,20 @@ const Wrapper = styled(Link)`
     transform: scale(105%);
   }
   @media all and (max-width: 1205px) {
-    width: calc(calc(100% - calc(20px * 2)) / 3);
-    min-width: calc(calc(100% - calc(20px * 2)) / 3);
+    width: calc(calc(100% - calc(25px * 2)) / 3);
+    min-width: calc(calc(100% - calc(25px * 2)) / 3);
   }
   @media all and (max-width: 930px) {
-    width: calc(calc(100% - calc(20px * 1)) / 2);
-    min-width: calc(calc(100% - calc(20px * 1)) / 2);
+    width: calc(calc(100% - calc(25px * 1)) / 2);
+    min-width: calc(calc(100% - calc(25px * 1)) / 2);
   }
   @media all and (max-width: 900px) {
-    width: calc(calc(100% - calc(20px * 2)) / 3);
-    min-width: calc(calc(100% - calc(20px * 2)) / 3);
+    width: calc(calc(100% - calc(25px * 2)) / 3);
+    min-width: calc(calc(100% - calc(25px * 2)) / 3);
   }
   @media all and (max-width: 750px) {
-    width: calc(calc(100% - calc(20px * 1)) / 2);
-    min-width: calc(calc(100% - calc(20px * 1)) / 2);
+    width: calc(calc(100% - calc(25px * 1)) / 2);
+    min-width: calc(calc(100% - calc(25px * 1)) / 2);
   }
   @media all and (max-width: 510px) {
     width: 100%;

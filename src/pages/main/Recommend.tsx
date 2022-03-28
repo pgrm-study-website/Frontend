@@ -200,7 +200,7 @@ const Wrapper = styled.div`
   background-color: #474747;
   width: 100%;
   min-height: 300px;
-  padding: 25px 20px;
+  padding: 25px 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
