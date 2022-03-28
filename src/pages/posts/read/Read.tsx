@@ -12,8 +12,8 @@ import Content from './Content';
 import Tags from './Tags';
 import Participant from './Participant';
 import Comment from './Comment';
+import MoreInfo from './MoreInfo';
 
-//test data
 const testDate = new Date();
 const testPost = {
   postId: 26,
@@ -71,7 +71,10 @@ const Read = () => {
         updateDate={testPost.updateDate}
       />
       <Content content={testPost.content} />
-      {/* <Period period={testPost.period} /> */}
+      <MoreInfo
+        participantMax={testPost.participantMax}
+        period={testPost.period}
+      />
       <Participant
         participantNum={testPost.participantNum}
         participantMax={testPost.participantMax}
