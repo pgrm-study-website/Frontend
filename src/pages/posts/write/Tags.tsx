@@ -79,7 +79,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 40px;
 `;
 const NameText = styled.div`
   font-size: 30px;

@@ -57,8 +57,8 @@ const initialState: writePostsState = {
     category: 3,
     tags: [],
     content: '',
-    participantMax: 4,
-    period: 3,
+    participantMax: null,
+    period: null,
   },
   result: null,
 };

@@ -11,6 +11,7 @@ import Category from './Category';
 import Editor from './Editor';
 import Tags from './Tags';
 import WriteButton from './WriteButton';
+import MoreInfo from './MoreInfo';
 
 const Write = () => {
   const { post, result, loading } = useSelector(
@@ -43,6 +44,7 @@ const Write = () => {
       <Category category={post.category} />
       <Editor content={post.content} />
       <Tags tags={post.tags} />
+      <MoreInfo participantMax={post.participantMax} period={post.period} />
       <WriteButton post={post} loading={loading} />
     </Wrapper>
   );

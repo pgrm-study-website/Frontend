@@ -13,7 +13,7 @@ export default Banner;
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 30px 0 50px 0;
+  padding: 20px 0 50px 0;
 `;
 const LargeText = styled.div`
   font-size: 70px;
