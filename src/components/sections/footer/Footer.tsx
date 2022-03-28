@@ -5,11 +5,11 @@ import { FaGithub } from 'react-icons/fa';
 const Footer = () => {
   return (
     <Wrapper>
-      <Title>Flming</Title>
-      <Copyright>© 2022 Project Flming.</Copyright>
+      <Title>Plming</Title>
+      <Copyright>© 2022 Project Plming.</Copyright>
 
       <Icon>
-        <a target="_blank" href="https://github.com/canapio">
+        <a target="_blank" href="https://github.com/pgrm-study-website">
           <FaGithub />
         </a>
       </Icon>
@@ -38,9 +38,9 @@ const Copyright = styled.div`
 const Wrapper = styled.div`
   color: #fff;
   padding: 20px;
-  background-color: #474747; //임시
+  background-color: #474747;
   width: 100%;
-  height: 100px; //들어갈 내용에 따라 변동 가능
+  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
