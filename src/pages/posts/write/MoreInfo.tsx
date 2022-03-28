@@ -145,7 +145,7 @@ const ContentItemWrapper = styled.div`
   align-items: center;
 `;
 const SmallNameText = styled.div`
-  font-size: 20px;
+  font-size: 22px;
   font-family: SuncheonR;
   margin-bottom: 12px;
 `;
