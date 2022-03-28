@@ -14,7 +14,7 @@ const WriteButton = ({
   const dispatch = useDispatch();
 
   const onClick = () => {
-    alert('글쓰기'); //글쓰기 dispatch
+    alert('글쓰기' + JSON.stringify(post)); //글쓰기 dispatch
   };
 
   return loading ? (
