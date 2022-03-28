@@ -4,7 +4,15 @@ import dateToString from 'lib/utils/dateToString';
 
 import UserInfo from 'components/common/UserInfo';
 
-const commentItem = () => {
+const commentItem = ({
+  isReply,
+  index,
+  onClickReply,
+}: {
+  isReply: boolean;
+  index: number;
+  onClickReply: (id: number) => void;
+}) => {
   return (
     <Wrapper>
       <FirstWrapper>
@@ -19,7 +27,7 @@ const commentItem = () => {
         five centuries
       </CommentWrapper>
       <ButtonWrapper>
-        <div onClick={() => alert('답글 버튼 클릭')}>답글</div>
+        {!isReply && <div onClick={() => onClickReply(index)}>답글</div>}
         <div onClick={() => alert('삭제 버튼 클릭')}>삭제</div>
       </ButtonWrapper>
     </Wrapper>
@@ -34,9 +42,7 @@ const Wrapper = styled.div`
   border-radius: 10px;
   box-shadow: 5px 5px 20px #46464644;
   background-color: #e1e1e1;
-  & + & {
-    margin-top: 20px;
-  }
+  margin: 10px 0;
 `;
 const FirstWrapper = styled.div`
   width: 100%;

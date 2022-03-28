@@ -33,9 +33,9 @@ const Wrapper = styled.div`
   padding: 10px;
   border-radius: 10px;
   box-shadow: 5px 5px 20px #46464644;
-  background-color: #e1e1e1;
+  background-color: #f1f1f1;
   display: flex;
-  margin-top: 10px;
+  margin: 5px 0;
 `;
 const InputWrapper = styled.input`
   width: calc(100% - 45px);
