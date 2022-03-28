@@ -136,6 +136,7 @@ const App = () => {
             path="*"
             element={
               <Wrapper>
+                <button id="sidebarCollapse" />
                 <Sidebar />
                 <Header />
                 <Routes>
