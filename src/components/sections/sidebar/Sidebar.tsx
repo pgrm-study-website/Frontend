@@ -10,14 +10,9 @@ const Sidebar = () => {
   return (
     <Wrapper>
       <Title>
-        <Link to="/">플밍</Link>
+        <Link to="/">Plming</Link>
       </Title>
-      <NotificationContainer>
-        {/* 모달로 표시할지, 링크를 옮길지 결정후 정리 */}
-        {/* <Link to="/notification"> */}
-        <IoIosNotifications />
-        {/* </Link> */}
-      </NotificationContainer>
+
       <Profile>
         <img src={img} alt="profile" />
         <Name>seuha516</Name>
@@ -38,6 +33,12 @@ const Sidebar = () => {
           </LinkIcon>
           <LinkText>message</LinkText>
         </LinkItem>
+        <Item>
+          <LinkIcon>
+            <IoIosNotifications />
+          </LinkIcon>
+          <LinkText>notification</LinkText>
+        </Item>
         <LinkItem
           //logout 링크 추가 필요
           to="/"
@@ -60,6 +61,7 @@ const NotificationContainer = styled.div`
   right: 20px;
 `;
 const Title = styled.div`
+  font-family: 'Bazzi';
   font-size: 50px;
   color: #fff;
 `;
@@ -80,6 +82,13 @@ const LinkItem = styled(Link)`
   align-items: center;
   justify-content: center;
 `;
+const Item = styled.div`
+  display: flex;
+  height: 30px;
+  align-items: center;
+  font-size: 20px;
+  justify-content: center;
+`;
 const LinkText = styled.div`
   width: 100px;
   text-align: left;
@@ -87,7 +96,7 @@ const LinkText = styled.div`
 const LinkIcon = styled.div`
   width: 40px;
   position: relative;
-  top: 4px;
+  top: 2px;
 `;
 const Name = styled.div`
   font-size: 20px;
@@ -104,8 +113,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  font-family: 'KOTRAHOPE';
   gap: 20px;
   padding: 20px;
+  font-weight: normal;
+  font-style: normal;
   @media all and (max-width: 1510px) {
     width: 215px;
   }
