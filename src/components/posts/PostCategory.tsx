@@ -1,11 +1,12 @@
 import React from 'react';
-import { GiPencil, GiSpellBook, GiPodiumWinner } from 'react-icons/gi';
+import { GiPencil, GiSpellBook, GiPodiumWinner, GiTalk } from 'react-icons/gi';
 import styled from 'styled-components';
 
 const iconList = [
   { name: '스터디', icon: <GiPencil /> },
   { name: '프로젝트', icon: <GiSpellBook /> },
   { name: '공모전', icon: <GiPodiumWinner /> },
+  { name: '기타', icon: <GiTalk /> },
 ];
 
 const PostCategory = ({ category }: { category: number }) => {

@@ -77,7 +77,7 @@ const PostList = () => {
   return (
     <Wrapper>
       <HeaderWrapper>
-        <MessageText>최신 게시물</MessageText>
+        <MessageText>최신 게시글</MessageText>
         <MoreWrapper to="/posts">더보기</MoreWrapper>
       </HeaderWrapper>
       <PostListWrapper>

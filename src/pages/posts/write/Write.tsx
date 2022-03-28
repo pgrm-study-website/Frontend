@@ -29,6 +29,7 @@ const Write = () => {
       dispatch(initWrite());
     };
   }, [dispatch]);
+
   useEffect(() => {
     if (result) {
       navigate(`/posts/${result}`);
@@ -52,5 +53,5 @@ export default Write;
 const Wrapper = styled.div`
   width: 100%;
   max-width: 1000px;
-  padding: 50px 20px 70px 20px;
+  padding: 40px 20px 70px 20px;
 `;

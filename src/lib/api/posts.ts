@@ -34,7 +34,7 @@ export type postInputType = {
   postId: number | null;
   userId: number;
   title: string;
-  category: string;
+  category: number;
   tags: string[];
   content: string;
   participantMax: number;

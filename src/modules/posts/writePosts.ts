@@ -54,7 +54,7 @@ const initialState: writePostsState = {
     postId: null,
     userId: 7, //임시
     title: '',
-    category: 'etc',
+    category: 3,
     tags: [],
     content: '',
     participantMax: 4,

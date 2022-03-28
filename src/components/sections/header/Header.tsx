@@ -23,6 +23,7 @@ const Wrapper = styled.div`
     top: 0;
     left: 0;
   }
+  z-index: 100;
 `;
 const FakeHeader = styled.div`
   //Header의 position이 fixed이기 때문에 필요한 공간 차지용 div

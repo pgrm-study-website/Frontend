@@ -3,32 +3,24 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { changeField } from 'modules/posts/writePosts';
 
-const categoryList: {
-  [key: string]: string;
-} = {
-  study: '스터디',
-  project: '프로젝트',
-  competition: '공모전',
-  etc: '기타',
-};
+const categoryList = ['스터디', '프로젝트', '공모전', '기타'];
 
-const Category = ({ category }: { category: string }) => {
+const Category = ({ category }: { category: number }) => {
   const dispatch = useDispatch();
 
   return (
     <Wrapper>
       <NameText>카테고리</NameText>
       <ChoiceWrapper>
-        {Object.keys(categoryList).map(item => (
-          <Choice key={item}>
-            <Checkbox
-              type="checkbox"
-              onChange={() =>
-                dispatch(changeField({ key: 'category', value: item }))
-              }
-              checked={category === item}
-            />
-            {categoryList[item]}
+        {categoryList.map((item, idx) => (
+          <Choice
+            key={item}
+            onClick={() =>
+              dispatch(changeField({ key: 'category', value: idx }))
+            }
+          >
+            <Checkbox type="checkbox" checked={category === idx} />
+            {categoryList[idx]}
           </Choice>
         ))}
       </ChoiceWrapper>
@@ -63,6 +55,7 @@ const Choice = styled.div`
   & + & {
     margin-left: 15px;
   }
+  cursor: pointer;
 `;
 const Checkbox = styled.input`
   width: 20px;

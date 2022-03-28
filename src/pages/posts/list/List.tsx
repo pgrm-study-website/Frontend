@@ -149,7 +149,7 @@ const List = () => {
   return (
     <Wrapper>
       <HeaderWrapper>
-        <MessageText>게시물 목록</MessageText>
+        <MessageText>게시글 목록</MessageText>
         <SearchWrapper>
           <SearchInput placeholder="Search" />
           <BsSearch />
