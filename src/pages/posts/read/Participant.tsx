@@ -3,13 +3,7 @@ import styled from 'styled-components';
 
 import UserInfo from 'components/common/UserInfo';
 
-const Participant = ({
-  participantNum,
-  participantMax,
-}: {
-  participantNum: number;
-  participantMax: number;
-}) => {
+const Participant = ({ participantNum }: { participantNum: number }) => {
   return (
     <Wrapper>
       <NameText>참가 신청하기</NameText>
