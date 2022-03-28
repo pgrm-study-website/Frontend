@@ -15,8 +15,8 @@ export type postListItemType = {
   tags: string[];
   status: number;
   participantNum: number;
-  participantMax: number;
-  period: number;
+  participantMax: number | null;
+  period: number | null;
   viewCount: number;
 };
 
@@ -37,6 +37,6 @@ export type postInputType = {
   category: number;
   tags: string[];
   content: string;
-  participantMax: number;
-  period: number;
+  participantMax: number | null;
+  period: number | null;
 };
