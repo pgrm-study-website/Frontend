@@ -33,7 +33,8 @@ const Info = ({
 export default Info;
 
 const Wrapper = styled.div`
-  margin-top: 3px;
+  margin-top: 5px;
+  margin-bottom: 20px;
   height: 30px;
   display: flex;
   align-items: center;
@@ -58,4 +59,5 @@ const UpdateDateText = styled.div`
 `;
 const ViewCountText = styled.div`
   width: 90px;
+  text-align: start;
 `;

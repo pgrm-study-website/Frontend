@@ -1,15 +1,10 @@
 import React from 'react';
+import { BsCheckLg, BsExclamationTriangle } from 'react-icons/bs';
 import styled from 'styled-components';
 
 import UserInfo from 'components/common/UserInfo';
 
-const Participant = ({
-  participantNum,
-  participantMax,
-}: {
-  participantNum: number;
-  participantMax: number;
-}) => {
+const Participant = ({ participantNum }: { participantNum: number }) => {
   return (
     <Wrapper>
       <NameText>참가 신청하기</NameText>
@@ -22,9 +17,27 @@ const Participant = ({
             <UserInfo userId={-1} />
           </UserInfoWrapper>
         </UserWrapper>
-        <SubmitWrapper>
+        {/* <SubmitWrapper>
           <MessageInput placeholder="???님의 팀에 참가하고 싶어요!" />
           <SubmitButton>신청하기</SubmitButton>
+        </SubmitWrapper> */}
+        {/* <SubmitWrapper>
+          <ResultLargeText>Accepted!</ResultLargeText>
+          <ResultIcon>
+            <BsCheckLg style={{ color: 'green' }} />
+          </ResultIcon>
+          <ResultSmallText>
+            abcd111님이 bcde222님의 참가 신청을 허락했습니다!
+          </ResultSmallText>
+        </SubmitWrapper> */}
+        <SubmitWrapper>
+          <ResultLargeText>Declined</ResultLargeText>
+          <ResultIcon>
+            <BsExclamationTriangle style={{ color: '#d54c3e' }} />
+          </ResultIcon>
+          <ResultSmallText>
+            abcd111님이 bcde222님의 참가 신청을 거절했습니다.
+          </ResultSmallText>
         </SubmitWrapper>
       </ContentWrapper>
     </Wrapper>
@@ -83,6 +96,7 @@ const SubmitWrapper = styled.div`
   margin-left: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
 const MessageInput = styled.textarea`
@@ -110,5 +124,23 @@ const SubmitButton = styled.div`
   transition: color 0.15s linear;
   &:hover {
     color: black;
+  }
+`;
+const ResultLargeText = styled.div`
+  font-size: 24px;
+  font-family: NanumSquareR;
+`;
+const ResultSmallText = styled.div`
+  font-size: 18px;
+  font-family: NanumSquareR;
+  word-break: keep-all;
+  text-align: center;
+  line-height: 24px;
+`;
+const ResultIcon = styled.div`
+  margin: 20px 0;
+  svg {
+    width: 50px;
+    height: 50px;
   }
 `;
