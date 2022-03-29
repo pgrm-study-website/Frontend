@@ -64,6 +64,7 @@ const ButtonWrapper = styled.div`
   color: #555555;
   display: flex;
   justify-content: flex-end;
+  margin-top: 5px;
   div {
     margin-left: 5px;
     cursor: pointer;

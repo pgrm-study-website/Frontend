@@ -14,9 +14,8 @@ const Comment = () => {
     <Wrapper>
       <NameText>댓글 4개</NameText>
       {[1, 2, 3, 4].map((i, idx) => (
-        <>
+        <div key={idx}>
           <CommentItem
-            key={idx}
             isReply={false}
             index={idx}
             onClickReply={onClickReply}
@@ -24,7 +23,6 @@ const Comment = () => {
           <ReplyWrapper>
             <BsFillReplyFill />
             <CommentItem
-              key={idx}
               isReply={true}
               index={idx}
               onClickReply={onClickReply}
@@ -36,7 +34,7 @@ const Comment = () => {
               <CommentInput parentId={i} />
             </ReplyWrapper>
           )}
-        </>
+        </div>
       ))}
       <CommentInput parentId={null} />
     </Wrapper>

@@ -21,5 +21,6 @@ export default Tags;
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   margin: 20px 0;
 `;

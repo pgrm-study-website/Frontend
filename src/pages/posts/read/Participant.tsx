@@ -17,11 +17,11 @@ const Participant = ({ participantNum }: { participantNum: number }) => {
             <UserInfo userId={-1} />
           </UserInfoWrapper>
         </UserWrapper>
-        <SubmitWrapper>
+        {/* <SubmitWrapper>
           <MessageInput placeholder="???님의 팀에 참가하고 싶어요!" />
           <SubmitButton>신청하기</SubmitButton>
-        </SubmitWrapper>
-        {/* <SubmitWrapper>
+        </SubmitWrapper> */}
+        <SubmitWrapper>
           <ResultLargeText>Accepted!</ResultLargeText>
           <ResultIcon>
             <BsCheckLg style={{ color: 'green' }} />
@@ -29,7 +29,7 @@ const Participant = ({ participantNum }: { participantNum: number }) => {
           <ResultSmallText>
             abcd111님이 bcde222님의 참가 신청을 허락했습니다!
           </ResultSmallText>
-        </SubmitWrapper> */}
+        </SubmitWrapper>
         {/* <SubmitWrapper>
           <ResultLargeText>Declined</ResultLargeText>
           <ResultIcon>
@@ -71,6 +71,7 @@ const UserWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  margin: 20px;
 `;
 const UserInfoText = styled.div`
   font-family: NanumSquareR;
@@ -92,13 +93,12 @@ const UserInfoWrapper = styled.div`
   border-radius: 10px;
 `;
 const SubmitWrapper = styled.div`
-  width: calc(100% - 400px);
-  min-width: 320px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 50px 20px 30px 20px;
+  margin: 40px 20px 40px 20px;
   @media all and (max-width: 460px) {
     min-width: 100%;
   }
@@ -108,7 +108,6 @@ const MessageInput = styled.textarea`
   height: 200px;
   font-size: 18px;
   padding: 10px;
-  margin-top: 15px;
   font-family: NanumSquareR;
   line-height: 24px;
   border: none;
@@ -118,10 +117,10 @@ const MessageInput = styled.textarea`
 `;
 const SubmitButton = styled.div`
   width: 100px;
-  margin-top: 15px;
+  margin-top: 20px;
   text-align: center;
   font-size: 24px;
-  font-family: Cafe24SsurroundAir;
+  font-family: SuncheonR;
   font-weight: 700;
   color: #646464;
   cursor: pointer;
