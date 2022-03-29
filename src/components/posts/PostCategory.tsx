@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   align-items: center;
   color: #565656;
   height: 20px;
-  font-size: 18px;
+  font-size: 17px;
   font-family: NanumSquareR;
   div {
     margin-top: 2px;

@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   padding: 10px;
   border-radius: 10px;
   box-shadow: 5px 5px 20px #46464644;
-  background-color: #f1f1f1;
+  background-color: #ffffff;
   display: flex;
   margin: 5px 0;
 `;
@@ -42,7 +42,7 @@ const InputWrapper = styled.input`
   height: 40px;
   border: 0;
   border-radius: 5px;
-  background-color: #00000011;
+  background-color: #00000010;
   padding: 0 10px;
   font-size: 16px;
 `;

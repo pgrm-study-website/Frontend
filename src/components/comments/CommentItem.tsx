@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   padding: 10px;
   border-radius: 10px;
   box-shadow: 5px 5px 20px #46464644;
-  background-color: #e1e1e1;
+  background-color: #ffffff;
   margin: 10px 0;
 `;
 const FirstWrapper = styled.div`
