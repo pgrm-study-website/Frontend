@@ -6,7 +6,7 @@ import SignTemplate from 'components/users/SignTemplate';
 function SignUp() {
   return (
     <SignTemplate>
-      <Form action="" className="form">
+      <Form action="" className="form" autoComplete="off">
         <FormGrid>
           <FormItem>
             <Label htmlFor="inputName" className="form__label">
@@ -37,7 +37,7 @@ function SignUp() {
           </FormItem>
           <FormItem>
             <Label htmlFor="inputPwd" className="form__label">
-              Passward
+              Password
             </Label>
             <InputText
               type="password"
@@ -88,7 +88,7 @@ function SignUp() {
           회원가입
         </Button>
       </Form>
-      <Trapezoid text={'회원가입'} />
+      <Trapezoid text={'SIGN UP'} />
     </SignTemplate>
   );
 }
