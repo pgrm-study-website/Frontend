@@ -53,7 +53,6 @@ const Wrapper = styled.div`
   padding: 30px 20px;
   box-shadow: 5px 5px 20px #46464644;
   background-color: #4cbbc21c;
-  height: 360px;
 `;
 const NameText = styled.div`
   font-size: 30px;
@@ -62,7 +61,8 @@ const NameText = styled.div`
 `;
 const ContentWrapper = styled.div`
   display: flex;
-  height: calc(100% - 40px);
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 const UserWrapper = styled.div`
   height: 100%;
@@ -92,12 +92,16 @@ const UserInfoWrapper = styled.div`
   border-radius: 10px;
 `;
 const SubmitWrapper = styled.div`
-  width: calc(100% - 320px);
-  margin-left: 20px;
+  width: calc(100% - 400px);
+  min-width: 320px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 50px 20px 30px 20px;
+  @media all and (max-width: 460px) {
+    min-width: 100%;
+  }
 `;
 const MessageInput = styled.textarea`
   width: 100%;
