@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillPersonFill, BsFillEyeFill } from 'react-icons/bs';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { postListItemType } from 'lib/api/posts';
 
 import PostCategory from 'components/posts/PostCategory';
@@ -9,7 +9,7 @@ import PostTagA from 'components/posts/PostTagA';
 
 const PostItem = ({ post }: { post: postListItemType }) => {
   return (
-    <Wrapper to={`/posts/${post.postId}`}>
+    <Wrapper to={`/posts/${post.postId}`} status={post.status}>
       <FirstWrapper>
         <Name>{post.title}</Name>
         <PostCategory category={post.category} />
@@ -37,7 +37,12 @@ const PostItem = ({ post }: { post: postListItemType }) => {
 
 export default PostItem;
 
-const Wrapper = styled(Link)`
+const Wrapper = styled(Link)<{ status: number }>`
+  ${props =>
+    props.status === 0 &&
+    css`
+      filter: contrast(20%);
+    `}
   width: calc(calc(100% - calc(10px * 3)) / 3);
   min-width: calc(calc(100% - calc(10px * 3)) / 3);
   height: 200px;
