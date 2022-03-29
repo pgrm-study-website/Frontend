@@ -27,6 +27,12 @@ const HomeLink = styled(Link)`
   color: #fff;
   font-size: 50px;
   bottom: 5px;
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    font-size: 30px;
+    top: -45px;
+    left: -25px;
+  }
 `;
 const Container = styled.div``;
 const TrapezoidBox = styled.div`
@@ -37,8 +43,18 @@ const TrapezoidBox = styled.div`
   border-left: 100vw solid #4cbbc2;
   &::before {
     content: '';
+
     height: 130px;
+    @media screen and (max-width: 1024px) {
+      /* height: 100px; */
+    }
     display: block;
+  }
+  @media screen and (max-width: 1024px) {
+    border-bottom: 120px solid transparent;
+  }
+  @media screen and (max-width: 768px) {
+    border-bottom: 70px solid transparent;
   }
 `;
 const TextContainer = styled.div`
@@ -51,6 +67,18 @@ const TextContainer = styled.div`
   .text--large {
     font-size: 100px;
     margin: 0 50px;
+  }
+  @media screen and (max-width: 1024px) {
+    top: 40px;
+  }
+  @media screen and (max-width: 768px) {
+    top: 60px;
+    font-size: 32px;
+    .text--large {
+      font-size: 80px;
+      margin: 0;
+      margin-right: 30px;
+    }
   }
 `;
 export default Trapezoid;
