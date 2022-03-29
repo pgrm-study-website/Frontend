@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import qs from 'qs';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
 
@@ -76,8 +78,8 @@ const testDataList = [
     title: '공모전 앱 만드실 분??',
     category: 0,
     tags: ['FrontEnd', 'BackEnd'],
-    status: 1,
-    participantNum: 4,
+    status: 0,
+    participantNum: 5,
     participantMax: 5,
     period: 4,
     viewCount: 126,
@@ -98,8 +100,8 @@ const testDataList = [
     title: 'Node.js 스터디 같이 하실분~~',
     category: 1,
     tags: ['Node.js', 'JavaScript'],
-    status: 1,
-    participantNum: 5,
+    status: 0,
+    participantNum: 6,
     participantMax: 6,
     period: 3,
     viewCount: 26,
@@ -138,13 +140,20 @@ const testDataList = [
     viewCount: 126,
   },
 ];
+const testDataCount = 122;
 
 const List = () => {
+  const location = useLocation();
   const [foldOption, setFoldOption] = useState(false);
+
+  // const { page, tags, category, status } = qs.parse(location.search, {
+  //   ignoreQueryPrefix: true,
+  // });
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    alert('쿼리: ' + location.search.toString());
+  }, [location.search]);
 
   return (
     <Wrapper>
@@ -275,8 +284,10 @@ const SummaryWrapper = styled.div`
 `;
 const PostListWrapper = styled.div`
   width: 100%;
+  min-height: 630px;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 `;
 const PageMoveWrapper = styled.div`
   margin: 25px 0 30px 0;
