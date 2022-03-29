@@ -1,13 +1,32 @@
+import React from 'react';
+import GoogleLogin from 'react-google-login';
+import styled from 'styled-components';
+
 import Button from 'components/common/Button';
 import SignTemplate from 'components/users/SignTemplate';
 import Trapezoid from 'components/users/TrapezoidBox';
-import React from 'react';
-import styled from 'styled-components';
 
 const Login = () => {
+  function onSuccess(res: any) {
+    console.dir(res);
+  }
+  const onFailure = (res: any) => {
+    alert('google login error');
+    console.log('err', res);
+  };
+
   return (
     <SignTemplate>
       <Trapezoid text={'login'} />
+
+      {/* 미구현 
+      <GoogleLogin
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        isSignedIn={true}
+        cookiePolicy={'single_host_origin'}
+      /> */}
 
       <LoginContainer>
         <form action="" className="form">
