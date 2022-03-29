@@ -80,46 +80,47 @@ const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
-  }
-  @font-face {
-    font-family: Goyang;
-    src: url(${Goyang}) format("truetype");
-  }
-  @font-face {
+  } 
+  @font-face { // 소제목 (ex. '세부 정보', '참가 신청하기')
     font-family: LeeSeoyun;
     src: url(${LeeSeoyun}) format("truetype");
   }
-  @font-face {
-    font-family: SUIT-Medium;
-    src: url(${SUITMedium}) format("truetype");
-  }
-  @font-face {
+  @font-face { // 둥근 글씨체 (ex. '마감 임박!')
     font-family: SuncheonR;
     src: url(${SuncheonR}) format("truetype");
   }
-  @font-face {
+  @font-face { // 메인화면 배너 '플밍'
     font-family: YUniverse-B;
     src: url(${YUniverseB}) format("truetype");
   }
-  @font-face {
+  @font-face { // 궁서체 느낌
     font-family: MaruBuriLight;
     src: url(${MaruBuriLight}) format("truetype");
   }
-  @font-face {
+  @font-face { // 깔끔한 한글 폰트
     font-family: NanumSquareR;
     src: url(${NanumSquareR}) format("truetype");
   }
-  @font-face {
+  @font-face { // 얇은 폰트 (ex. '프로젝트', '공모전')
     font-family: Cafe24SsurroundAir;
     src: url(${Cafe24SsurroundAir}) format("truetype");
   }
-  @font-face {
-    font-family: 'Bazzi';
+  @font-face { // 미사용
+    font-family: Goyang;
+    src: url(${Goyang}) format("truetype");
+  }
+  @font-face { // 미사용
+    font-family: SUIT-Medium;
+    src: url(${SUITMedium}) format("truetype");
+  }
+  @font-face { // 로고
+    font-family: Bazzi;
     src: url(${Bazzi}) format('truetype');
-
-}@font-face {
-    font-family: 'KOTRAHOPE';  font-weight: normal;
-  font-style: normal;
+  }
+  @font-face {
+    font-family: KOTRAHOPE;  
+    font-weight: normal;
+    font-style: normal;
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
 }
 `;
@@ -136,19 +137,20 @@ const App = () => {
             path="*"
             element={
               <Wrapper>
-                <button id="sidebarCollapse" />
                 <Sidebar />
-                <Header />
-                <Routes>
-                  <Route path="" element={<Main />} />
-                  <Route path="posts/*">
-                    <Route path="" element={<List />} />
-                    <Route path="write" element={<Write />} />
-                    <Route path=":id" element={<Read />} />
-                  </Route>
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <Footer />
+                <ContentWrapper>
+                  <Header />
+                  <Routes>
+                    <Route path="" element={<Main />} />
+                    <Route path="posts/*">
+                      <Route path="" element={<List />} />
+                      <Route path="write" element={<Write />} />
+                      <Route path=":id" element={<Read />} />
+                    </Route>
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                  <Footer />
+                </ContentWrapper>
               </Wrapper>
             }
           />
@@ -162,23 +164,17 @@ export default App;
 
 const Wrapper = styled.div`
   background-color: #f1f1f1;
-  width: 1250px;
+  width: min(100%, 1500px);
   height: 100%;
   min-height: 100vh;
-  margin-left: calc(50% - 500px);
+  margin-left: max(0px, calc(50% - 750px));
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+`;
+const ContentWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  @media all and (max-width: 1510px) {
-    width: calc(100% - 215px);
-    margin-left: 215px;
-  }
-  @media all and (max-width: 1090px) {
-    width: calc(100% - 180px);
-    margin-left: 180px;
-  }
-  @media all and (max-width: 900px) {
-    width: 100%;
-    margin-left: 0;
-  }
+  transition: all 0.5s linear;
 `;
