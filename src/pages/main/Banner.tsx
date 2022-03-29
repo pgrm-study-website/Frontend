@@ -58,6 +58,6 @@ const SmallText = styled.div`
 `;
 const LargeText = styled.div`
   font-size: 110px;
-  font-family: YUniverse-B;
+  font-family: Bazzi;
   margin-top: 5px;
 `;

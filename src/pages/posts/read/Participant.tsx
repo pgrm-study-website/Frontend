@@ -17,10 +17,10 @@ const Participant = ({ participantNum }: { participantNum: number }) => {
             <UserInfo userId={-1} />
           </UserInfoWrapper>
         </UserWrapper>
-        {/* <SubmitWrapper>
+        <SubmitWrapper>
           <MessageInput placeholder="???님의 팀에 참가하고 싶어요!" />
           <SubmitButton>신청하기</SubmitButton>
-        </SubmitWrapper> */}
+        </SubmitWrapper>
         {/* <SubmitWrapper>
           <ResultLargeText>Accepted!</ResultLargeText>
           <ResultIcon>
@@ -30,7 +30,7 @@ const Participant = ({ participantNum }: { participantNum: number }) => {
             abcd111님이 bcde222님의 참가 신청을 허락했습니다!
           </ResultSmallText>
         </SubmitWrapper> */}
-        <SubmitWrapper>
+        {/* <SubmitWrapper>
           <ResultLargeText>Declined</ResultLargeText>
           <ResultIcon>
             <BsExclamationTriangle style={{ color: '#d54c3e' }} />
@@ -38,7 +38,7 @@ const Participant = ({ participantNum }: { participantNum: number }) => {
           <ResultSmallText>
             abcd111님이 bcde222님의 참가 신청을 거절했습니다.
           </ResultSmallText>
-        </SubmitWrapper>
+        </SubmitWrapper> */}
       </ContentWrapper>
     </Wrapper>
   );

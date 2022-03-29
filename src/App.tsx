@@ -3,14 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
-import Goyang from 'assets/fonts/Goyang.ttf';
 import LeeSeoyun from 'assets/fonts/LeeSeoyun.ttf';
-import SUITMedium from 'assets/fonts/SUIT-Medium.ttf';
 import SuncheonR from 'assets/fonts/SuncheonR.ttf';
-import YUniverseB from 'assets/fonts/YUniverse-B.ttf';
-import MaruBuriLight from 'assets/fonts/MaruBuriLight.ttf';
 import NanumSquareR from 'assets/fonts/NanumSquareR.ttf';
-import Cafe24SsurroundAir from 'assets/fonts/Cafe24SsurroundAir.ttf';
 import Bazzi from 'assets/fonts/Bazzi.ttf';
 
 import Login from 'pages/users/Login';
@@ -89,29 +84,9 @@ const GlobalStyles = createGlobalStyle`
     font-family: SuncheonR;
     src: url(${SuncheonR}) format("truetype");
   }
-  @font-face { // 메인화면 배너 '플밍'
-    font-family: YUniverse-B;
-    src: url(${YUniverseB}) format("truetype");
-  }
-  @font-face { // 궁서체 느낌
-    font-family: MaruBuriLight;
-    src: url(${MaruBuriLight}) format("truetype");
-  }
   @font-face { // 깔끔한 한글 폰트
     font-family: NanumSquareR;
     src: url(${NanumSquareR}) format("truetype");
-  }
-  @font-face { // 얇은 폰트 (ex. '프로젝트', '공모전')
-    font-family: Cafe24SsurroundAir;
-    src: url(${Cafe24SsurroundAir}) format("truetype");
-  }
-  @font-face { // 미사용
-    font-family: Goyang;
-    src: url(${Goyang}) format("truetype");
-  }
-  @font-face { // 미사용
-    font-family: SUIT-Medium;
-    src: url(${SUITMedium}) format("truetype");
   }
   @font-face { // 로고
     font-family: Bazzi;
@@ -176,5 +151,6 @@ const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   transition: all 0.5s linear;
 `;

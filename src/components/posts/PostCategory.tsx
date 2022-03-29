@@ -25,8 +25,8 @@ const Wrapper = styled.div`
   align-items: center;
   color: #565656;
   height: 20px;
-  font-size: 16px;
-  font-family: Cafe24SsurroundAir;
+  font-size: 18px;
+  font-family: NanumSquareR;
   div {
     margin-top: 2px;
   }
