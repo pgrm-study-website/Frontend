@@ -17,6 +17,7 @@ import Main from 'pages/main/Main';
 import List from 'pages/posts/list/List';
 import Write from 'pages/posts/write/Write';
 import Read from 'pages/posts/read/Read';
+import Mypage from 'pages/mypage/Mypage';
 import NotFound from 'components/common/NotFound';
 
 const GlobalStyles = createGlobalStyle`
@@ -122,6 +123,7 @@ const App = () => {
                       <Route path="write" element={<Write />} />
                       <Route path=":id" element={<Read />} />
                     </Route>
+                    <Route path="mypage/:id" element={<Mypage />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Footer />
@@ -144,7 +146,6 @@ const Wrapper = styled.div`
   min-height: 100vh;
   margin-left: max(0px, calc(50% - 750px));
   display: flex;
-  align-items: center;
   overflow-x: hidden;
 `;
 const ContentWrapper = styled.div`

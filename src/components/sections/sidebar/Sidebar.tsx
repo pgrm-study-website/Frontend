@@ -24,7 +24,7 @@ const Sidebar = () => {
           <Name>seuha516</Name>
         </Profile>
         <LinkContainer>
-          <LinkItem to="/mypage">
+          <LinkItem to="/mypage/123">
             <LinkIcon>
               <BsPersonCircle />
             </LinkIcon>
