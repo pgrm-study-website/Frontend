@@ -14,5 +14,6 @@ const Template = styled.div`
   height: 100vh;
   color: #484848;
   background-color: #eee;
+  font-family: 'SuncheonR';
 `;
 export default SignTemplate;

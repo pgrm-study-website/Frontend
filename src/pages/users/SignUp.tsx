@@ -37,7 +37,7 @@ function SignUp() {
           </FormItem>
           <FormItem>
             <Label htmlFor="inputPwd" className="form__label">
-              Password
+              password
             </Label>
             <InputText
               type="password"
@@ -49,15 +49,15 @@ function SignUp() {
             />
           </FormItem>
           <FormItem>
-            <Label htmlFor="inputPwdContirm" className="form__label">
-              Passward Contirm
+            <Label htmlFor="inputPwdConfirm" className="form__label">
+              passward Confirm
             </Label>
             <InputText
               type="password"
-              name="passwordContrim"
-              id="inputPwdContirm"
+              name="passwordConfirm"
+              id="inputPwdConfirm"
               className="form__input"
-              placeholder="input email"
+              placeholder="input password"
               required
             />
           </FormItem>
@@ -92,7 +92,9 @@ function SignUp() {
     </SignTemplate>
   );
 }
-const ClauseCheck = styled.input``;
+const ClauseCheck = styled.input`
+  cursor: pointer;
+`;
 const ClauseContainer = styled.div`
   margin: 20px 0;
 `;
@@ -109,6 +111,7 @@ const FormItem = styled.div``;
 const SubText = styled.div``;
 const Label = styled.label`
   font-size: 24px;
+  cursor: pointer;
 `;
 const InputText = styled.input`
   border: none;

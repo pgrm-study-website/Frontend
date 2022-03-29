@@ -50,7 +50,7 @@ const Login = () => {
           />
 
           <Button value="Login" className="btn--grey">
-            Login
+            login
           </Button>
         </form>
         <LinkConatiner>
