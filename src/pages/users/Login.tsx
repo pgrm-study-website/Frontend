@@ -1,7 +1,7 @@
 import React from 'react';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import styled from 'styled-components';
-
+import { Link } from 'react-router-dom';
 import Button from 'components/common/Button';
 import SignTemplate from 'components/users/SignTemplate';
 import Trapezoid from 'components/users/TrapezoidBox';
@@ -17,7 +17,7 @@ const Login = () => {
 
   return (
     <SignTemplate>
-      <Trapezoid text={'login'} />
+      <Trapezoid text={'LOGIN'} />
 
       {/* 미구현 
       <GoogleLogin
@@ -54,20 +54,28 @@ const Login = () => {
           </Button>
         </form>
         <LinkConatiner>
-          <a href="/pwd_find">비밀번호 찾기</a>
-          <a href="/join">회원가입</a>
+          <Link to="/pwd_find">비밀번호 찾기</Link>
+          <Link to="/signup">회원가입</Link>
         </LinkConatiner>
         <SocialContainer className="social">
-          <div className="social__title"></div>
-          <div className="social__icons">
+          <Social className="social__icons">
             <img src={require('assets/images/google-icon.png')} alt="" />
             <img src={require('assets/images/git-icon.png')} alt="" />
-          </div>
+          </Social>
         </SocialContainer>
       </LoginContainer>
     </SignTemplate>
   );
 };
+const Social = styled.div`
+  cursor: pointer;
+  img {
+    &:hover {
+      transition: all 0.5s;
+      filter: brightness(80%);
+    }
+  }
+`;
 const LinkConatiner = styled.div`
   padding: 30px 0;
   display: flex;

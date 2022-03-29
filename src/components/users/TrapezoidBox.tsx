@@ -5,20 +5,21 @@ interface TrapezoidProps {
 }
 function Trapezoid({ text }: TrapezoidProps) {
   return (
-    <div>
+    <Container>
       <TrapezoidBox />
       <TextContainer>
-        <span className="page-text text--large">플밍</span>
+        <span className="page-text text--large">Plming</span>
         <span className="page-text">{text}</span>
       </TextContainer>
-    </div>
+    </Container>
   );
 }
+const Container = styled.div``;
 const TrapezoidBox = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  border-bottom: 200px solid transparent;
+  border-bottom: 170px solid transparent;
   border-left: 100vw solid #4cbbc2;
   &::before {
     content: '';
@@ -28,13 +29,17 @@ const TrapezoidBox = styled.div`
 `;
 const TextContainer = styled.div`
   position: absolute;
-  top: 100px;
-  left: 100px;
+  top: 120px;
+  left: 140px;
+  font-family: 'Bazzi';
   font-size: 64px;
   color: #fff;
   .text--large {
     font-size: 100px;
     margin-right: 50px;
+  }
+  /* font-family: 'SuncheonR'; */
+  .text--large {
   }
 `;
 export default Trapezoid;
