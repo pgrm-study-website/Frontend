@@ -9,20 +9,6 @@ function SignUp() {
       <Form action="" className="form" autoComplete="off">
         <FormGrid>
           <FormItem>
-            <Label htmlFor="inputName" className="form__label">
-              username
-            </Label>
-            <InputText
-              type="text"
-              id="inputName"
-              className="form__input"
-              placeholder="input name"
-              name="username"
-              required
-            />
-            <SubText>6자 이상 12자 이하의 영어, 숫자만 사용 가능</SubText>
-          </FormItem>
-          <FormItem>
             <Label htmlFor="inputEmail" className="form__label">
               email
             </Label>
@@ -32,6 +18,19 @@ function SignUp() {
               className="form__input"
               name="email"
               placeholder="input email"
+              required
+            />
+          </FormItem>
+          <FormItem>
+            <Label htmlFor="inputNickname" className="form__label">
+              nickname
+            </Label>
+            <InputText
+              type="text"
+              name="nickname"
+              id="inputNickname"
+              className="form__input"
+              placeholder="input nickname"
               required
             />
           </FormItem>
@@ -50,7 +49,7 @@ function SignUp() {
           </FormItem>
           <FormItem>
             <Label htmlFor="inputPwdConfirm" className="form__label">
-              passward Confirm
+              password Confirm
             </Label>
             <InputText
               type="password"
@@ -58,19 +57,6 @@ function SignUp() {
               id="inputPwdConfirm"
               className="form__input"
               placeholder="input password"
-              required
-            />
-          </FormItem>
-          <FormItem>
-            <Label htmlFor="inputNickname" className="form__label">
-              nickname
-            </Label>
-            <InputText
-              type="text"
-              name="nickname"
-              id="inputNickname"
-              className="form__input"
-              placeholder="input nickname"
               required
             />
           </FormItem>
