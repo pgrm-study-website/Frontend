@@ -145,7 +145,6 @@ const Wrapper = styled.div`
   margin-left: max(0px, calc(50% - 750px));
   display: flex;
   align-items: center;
-  overflow-x: hidden;
 `;
 const ContentWrapper = styled.div`
   width: 100%;

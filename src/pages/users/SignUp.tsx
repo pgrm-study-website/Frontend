@@ -11,6 +11,7 @@ function SignUp() {
     password: '',
     passwordConfirm: '',
   });
+
   const onSubmit = () => {
     alert(JSON.stringify(input));
   };
@@ -18,7 +19,7 @@ function SignUp() {
   return (
     <SignTemplate>
       <Trapezoid text={'SIGN UP'} />
-      <Form className="form">
+      <SignupContainer>
         <FormGrid>
           <FormItem>
             {/* 자동완성 무효화 */}
@@ -95,28 +96,41 @@ function SignUp() {
           />
           <label htmlFor="clauseCheck">약관 동의</label>
         </ClauseContainer>
-        <div onClick={onSubmit}>
+        <div
+          onClick={onSubmit}
+          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+        >
           <Button value="Login" className="btn btn--grey">
             회원가입
           </Button>
         </div>
-      </Form>
+      </SignupContainer>
     </SignTemplate>
   );
 }
-const ClauseCheck = styled.input`
-  cursor: pointer;
-  margin: 0 5px 0 0;
-`;
-const ClauseContainer = styled.div`
-  margin: 20px 0;
-  font-family: NanumSquareR;
+
+const SignupContainer = styled.div`
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  min-height: calc(100vh - 300px);
+  @media screen and (max-width: 1024px) {
+    min-height: calc(100vh - 250px);
+  }
+  @media screen and (max-width: 768px) {
+    min-height: calc(100vh - 200px);
+  }
+  padding: 30px 20px 50px 20px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-`;
-const Form = styled.div`
-  z-index: 10;
-  padding: 0 15px;
+  gap: 10px;
+  .btn--grey {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 360px;
+  }
 `;
 const FormGrid = styled.div`
   width: 100%;
@@ -124,11 +138,11 @@ const FormGrid = styled.div`
   align-content: center;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  margin-top: 100px;
   @media all and (max-width: 900px) {
     display: flex;
     flex-direction: column;
-    margin-top: 150px;
+    max-width: 400px;
+    gap: 20px;
   }
 `;
 const FormItem = styled.div``;
@@ -144,6 +158,17 @@ const InputText = styled.input`
   border-radius: 5px;
   background-color: #e3e3e3;
   margin: 5px 0;
+`;
+const ClauseContainer = styled.div`
+  margin: 20px 0;
+  font-size: 17px;
+  font-family: NanumSquareR;
+  display: flex;
+  align-items: center;
+`;
+const ClauseCheck = styled.input`
+  cursor: pointer;
+  margin: 0 5px 0 0;
 `;
 
 export default SignUp;

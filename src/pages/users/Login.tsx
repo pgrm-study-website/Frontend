@@ -35,39 +35,37 @@ const Login = () => {
       /> */}
 
       <LoginContainer>
-        <div className="form">
-          <Label htmlFor="inputEmail" className="form__label">
-            email
-          </Label>
-          <InputText
-            value={input.email}
-            onChange={e => setInput({ ...input, email: e.target.value })}
-            type="text"
-            id="inputEmail"
-            className="form__input"
-            placeholder="input email"
-          />
-          <Label htmlFor="inputPwd" className="form__label">
-            password
-          </Label>
-          <InputText
-            value={input.password}
-            onChange={e => setInput({ ...input, password: e.target.value })}
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                onSubmit();
-              }
-            }}
-            type="password"
-            id="inputPwd"
-            className="form__input"
-            placeholder="input password"
-          />
-          <div onClick={onSubmit}>
-            <Button value="Login" className="btn--grey">
-              로그인
-            </Button>
-          </div>
+        <Label htmlFor="inputEmail" className="form__label">
+          email
+        </Label>
+        <InputText
+          value={input.email}
+          onChange={e => setInput({ ...input, email: e.target.value })}
+          type="text"
+          id="inputEmail"
+          className="form__input"
+          placeholder="input email"
+        />
+        <Label htmlFor="inputPwd" className="form__label">
+          password
+        </Label>
+        <InputText
+          value={input.password}
+          onChange={e => setInput({ ...input, password: e.target.value })}
+          onKeyPress={e => {
+            if (e.key === 'Enter') {
+              onSubmit();
+            }
+          }}
+          type="password"
+          id="inputPwd"
+          className="form__input"
+          placeholder="input password"
+        />
+        <div onClick={onSubmit}>
+          <Button value="Login" className="btn--grey">
+            로그인
+          </Button>
         </div>
         <LinkContainer>
           <Link to="/pwd_find">비밀번호 찾기</Link>
@@ -85,17 +83,39 @@ const Login = () => {
   );
 };
 
-const Social = styled.div`
-  cursor: pointer;
-  img {
-    &:hover {
-      transition: all 0.5s;
-      filter: brightness(80%);
-    }
+const LoginContainer = styled.div`
+  width: 100%;
+  max-width: 340px;
+  height: 100%;
+  min-height: calc(100vh - 300px);
+  @media screen and (max-width: 1024px) {
+    min-height: calc(100vh - 250px);
+  }
+  @media screen and (max-width: 768px) {
+    min-height: calc(100vh - 200px);
+  }
+  padding: 30px 20px 50px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  .btn--grey {
+    margin-top: 20px;
   }
 `;
+const Label = styled.label`
+  font-size: 24px;
+`;
+const InputText = styled.input`
+  border: none;
+  padding: 10px;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #e3e3e3;
+`;
 const LinkContainer = styled.div`
-  padding: 30px 0;
+  padding: 20px 0 30px 0;
   font-family: NanumSquareR;
   display: flex;
   justify-content: space-around;
@@ -103,6 +123,15 @@ const LinkContainer = styled.div`
     width: 100px;
     text-align: center;
   }
+`;
+const SocialContainerText = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-family: NanumSquareR;
+  margin: 20px 0 15px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid grey;
 `;
 const SocialContainer = styled.div`
   .social__icons {
@@ -117,38 +146,13 @@ const SocialContainer = styled.div`
     }
   }
 `;
-const Label = styled.label`
-  font-size: 24px;
-`;
-const InputText = styled.input`
-  border: none;
-  padding: 10px;
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
-  background-color: #e3e3e3;
-`;
-const SocialContainerText = styled.div`
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-  font-family: NanumSquareR;
-  margin: 20px 0 15px 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid grey;
-`;
-
-const LoginContainer = styled.div`
-  z-index: 10;
-  width: 300px;
-  margin-top: 100px;
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .btn--grey {
-    margin-top: 20px;
+const Social = styled.div`
+  cursor: pointer;
+  img {
+    &:hover {
+      transition: all 0.5s;
+      filter: brightness(80%);
+    }
   }
 `;
 
