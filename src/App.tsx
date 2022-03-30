@@ -69,6 +69,7 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     min-height: 100%;
     line-height: 1;
+    overflow: hidden;
   }
   #root {
     min-height: 100%;

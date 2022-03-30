@@ -98,7 +98,7 @@ const NotificationModal = styled.div<{ open: boolean }>`
   color: #242424;
   font-size: 18px;
   transition: opacity 0.3s;
-  opacity: ${props => (props.open ? 1 : 0)};
+  display: ${props => (props.open ? 'block' : 'none')};
 `;
 const Notification = styled.div`
   cursor: pointer;
