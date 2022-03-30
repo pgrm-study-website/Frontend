@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type messageProps = {
@@ -6,40 +6,22 @@ type messageProps = {
   content: string;
   date: string | Date;
 };
-const messageDummyData = [
-  {
-    id: 10,
-    content: '000에 댓글이 달렸습니다',
-    date: '2022.03.30',
-  },
-  {
-    id: 11,
-    date: '2022.03.30',
-    content: '000 스터디에 가입이 되었습니다',
-  },
-  {
-    id: 12,
-    date: '2022.03.30',
-    content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
-  },
-];
-interface Props {
-  open: boolean;
-  setOpen: () => void;
-  data: Array<messageProps>;
-}
+
 export default function NotificationMoal({
   data,
 }: {
   data: Array<messageProps>;
 }) {
   return (
-    <ul>
-      {messageDummyData.map(item => (
+    <NotificationList>
+      <Title>알림</Title>
+      {data.map(item => (
         <NotificationItem key={item.id} item={item}></NotificationItem>
       ))}
-      <li>more</li>
-    </ul>
+      <li>
+        <More>more</More>
+      </li>
+    </NotificationList>
   );
 }
 const NotificationItem = ({ item }: { item: messageProps }) => {
@@ -50,16 +32,32 @@ const NotificationItem = ({ item }: { item: messageProps }) => {
     </Item>
   );
 };
+const More = styled.li`
+  font-weight: 700;
+  padding-top: 10px;
+  cursor: pointer;
+`;
+const Title = styled.li`
+  font-weight: 700;
+`;
+const NotificationList = styled.ul`
+  text-align: center;
+`;
 const Item = styled.li`
   padding: 15px 0;
   text-align: left;
   border-bottom: 0.5px solid #ababab;
+
   &:last-child {
     border: none;
   }
 `;
 const Content = styled.div`
+  cursor: pointer;
   font-weight: 500;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const Date = styled.div`
   margin-top: 10px;

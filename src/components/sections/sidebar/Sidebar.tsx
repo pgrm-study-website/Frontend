@@ -62,7 +62,6 @@ const Sidebar = () => {
             </LinkIcon>
             <LinkText onClick={handleNofiticationClick}>notification</LinkText>
             <Notification open={notificationOpen}>
-              알림
               <NotificationModal data={messageDummyData}></NotificationModal>
             </Notification>
           </Item>
@@ -92,7 +91,7 @@ const Notification = styled.div<{ open: boolean }>`
   background-color: #fff;
   //animation
   transition: opacity 0.5s;
-  pointer-events: none;
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
   opacity: ${props => (props.open ? '1' : '0')};
 `;
 
