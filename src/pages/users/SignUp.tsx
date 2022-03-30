@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from 'components/common/Button';
 import Trapezoid from 'components/users/TrapezoidBox';
 import styled from 'styled-components';
 import SignTemplate from 'components/users/SignTemplate';
+
 function SignUp() {
+  const [input, setInput] = useState({
+    email: '',
+    nickname: '',
+    password: '',
+    passwordConfirm: '',
+  });
+  const onSubmit = () => {
+    alert(JSON.stringify(input));
+  };
+
   return (
     <SignTemplate>
-      <Form action="" className="form" autoComplete="off">
+      <Trapezoid text={'SIGN UP'} />
+      <Form className="form">
         <FormGrid>
           <FormItem>
+            {/* 자동완성 무효화 */}
+            <input type="text" style={{ width: 0, height: 0, border: 0 }} />
+            <input type="password" style={{ width: 0, height: 0, border: 0 }} />
             <Label htmlFor="inputEmail" className="form__label">
               email
             </Label>
             <InputText
+              value={input.email}
+              onChange={e => setInput({ ...input, email: e.target.value })}
               type="text"
               id="inputEmail"
               className="form__input"
@@ -26,6 +43,8 @@ function SignUp() {
               nickname
             </Label>
             <InputText
+              value={input.nickname}
+              onChange={e => setInput({ ...input, nickname: e.target.value })}
               type="text"
               name="nickname"
               id="inputNickname"
@@ -39,6 +58,8 @@ function SignUp() {
               password
             </Label>
             <InputText
+              value={input.password}
+              onChange={e => setInput({ ...input, password: e.target.value })}
               type="password"
               id="inputPwd"
               name="password"
@@ -52,6 +73,10 @@ function SignUp() {
               password Confirm
             </Label>
             <InputText
+              value={input.passwordConfirm}
+              onChange={e =>
+                setInput({ ...input, passwordConfirm: e.target.value })
+              }
               type="password"
               name="passwordConfirm"
               id="inputPwdConfirm"
@@ -70,21 +95,26 @@ function SignUp() {
           />
           <label htmlFor="clauseCheck">약관 동의</label>
         </ClauseContainer>
-        <Button value="Login" className="btn btn--grey">
-          회원가입
-        </Button>
+        <div onClick={onSubmit}>
+          <Button value="Login" className="btn btn--grey">
+            회원가입
+          </Button>
+        </div>
       </Form>
-      <Trapezoid text={'SIGN UP'} />
     </SignTemplate>
   );
 }
 const ClauseCheck = styled.input`
   cursor: pointer;
+  margin: 0 5px 0 0;
 `;
 const ClauseContainer = styled.div`
   margin: 20px 0;
+  font-family: NanumSquareR;
+  display: flex;
+  align-items: center;
 `;
-const Form = styled.form`
+const Form = styled.div`
   z-index: 10;
 `;
 const FormGrid = styled.div`
