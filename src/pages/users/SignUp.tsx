@@ -116,15 +116,22 @@ const ClauseContainer = styled.div`
 `;
 const Form = styled.div`
   z-index: 10;
+  padding: 0 15px;
 `;
 const FormGrid = styled.div`
+  width: 100%;
   display: grid;
   align-content: center;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
+  margin-top: 100px;
+  @media all and (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    margin-top: 150px;
+  }
 `;
 const FormItem = styled.div``;
-const SubText = styled.div``;
 const Label = styled.label`
   font-size: 24px;
   cursor: pointer;

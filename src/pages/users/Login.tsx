@@ -141,6 +141,7 @@ const SocialContainerText = styled.div`
 const LoginContainer = styled.div`
   z-index: 10;
   width: 300px;
+  margin-top: 100px;
   .form {
     display: flex;
     flex-direction: column;
