@@ -3,13 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from 'react-icons/io';
 import { BsPersonCircle } from 'react-icons/bs';
-type messageProps = {
-  item: {
-    id: number;
-    content: string;
-    date: string | Date;
-  };
-};
+import NotificationList from '../notification/NotificationModal';
+
 const Header = () => {
   const [user, setUser] = useState(123);
   const [notificationOpen, SetnotificationOpen] = useState(false);
@@ -40,17 +35,10 @@ const Header = () => {
           <Link to="/">Plming</Link>
         </Title>
         <IconContainer>
-          <Notification onClick={handleNofiticationClick}>
-            <IoIosNotifications />
+          <Notification>
+            <IoIosNotifications onClick={handleNofiticationClick} />
             <NotificationModal open={notificationOpen}>
-              <NotificationList>
-                {messageDummyData.map(item => (
-                  <NotificationItem
-                    key={item.id}
-                    item={item}
-                  ></NotificationItem>
-                ))}
-              </NotificationList>
+              <NotificationList data={messageDummyData} />
             </NotificationModal>
           </Notification>
           <Link to={`/mypage/${user}`}>
@@ -62,31 +50,9 @@ const Header = () => {
     </>
   );
 };
-const NotificationItem = ({ item }: messageProps) => {
-  return (
-    <Item>
-      <Content>{item.content}</Content>
-      <Date>{item.date}</Date>
-    </Item>
-  );
-};
+
 export default Header;
-const Item = styled.li`
-  padding: 15px 0;
-  border-bottom: 0.5px solid #ababab;
-  &:last-child {
-    border: none;
-  }
-`;
-const NotificationList = styled.ul``;
-const Content = styled.div`
-  font-weight: 500;
-`;
-const Date = styled.div`
-  margin-top: 10px;
-  color: #505050;
-  font-size: 12px;
-`;
+
 const NotificationModal = styled.div<{ open: boolean }>`
   position: absolute;
   background-color: #fff;
@@ -97,8 +63,9 @@ const NotificationModal = styled.div<{ open: boolean }>`
   height: fit-content;
   color: #242424;
   font-size: 18px;
-  transition: opacity 0.3s;
-  display: ${props => (props.open ? 'block' : 'none')};
+  transition: opacity 0.5s;
+  opacity: ${props => (props.open ? '1' : '0')};
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
 `;
 const Notification = styled.div`
   cursor: pointer;
@@ -120,11 +87,10 @@ const Wrapper = styled.div`
   width: 100%;
   height: 75px; //들어갈 내용에 따라 변동 가능
   display: none;
-    font-family: NanumSquareR;
+  font-family: NanumSquareR;
   align-items: center;
   padding: 0 20px;
   justify-content: space-between;
-}
 
   @media all and (max-width: 900px) {
     /* display: block; //or flex */
