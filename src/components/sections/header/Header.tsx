@@ -3,9 +3,36 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from 'react-icons/io';
 import { BsPersonCircle } from 'react-icons/bs';
-
+type messageProps = {
+  item: {
+    id: number;
+    content: string;
+    date: string | Date;
+  };
+};
 const Header = () => {
   const [user, setUser] = useState(123);
+  const [notificationOpen, SetnotificationOpen] = useState(false);
+  const handleNofiticationClick = () => {
+    SetnotificationOpen(!notificationOpen);
+  };
+  const messageDummyData = [
+    {
+      id: 10,
+      content: '000에 댓글이 달렸습니다',
+      date: '2022.03.30',
+    },
+    {
+      id: 11,
+      date: '2022.03.30',
+      content: '000 스터디에 가입이 되었습니다',
+    },
+    {
+      id: 12,
+      date: '2022.03.30',
+      content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
+    },
+  ];
   return (
     <>
       <Wrapper>
@@ -13,7 +40,19 @@ const Header = () => {
           <Link to="/">Plming</Link>
         </Title>
         <IconContainer>
-          <Notification />
+          <Notification onClick={handleNofiticationClick}>
+            <IoIosNotifications />
+            <NotificationModal open={notificationOpen}>
+              <NotificationList>
+                {messageDummyData.map(item => (
+                  <NotificationItem
+                    key={item.id}
+                    item={item}
+                  ></NotificationItem>
+                ))}
+              </NotificationList>
+            </NotificationModal>
+          </Notification>
           <Link to={`/mypage/${user}`}>
             <BsPersonCircle />
           </Link>
@@ -23,10 +62,47 @@ const Header = () => {
     </>
   );
 };
-
+const NotificationItem = ({ item }: messageProps) => {
+  return (
+    <Item>
+      <Content>{item.content}</Content>
+      <Date>{item.date}</Date>
+    </Item>
+  );
+};
 export default Header;
-const Notification = styled(IoIosNotifications)`
+const Item = styled.li`
+  padding: 15px 0;
+  border-bottom: 0.5px solid #ababab;
+  &:last-child {
+    border: none;
+  }
+`;
+const NotificationList = styled.ul``;
+const Content = styled.div`
+  font-weight: 500;
+`;
+const Date = styled.div`
+  margin-top: 10px;
+  color: #505050;
+  font-size: 12px;
+`;
+const NotificationModal = styled.div<{ open: boolean }>`
+  position: absolute;
+  background-color: #fff;
+  width: 300px;
+  border-radius: 5px;
+  padding: 15px;
+  right: 0;
+  height: fit-content;
+  color: #242424;
+  font-size: 18px;
+  transition: opacity 0.3s;
+  opacity: ${props => (props.open ? 1 : 0)};
+`;
+const Notification = styled.div`
   cursor: pointer;
+  position: relative;
 `;
 const IconContainer = styled.div`
   color: #fff;
@@ -44,6 +120,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 75px; //들어갈 내용에 따라 변동 가능
   display: none;
+    font-family: NanumSquareR;
   align-items: center;
   padding: 0 20px;
   justify-content: space-between;
