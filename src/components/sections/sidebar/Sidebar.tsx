@@ -5,10 +5,30 @@ import { BsFillCaretLeftFill, BsPersonCircle } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
 import styled, { css } from 'styled-components';
 import testProfileImage from 'assets/images/profile.png';
-
+import NotificationModal from '../notification/NotificationModal';
+const messageDummyData = [
+  {
+    id: 10,
+    content: '000에 댓글이 달렸습니다',
+    date: '2022.03.30',
+  },
+  {
+    id: 11,
+    date: '2022.03.30',
+    content: '000 스터디에 가입이 되었습니다',
+  },
+  {
+    id: 12,
+    date: '2022.03.30',
+    content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
+  },
+];
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
-
+  const [notificationOpen, SetnotificationOpen] = useState(false);
+  const handleNofiticationClick = () => {
+    SetnotificationOpen(!notificationOpen);
+  };
   return (
     <>
       <FakeSidebar open={open} />
@@ -37,10 +57,14 @@ const Sidebar = () => {
             <LinkText>message</LinkText>
           </LinkItem>
           <Item>
-            <LinkIcon>
+            <LinkIcon onClick={handleNofiticationClick}>
               <IoIosNotifications />
             </LinkIcon>
-            <LinkText>notification</LinkText>
+            <LinkText onClick={handleNofiticationClick}>notification</LinkText>
+            <Notification open={notificationOpen}>
+              알림
+              <NotificationModal data={messageDummyData}></NotificationModal>
+            </Notification>
           </Item>
           <LinkItem
             //logout 링크 추가 필요
@@ -58,6 +82,19 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+const Notification = styled.div<{ open: boolean }>`
+  position: absolute;
+  right: -280px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 15px;
+  z-index: 20;
+  background-color: #fff;
+  //animation
+  transition: opacity 0.5s;
+  pointer-events: none;
+  opacity: ${props => (props.open ? '1' : '0')};
+`;
 
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
@@ -153,9 +190,11 @@ const Wrapper = styled.div<{ open: boolean }>`
   font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
-  overflow: hidden;
-  transition: width 0.2s linear, padding 0.2s linear;
+  /* overflow: visible; */
+  overflow: ${props => (props.open ? 'visible' : 'hidden')};
 
+  transition: width 0.2s linear, padding 0.2s linear;
+  z-index: 10;
   @media all and (max-width: 1510px) {
     width: ${props => (props.open ? '215px' : '0px')};
   }
@@ -201,10 +240,12 @@ const Item = styled.div`
 `;
 const LinkText = styled.div`
   width: 100px;
+  cursor: pointer;
   text-align: left;
 `;
 const LinkIcon = styled.div`
   width: 40px;
   position: relative;
   top: 2px;
+  cursor: pointer;
 `;
