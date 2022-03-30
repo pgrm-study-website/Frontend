@@ -50,13 +50,13 @@ const Login = () => {
           />
 
           <Button value="Login" className="btn--grey">
-            login
+            로그인
           </Button>
         </form>
-        <LinkConatiner>
+        <LinkContainer>
           <Link to="/pwd_find">비밀번호 찾기</Link>
           <Link to="/signup">회원가입</Link>
-        </LinkConatiner>
+        </LinkContainer>
         <SocialContainer className="social">
           <Social className="social__icons">
             <img src={require('assets/images/google-icon.png')} alt="" />
@@ -67,6 +67,7 @@ const Login = () => {
     </SignTemplate>
   );
 };
+
 const Social = styled.div`
   cursor: pointer;
   img {
@@ -76,13 +77,15 @@ const Social = styled.div`
     }
   }
 `;
-const LinkConatiner = styled.div`
+const LinkContainer = styled.div`
   padding: 30px 0;
+  font-family: NanumSquareR;
   display: flex;
   justify-content: space-around;
-`;
-const LinkItem = styled.div`
-  text-align: center;
+  a {
+    width: 100px;
+    text-align: center;
+  }
 `;
 const SocialContainer = styled.div`
   .social__title {
@@ -94,6 +97,8 @@ const SocialContainer = styled.div`
 
     img {
       width: 50px;
+      background-color: #ffffff;
+      border-radius: 50px;
     }
   }
 `;
