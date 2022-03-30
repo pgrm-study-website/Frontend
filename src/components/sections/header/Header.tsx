@@ -1,24 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { IoIosNotifications } from 'react-icons/io';
+import { BsPersonCircle } from 'react-icons/bs';
 
 const Header = () => {
+  const [user, setUser] = useState(123);
   return (
     <>
-      <Wrapper>Header</Wrapper>
+      <Wrapper>
+        <Title>
+          <Link to="/">Plming</Link>
+        </Title>
+        <IconContainer>
+          <Notification />
+          <Link to={`/mypage/${user}`}>
+            <BsPersonCircle />
+          </Link>
+        </IconContainer>
+      </Wrapper>
       <FakeHeader />
     </>
   );
 };
 
 export default Header;
-
+const Notification = styled(IoIosNotifications)`
+  cursor: pointer;
+`;
+const IconContainer = styled.div`
+  color: #fff;
+  font-size: 30px;
+  display: flex;
+  gap: 20px;
+`;
+const Title = styled.div`
+  font-family: 'Bazzi';
+  font-size: 50px;
+  color: #fff;
+`;
 const Wrapper = styled.div`
-  background-color: #bde8ff; //임시
+  background-color: #4cbbc2; //임시
   width: 100%;
   height: 75px; //들어갈 내용에 따라 변동 가능
   display: none;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
   @media all and (max-width: 900px) {
-    display: block; //or flex
+    /* display: block; //or flex */
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
