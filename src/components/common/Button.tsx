@@ -15,15 +15,20 @@ function Button({ type, value, children, className }: ButtonProps) {
 }
 const ButtonBox = styled.button`
   border: none;
-  padding: 10px;
+  padding: 12px 10px 10px 8px;
   font-size: 20px;
   width: 100%;
-  /* height: 40px; */
+  cursor: pointer;
+  font-family: NanumSquareR;
 
   &.btn--grey {
     background-color: #848484; //임의 지정
     color: #fff;
     border-radius: 5px;
+    &:hover {
+      transition: all 0.3s;
+      filter: brightness(80%);
+    }
   }
 `;
 

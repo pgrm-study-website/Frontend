@@ -146,7 +146,7 @@ const Wrapper = styled.div`
   min-height: 100vh;
   margin-left: max(0px, calc(50% - 750px));
   display: flex;
-  overflow-x: hidden;
+  align-items: center;
 `;
 const ContentWrapper = styled.div`
   width: 100%;
