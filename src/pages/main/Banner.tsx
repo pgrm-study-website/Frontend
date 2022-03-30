@@ -14,7 +14,7 @@ export default Banner;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 270px;
+  min-height: 270px;
   display: flex;
   justify-content: center;
   align-items: center;

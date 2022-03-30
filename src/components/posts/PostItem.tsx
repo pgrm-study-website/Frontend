@@ -75,8 +75,8 @@ const Wrapper = styled(Link)<{ status: number }>`
     min-width: calc(calc(100% - calc(10px * 2)) / 2);
   }
   @media all and (max-width: 510px) {
-    width: 100%;
-    min-width: 100%;
+    width: calc(100% - 10px);
+    min-width: calc(100% - 10px);
   }
 `;
 const FirstWrapper = styled.div`
