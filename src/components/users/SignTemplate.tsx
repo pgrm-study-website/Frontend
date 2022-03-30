@@ -15,5 +15,11 @@ const Template = styled.div`
   color: #484848;
   background-color: #eee;
   font-family: 'SuncheonR';
+
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;
 export default SignTemplate;
