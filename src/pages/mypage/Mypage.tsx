@@ -200,6 +200,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f9f9f9;
 `;
 const ProfileImage = styled.img`
   width: 160px;
