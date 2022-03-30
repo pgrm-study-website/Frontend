@@ -30,10 +30,7 @@ const Sidebar = () => {
             </LinkIcon>
             <LinkText>mypage</LinkText>
           </LinkItem>
-          <LinkItem
-            //logout 링크 추가 필요
-            to="/message"
-          >
+          <LinkItem to="/message">
             <LinkIcon>
               <AiOutlineMessage />
             </LinkIcon>

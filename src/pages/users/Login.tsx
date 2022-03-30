@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import styled from 'styled-components';
 
 import Button from 'components/common/Button';
