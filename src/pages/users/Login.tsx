@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import GoogleLogin from 'react-google-login';
+import GoogleLogin from 'react-google-login';
 import styled from 'styled-components';
 
 import Button from 'components/common/Button';
@@ -18,6 +18,14 @@ const Login = () => {
     console.log('err', res);
   };
   const onSubmit = () => {
+    if (input.email === '') {
+      alert('이메일을 입력해 주세요.');
+      return;
+    }
+    if (input.password === '') {
+      alert('비밀번호를 입력해 주세요.');
+      return;
+    }
     alert(JSON.stringify(input));
   };
 
@@ -25,8 +33,7 @@ const Login = () => {
     <SignTemplate>
       <Trapezoid text={'LOGIN'} />
 
-      {/* 미구현 
-      <GoogleLogin
+      {/* <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
         onSuccess={onSuccess}
         onFailure={onFailure}
@@ -105,6 +112,7 @@ const LoginContainer = styled.div`
 `;
 const Label = styled.label`
   font-size: 24px;
+  margin-top: 5px;
 `;
 const InputText = styled.input`
   border: none;
@@ -115,7 +123,7 @@ const InputText = styled.input`
   background-color: #e3e3e3;
 `;
 const LinkContainer = styled.div`
-  padding: 20px 0 30px 0;
+  padding: 10px 0 30px 0;
   font-family: NanumSquareR;
   display: flex;
   justify-content: space-around;
@@ -134,6 +142,7 @@ const SocialContainerText = styled.div`
   border-bottom: 1px solid grey;
 `;
 const SocialContainer = styled.div`
+  margin-top: -10px;
   .social__icons {
     display: flex;
     justify-content: center;
