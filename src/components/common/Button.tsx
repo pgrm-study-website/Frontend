@@ -15,10 +15,11 @@ function Button({ type, value, children, className }: ButtonProps) {
 }
 const ButtonBox = styled.button`
   border: none;
-  padding: 10px;
+  padding: 12px 10px 10px 8px;
   font-size: 20px;
   width: 100%;
   cursor: pointer;
+  font-family: NanumSquareR;
 
   &.btn--grey {
     background-color: #848484; //임의 지정
