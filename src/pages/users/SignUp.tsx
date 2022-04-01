@@ -1,14 +1,41 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { AiOutlineClose } from 'react-icons/ai';
 import { RootState } from 'modules';
-
+import { checkAuthEmail, sendAuthEmail, signup } from 'modules/users';
 import styled from 'styled-components';
 
-import Button from 'components/common/Button';
-import Trapezoid from 'components/users/TrapezoidBox';
 import SignTemplate from 'components/users/SignTemplate';
-const initialState: { [key: string]: any } = {
+import Trapezoid from 'components/users/TrapezoidBox';
+import Button from 'components/common/Button';
+import { LoadingBox } from 'components/common/Loading';
+
+type stateType = {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirm: string;
+  emailWarning: {
+    content: string;
+    color: string;
+  };
+  nicknameWarning: {
+    content: string;
+    color: string;
+  };
+  passwordWarning: {
+    content: string;
+    color: string;
+  };
+  passwordConfirmWarning: {
+    content: string;
+    color: string;
+  };
+  checkClause: boolean;
+  authEmailCode: string;
+};
+const initialState: stateType = {
   email: '',
   nickname: '',
   password: '',
@@ -29,8 +56,10 @@ const initialState: { [key: string]: any } = {
     content: '',
     color: '#686868',
   },
+  checkClause: false,
+  authEmailCode: '',
 };
-const reducer = (state: { [key: string]: any }, action: any) => {
+const reducer = (state: stateType, action: any) => {
   const actionName: string = action.name;
   let newValue: string = action.target.value;
   const newWarning = {
@@ -40,10 +69,6 @@ const reducer = (state: { [key: string]: any }, action: any) => {
 
   switch (actionName) {
     case 'email': {
-      const emailPattern = /[^a-zA-Z0-9@.]/g;
-      if (emailPattern.test(newValue)) {
-        newValue = newValue.replace(emailPattern, '');
-      }
       newValue = newValue.substring(0, 45);
       const emailRegex =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -74,7 +99,7 @@ const reducer = (state: { [key: string]: any }, action: any) => {
     case 'password': {
       const passwordPattern = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
       if (passwordPattern.test(newValue)) {
-        newWarning.content = '* 한/영 키를 확인해주세요.';
+        newWarning.content = '* 한글을 입력할 수 없습니다..';
         newValue = newValue.replace(passwordPattern, '');
       } else {
         newWarning.content = '* 8 ~ 16자 영문 + 숫자 + 기호';
@@ -114,8 +139,8 @@ const reducer = (state: { [key: string]: any }, action: any) => {
       break;
     }
     case 'passwordConfirm': {
-      const passwordConfirmPattern = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
-      newValue = newValue.replace(passwordConfirmPattern, '');
+      const passwordPattern = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+      newValue = newValue.replace(passwordPattern, '');
       newValue = newValue.substring(0, 16);
       if (newValue.length === 0) {
         newWarning.content = '';
@@ -129,9 +154,14 @@ const reducer = (state: { [key: string]: any }, action: any) => {
       }
       break;
     }
+    case 'checkClause': {
+      return { ...state, checkClause: !state.checkClause };
+      break;
+    }
     default:
       break;
   }
+
   return {
     ...state,
     [actionName]: newValue,
@@ -142,13 +172,47 @@ const reducer = (state: { [key: string]: any }, action: any) => {
 function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [state, stateDispatch] = useReducer(reducer, initialState);
-  const user = useSelector((state: RootState) => state.users.user);
-  const loading = useSelector(
-    (state: RootState) => state.loading['users/REGISTER'],
-  );
 
-  const onSubmit = () => {
+  const { user, authEmail, loading } = useSelector(
+    ({ users, loading }: RootState) => ({
+      user: users.user,
+      authEmail: users.authEmail,
+      loading: loading['users/SIGNUP'],
+    }),
+  );
+  const [state, stateDispatch] = useReducer(reducer, initialState);
+  const [fold, setFold] = useState(false);
+  const [popUp, setPopup] = useState(false);
+
+  useEffect(() => {
+    const htmlTitle = document.querySelector('title');
+    htmlTitle!.innerHTML = 'Plming - Signup';
+    if (user) {
+      navigate('/');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
+    }
+    if (authEmail) {
+      setPopup(false);
+      dispatch(
+        signup({
+          social: 0,
+          email: state.email,
+          nickname: state.nickname,
+          password: state.password,
+        }),
+      );
+    }
+
+    return () => {
+      htmlTitle!.innerHTML = 'Plming';
+    };
+  }, [navigate, dispatch, user, authEmail]);
+
+  const submit = () => {
     if (state.emailWarning.color !== '#009112') {
       alert('이메일을 확인해 주세요.');
       return;
@@ -161,127 +225,154 @@ function SignUp() {
     ) {
       alert('비밀번호를 확인해 주세요.');
       return;
+    } else if (!state.checkClause) {
+      alert('약관에 동의해 주세요.');
+      return;
     }
-    alert(JSON.stringify(state));
+    stateDispatch({ name: 'authEmailCode', target: { value: '' } });
+    setPopup(true);
+    dispatch(sendAuthEmail({ email: state.email }));
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-      try {
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            email: user.email,
-            nickname: user.nickname,
-            image: user.image,
-          }),
-        );
-      } catch (e) {
-        console.log('localStorage is not working');
-      }
+  const sendAgain = () => {
+    dispatch(sendAuthEmail({ email: state.email }));
+    alert(`${state.email}로 인증 코드를 다시 보냈습니다.`);
+  };
+  const checkAuthEmailCode = () => {
+    if (state.authEmailCode.length !== 6) {
+      alert('6자리 코드를 입력해주세요.');
+      return;
     }
-  }, [navigate, user]);
+    dispatch(checkAuthEmail({ email: state.email, code: state.authEmailCode }));
+  };
 
   return (
     <SignTemplate>
       <Trapezoid text={'SIGN UP'} />
-      <SignupContainer>
-        <FormGrid>
-          <div>
-            {/* 자동완성 무효화 */}
-            <input type="text" style={{ width: 0, height: 0, border: 0 }} />
-            <input type="password" style={{ width: 0, height: 0, border: 0 }} />
-            <Label htmlFor="inputEmail" className="form__label">
-              email
-            </Label>
-            <InputText
-              value={state.email}
-              onChange={e => stateDispatch({ ...e, name: 'email' })}
-              type="text"
-              id="inputEmail"
-              className="form__input"
-              name="email"
-              placeholder="input email"
-              required
+      {loading ? (
+        <SignupContainer>
+          <LoadingBox r="100px" />
+        </SignupContainer>
+      ) : (
+        <SignupContainer>
+          <FormGrid>
+            <ColumnBox>
+              <InputItem>
+                {/* 자동완성 무효화 */}
+                <input type="text" style={{ width: 0, height: 0, border: 0 }} />
+                <input
+                  type="password"
+                  style={{ width: 0, height: 0, border: 0 }}
+                />
+                <Label htmlFor="inputEmail">Email</Label>
+                <InputText
+                  value={state.email}
+                  onChange={e => stateDispatch({ ...e, name: 'email' })}
+                  type="text"
+                  id="inputEmail"
+                  placeholder="Input Email"
+                />
+                <Warning color={state.emailWarning.color}>
+                  {state.emailWarning.content}
+                </Warning>
+              </InputItem>
+              <InputItem>
+                <Label htmlFor="inputNickname">Nickname</Label>
+                <InputText
+                  value={state.nickname}
+                  onChange={e => stateDispatch({ ...e, name: 'nickname' })}
+                  type="text"
+                  id="inputNickname"
+                  placeholder="Input Nickname"
+                />
+                <Warning color={state.nicknameWarning.color}>
+                  {state.nicknameWarning.content}
+                </Warning>
+              </InputItem>
+            </ColumnBox>
+            <ColumnBox>
+              <InputItem>
+                <Label htmlFor="inputPwd">Password</Label>
+                <InputText
+                  value={state.password}
+                  onChange={e => stateDispatch({ ...e, name: 'password' })}
+                  type="password"
+                  id="inputPwd"
+                  placeholder="Input Password"
+                />
+                <Warning color={state.passwordWarning.color}>
+                  {state.passwordWarning.content}
+                </Warning>
+              </InputItem>
+              <InputItem>
+                <Label htmlFor="inputPwdConfirm">Password Confirm</Label>
+                <InputText
+                  value={state.passwordConfirm}
+                  onChange={e =>
+                    stateDispatch({ ...e, name: 'passwordConfirm' })
+                  }
+                  type="password"
+                  id="inputPwdConfirm"
+                  placeholder="Password Confirm"
+                />
+                <Warning color={state.passwordConfirmWarning.color}>
+                  {state.passwordConfirmWarning.content}
+                </Warning>
+              </InputItem>
+            </ColumnBox>
+          </FormGrid>
+          <ClauseContainer>
+            <ClauseCheck
+              checked={state.checkClause}
+              onChange={e => stateDispatch({ ...e, name: 'checkClause' })}
+              type="checkbox"
+              id="clauseCheck"
             />
-            <Warning color={state.emailWarning.color}>
-              {state.emailWarning.content}
-            </Warning>
+            <label htmlFor="clauseCheck">약관 동의</label>
+            <ClauseFoldText onClick={() => setFold(!fold)}>
+              {fold ? '(약관 접기)' : '(약관 보기)'}
+            </ClauseFoldText>
+          </ClauseContainer>
+          {fold && (
+            <ClauseContentWrapper>
+              {
+                'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.'
+              }
+            </ClauseContentWrapper>
+          )}
+          <div
+            onClick={submit}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+          >
+            <Button value="Login" className="btn btn--grey">
+              회원가입
+            </Button>
           </div>
-          <div>
-            <Label htmlFor="inputNickname" className="form__label">
-              nickname
-            </Label>
-            <InputText
-              value={state.nickname}
-              onChange={e => stateDispatch({ ...e, name: 'nickname' })}
-              type="text"
-              name="nickname"
-              id="inputNickname"
-              className="form__input"
-              placeholder="input nickname"
-              required
+        </SignupContainer>
+      )}
+      {popUp && (
+        <AuthEmailBackground>
+          <AuthEmailWrapper>
+            <CloseIconWrapper>
+              <AiOutlineClose onClick={() => setPopup(false)} />
+            </CloseIconWrapper>
+            <AuthEmailMessage>
+              {`${state.email}로 인증 코드를 보냈습니다.`}
+            </AuthEmailMessage>
+            <AuthEmailInput
+              value={state.authEmailCode}
+              onChange={e => stateDispatch({ ...e, name: 'authEmailCode' })}
             />
-            <Warning color={state.nicknameWarning.color}>
-              {state.nicknameWarning.content}
-            </Warning>
-          </div>
-          <div>
-            <Label htmlFor="inputPwd" className="form__label">
-              password
-            </Label>
-            <InputText
-              value={state.password}
-              onChange={e => stateDispatch({ ...e, name: 'password' })}
-              type="password"
-              id="inputPwd"
-              name="password"
-              className="form__input"
-              placeholder="input password"
-              required
-            />
-            <Warning color={state.passwordWarning.color}>
-              {state.passwordWarning.content}
-            </Warning>
-          </div>
-          <div>
-            <Label htmlFor="inputPwdConfirm" className="form__label">
-              password Confirm
-            </Label>
-            <InputText
-              value={state.passwordConfirm}
-              onChange={e => stateDispatch({ ...e, name: 'passwordConfirm' })}
-              type="password"
-              name="passwordConfirm"
-              id="inputPwdConfirm"
-              className="form__input"
-              placeholder="input password"
-              required
-            />
-            <Warning color={state.passwordConfirmWarning.color}>
-              {state.passwordConfirmWarning.content}
-            </Warning>
-          </div>
-        </FormGrid>
-        <ClauseContainer>
-          <ClauseCheck
-            type="checkbox"
-            name="clauseCheck"
-            id="clauseCheck"
-            required
-          />
-          <label htmlFor="clauseCheck">약관 동의</label>
-        </ClauseContainer>
-        <div
-          onClick={onSubmit}
-          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-        >
-          <Button value="Login" className="btn btn--grey">
-            회원가입
-          </Button>
-        </div>
-      </SignupContainer>
+            <AuthEmailButtonWrapper>
+              <AuthEmailSendAgain onClick={sendAgain}>
+                재전송
+              </AuthEmailSendAgain>
+              <AuthEmailSignup onClick={checkAuthEmailCode}>
+                확인
+              </AuthEmailSignup>
+            </AuthEmailButtonWrapper>
+          </AuthEmailWrapper>
+        </AuthEmailBackground>
+      )}
     </SignTemplate>
   );
 }
@@ -297,12 +388,11 @@ const SignupContainer = styled.div`
   @media screen and (max-width: 768px) {
     min-height: calc(100vh - 200px);
   }
-  padding: 30px 20px 50px 20px;
+  padding: 40px 20px 80px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   .btn--grey {
     margin-top: 20px;
     width: 100%;
@@ -312,7 +402,6 @@ const SignupContainer = styled.div`
 const FormGrid = styled.div`
   width: 100%;
   display: grid;
-  align-content: center;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   @media all and (max-width: 900px) {
@@ -322,9 +411,17 @@ const FormGrid = styled.div`
     gap: 20px;
   }
 `;
+const ColumnBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 const Label = styled.label`
   font-size: 24px;
-  cursor: pointer;
+`;
+const InputItem = styled.div`
+  height: 100px;
 `;
 const InputText = styled.input`
   border: none;
@@ -334,6 +431,13 @@ const InputText = styled.input`
   border-radius: 5px;
   background-color: #e3e3e3;
   margin: 5px 0;
+`;
+const Warning = styled.div<{ color: string }>`
+  font-size: 15px;
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -1px;
+  margin-top: 2px;
+  color: ${props => props.color};
 `;
 const ClauseContainer = styled.div`
   margin: 20px 0;
@@ -346,12 +450,100 @@ const ClauseCheck = styled.input`
   cursor: pointer;
   margin: 0 5px 0 0;
 `;
-const Warning = styled.div<{ color: string }>`
-  font-size: 15px;
+const ClauseFoldText = styled.div`
+  font-size: 14px;
   font-family: 'Noto Sans KR', sans-serif;
-  letter-spacing: -1px;
-  margin-top: 2px;
-  color: ${props => props.color};
+  letter-spacing: -0.5px;
+  color: #646464;
+  margin-left: 7.5px;
+  cursor: pointer;
+`;
+const ClauseContentWrapper = styled.div`
+  width: 100%;
+  height: 300px;
+  background-color: #46464622;
+  word-break: break-all;
+  line-height: 24px;
+  padding: 10px;
+  overflow: auto;
+  margin-bottom: 25px;
+  animation: smoothAppear 0.2s ease-in-out 0s 1 normal forwards;
+  @keyframes smoothAppear {
+    from {
+      height: 0px;
+    }
+    to {
+      height: 200px;
+    }
+  }
+`;
+const AuthEmailBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000c1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+const AuthEmailWrapper = styled.div`
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+`;
+const CloseIconWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  svg {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }
+`;
+const AuthEmailMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-family: NanumSquareR;
+  line-height: 28px;
+`;
+const AuthEmailInput = styled.input`
+  width: 200px;
+  margin-top: 20px;
+  border: 0;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-size: 36px;
+`;
+const AuthEmailButtonWrapper = styled.div`
+  margin-top: 25px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  div {
+    cursor: pointer;
+  }
+`;
+const AuthEmailSendAgain = styled.div`
+  font-size: 16px;
+  letter-spacing: -0.5px;
+  color: #464646;
+  margin-right: 20px;
+`;
+const AuthEmailSignup = styled.div`
+  font-size: 20px;
 `;
 
 export default SignUp;

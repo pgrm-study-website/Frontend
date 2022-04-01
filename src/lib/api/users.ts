@@ -1,34 +1,88 @@
 import client from './client';
 
-export const register = (user: userInputType) =>
-  client.post('users/create/', user);
-export const login = ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) => client.post('users/login', { username, password });
+export const signup = (payload: signupRequestType) =>
+  client.post('users/', payload);
+export const login = (payload: loginRequestType) =>
+  client.post('users/login', payload);
 export const check = () => client.get('users/check');
 export const logout = () => client.get('users/logout');
 
-// user 관련 모든 정보
-export type userType = userSimpleType & {
-  introduce: string;
-  github: string;
-  social: number;
-};
+export const sendAuthEmail = (payload: sendAuthEmailRequestType) =>
+  client.post('users/email/send-code', payload);
+export const checkAuthEmail = (payload: checkAuthEmailRequestType) =>
+  client.post('users/email/verify-code', payload);
 
-// 회원가입할 때 입력하는 정보
-export type userInputType = {
-  email: string;
-  password: string;
-  nickname: string;
-};
+export const read = (payload: number) => client.get(`users/${payload}`);
+export const update = (payload: updateRequestType) =>
+  client.patch(`users/${payload.id}`, payload.data);
+export const remove = (payload: number) => client.get(`users/${payload}`);
 
-// user 관련 최소한의 정보
-export type userSimpleType = {
-  email: string;
+export const checkPassword = (payload: passwordRequsetType) =>
+  client.post(`users/${payload.id}/password-check`, payload.data);
+export const changePassword = (payload: passwordRequsetType) =>
+  client.patch(`users/${payload.id}/password`, payload.data);
+
+export type signupRequestType =
+  | {
+      social: number;
+      email: string;
+      nickname: string;
+      password: string;
+    }
+  | {
+      social: number;
+      code: string;
+    };
+
+export type loginRequestType =
+  | {
+      social: number;
+      email: string;
+      password: string;
+    }
+  | {
+      social: number;
+      code: string;
+    };
+
+export type simpleResponseType = {
+  id: number;
   nickname: string;
   image: string;
+};
+
+export type readResponseType = {
+  email: string | null;
+  nickname: string;
+  image: string;
+  introduce: string;
+  github: string;
+  tag: string[];
+};
+
+export type updateRequestType = {
+  id: number;
+  data: {
+    nickname?: string;
+    image?: string;
+    introduce?: string;
+    github?: string;
+    tag?: string[];
+  };
+};
+
+export type sendAuthEmailRequestType = {
+  email: string;
+};
+
+export type checkAuthEmailRequestType = {
+  email: string;
+  code: string;
+};
+
+export type passwordRequsetType = {
+  id: number;
+  data: {
+    password: string;
+  };
 };
