@@ -2,7 +2,56 @@ import React from 'react';
 import styled from 'styled-components';
 
 // type Props = {};
-
+const testData = [
+  {
+    id: 1,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 33333,
+    otherName: 'hey',
+    content: 'this is message',
+  },
+  {
+    id: 2,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 33313,
+    content: 'this is message',
+    otherName: 'hey2312',
+  },
+  {
+    id: 3,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 1232132,
+    content: 'this is message',
+    otherName: 'heyasdd',
+  },
+  {
+    id: 4,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 335734633,
+    content: 'this is message',
+    otherName: 'heasdy',
+  },
+  {
+    id: 5,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 333368543,
+    content: 'this is message',
+    otherName: 'heasddddddy',
+  },
+  {
+    id: 6,
+    userId: 123,
+    userName: 'sumi',
+    content: 'this is message',
+    otherId: 3377733,
+    otherName: 'hey name',
+  },
+];
 function Message() {
   return (
     <Wrapper>
@@ -10,20 +59,9 @@ function Message() {
         <Title>쪽지함</Title>
         <MessageList>
           <MessageItem className="select">ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
+          {testData.map((item, idx) => (
+            <MessageItem key={idx}>{item.otherName}</MessageItem>
+          ))}
         </MessageList>
       </MessageListContainer>
       <CurrentContent>
