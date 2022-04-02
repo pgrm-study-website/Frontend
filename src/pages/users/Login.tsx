@@ -1,22 +1,52 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import GoogleLogin from 'react-google-login';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'modules';
+import { login } from 'modules/users';
+import qs from 'qs';
 import styled from 'styled-components';
 
 import Button from 'components/common/Button';
 import SignTemplate from 'components/users/SignTemplate';
 import Trapezoid from 'components/users/TrapezoidBox';
+import { LoadingBox } from 'components/common/Loading';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const { social } = useParams();
+  const { code } = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const { user, loading } = useSelector(({ users, loading }: RootState) => ({
+    user: users.user,
+    loading: loading['users/LOGIN'],
+  }));
   const [input, setInput] = useState({ email: '', password: '' });
 
-  function onSuccess(res: any) {
-    console.dir(res);
-  }
-  const onFailure = (res: any) => {
-    alert('google login error');
-    console.log('err', res);
-  };
+  useEffect(() => {
+    const htmlTitle = document.querySelector('title');
+    htmlTitle!.innerHTML = 'Plming - Login';
+    if (user) {
+      navigate('/');
+      try {
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.log('localStorage is not working');
+      }
+    } else if (social) {
+      if (code) {
+        dispatch(login({ social: parseInt(social), code: code as string }));
+      } else {
+        navigate('/');
+      }
+    }
+
+    return () => {
+      htmlTitle!.innerHTML = 'Plming';
+    };
+  }, [navigate, dispatch, user, social, code]);
+
   const onSubmit = () => {
     if (input.email === '') {
       alert('이메일을 입력해 주세요.');
@@ -32,60 +62,82 @@ const Login = () => {
   return (
     <SignTemplate>
       <Trapezoid text={'LOGIN'} />
-
-      {/* <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        isSignedIn={true}
-        cookiePolicy={'single_host_origin'}
-      /> */}
-
-      <LoginContainer>
-        <Label htmlFor="inputEmail" className="form__label">
-          email
-        </Label>
-        <InputText
-          value={input.email}
-          onChange={e => setInput({ ...input, email: e.target.value })}
-          type="text"
-          id="inputEmail"
-          className="form__input"
-          placeholder="input email"
-        />
-        <Label htmlFor="inputPwd" className="form__label">
-          password
-        </Label>
-        <InputText
-          value={input.password}
-          onChange={e => setInput({ ...input, password: e.target.value })}
-          onKeyPress={e => {
-            if (e.key === 'Enter') {
-              onSubmit();
-            }
-          }}
-          type="password"
-          id="inputPwd"
-          className="form__input"
-          placeholder="input password"
-        />
-        <div onClick={onSubmit}>
-          <Button value="Login" className="btn--grey">
-            로그인
-          </Button>
-        </div>
-        <LinkContainer>
-          <Link to="/pwd_find">비밀번호 찾기</Link>
-          <Link to="/signup">회원가입</Link>
-        </LinkContainer>
-        <SocialContainerText>소셜 로그인</SocialContainerText>
-        <SocialContainer className="social">
-          <Social className="social__icons">
-            <img src={require('assets/images/google-icon.png')} alt="" />
-            <img src={require('assets/images/git-icon.png')} alt="" />
-          </Social>
-        </SocialContainer>
-      </LoginContainer>
+      <div style={{ display: 'none' }}>
+        <a href={process.env.REACT_APP_GOOGLE_LOGIN} id="Google_Login" />
+        <a href={process.env.REACT_APP_KAKAO_LOGIN} id="Kakao_Login" />
+        <a href={process.env.REACT_APP_GITHUB_LOGIN} id="Github_Login" />
+      </div>
+      {loading ? (
+        <LoginContainer>
+          <LoadingBox r="100px" />
+        </LoginContainer>
+      ) : social ? (
+        <LoginContainer>
+          <SocialLoginError>Error..</SocialLoginError>
+          <SocialLoginErrorButton to="/login">
+            Back to Login
+          </SocialLoginErrorButton>
+        </LoginContainer>
+      ) : (
+        <LoginContainer>
+          <Label htmlFor="inputEmail">Email</Label>
+          <InputText
+            value={input.email}
+            onChange={e => setInput({ ...input, email: e.target.value })}
+            type="text"
+            id="inputEmail"
+            placeholder="Input Email"
+          />
+          <Label htmlFor="inputPwd">Password</Label>
+          <InputText
+            value={input.password}
+            onChange={e => setInput({ ...input, password: e.target.value })}
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                onSubmit();
+              }
+            }}
+            type="password"
+            id="inputPwd"
+            placeholder="Input Password"
+          />
+          <div onClick={onSubmit}>
+            <Button value="Login" className="btn--grey">
+              로그인
+            </Button>
+          </div>
+          <LinkContainer>
+            <Link to="/pwd_find">비밀번호 찾기</Link>
+            <Link to="/signup">회원가입</Link>
+          </LinkContainer>
+          <SocialContainerText>소셜 로그인</SocialContainerText>
+          <SocialContainer className="social">
+            <Social className="social__icons">
+              <img
+                src={require('assets/images/google-icon.png')}
+                alt="google"
+                onClick={() => {
+                  document.getElementById('Google_Login')?.click();
+                }}
+              />
+              <img
+                src={require('assets/images/kakao-icon.png')}
+                alt="kakao"
+                onClick={() => {
+                  document.getElementById('Kakao_Login')?.click();
+                }}
+              />
+              <img
+                src={require('assets/images/git-icon.png')}
+                alt="git"
+                onClick={() => {
+                  document.getElementById('Github_Login')?.click();
+                }}
+              />
+            </Social>
+          </SocialContainer>
+        </LoginContainer>
+      )}
     </SignTemplate>
   );
 };
@@ -101,11 +153,11 @@ const LoginContainer = styled.div`
   @media screen and (max-width: 768px) {
     min-height: calc(100vh - 200px);
   }
-  padding: 30px 20px 50px 20px;
+  padding: 40px 20px 80px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
   .btn--grey {
     margin-top: 20px;
   }
@@ -147,7 +199,6 @@ const SocialContainer = styled.div`
     display: flex;
     justify-content: center;
     gap: 20px;
-
     img {
       width: 50px;
       background-color: #ffffff;
@@ -162,6 +213,24 @@ const Social = styled.div`
       transition: all 0.5s;
       filter: brightness(80%);
     }
+  }
+`;
+const SocialLoginError = styled.div`
+  text-align: center;
+  font-size: 60px;
+  font-family: 'Red Hat Mono', monospace;
+  font-weight: 700;
+  margin-bottom: 50px;
+`;
+const SocialLoginErrorButton = styled(Link)`
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Press Start 2P', cursive;
+  line-height: 36px;
+  color: #757575;
+  transition: color 0.15s linear;
+  &:hover {
+    color: #000000;
   }
 `;
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RootState } from 'modules';
@@ -348,6 +348,9 @@ function SignUp() {
               회원가입
             </Button>
           </div>
+          <SocialContainerText to="/login">
+            소셜 로그인하러 가기
+          </SocialContainerText>
         </SignupContainer>
       )}
       {popUp && (
@@ -546,5 +549,11 @@ const AuthEmailSendAgain = styled.div`
 const AuthEmailSignup = styled.div`
   font-size: 20px;
 `;
-
+const SocialContainerText = styled(Link)`
+  width: 100%;
+  text-align: center;
+  font-size: 17px;
+  font-family: NanumSquareR;
+  margin: 20px 0 10px 0;
+`;
 export default SignUp;
