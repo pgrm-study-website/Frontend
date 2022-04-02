@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineLogout, AiOutlineMessage } from 'react-icons/ai';
+import {
+  AiOutlineLogout,
+  AiOutlineMessage,
+  AiOutlineLogin,
+} from 'react-icons/ai';
 import { BsFillCaretLeftFill, BsPersonCircle } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
 import styled, { css } from 'styled-components';
@@ -73,6 +77,15 @@ const Sidebar = () => {
               <AiOutlineLogout />
             </LinkIcon>
             <LinkText>logout</LinkText>
+          </LinkItem>
+          <LinkItem
+            //임시
+            to="/login"
+          >
+            <LinkIcon>
+              <AiOutlineLogin />
+            </LinkIcon>
+            <LinkText>login</LinkText>
           </LinkItem>
         </LinkContainer>
       </Wrapper>
