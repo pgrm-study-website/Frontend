@@ -235,6 +235,7 @@ function SignUp() {
   };
   const sendAgain = () => {
     dispatch(sendAuthEmail({ email: state.email }));
+    stateDispatch({ name: 'authEmailCode', target: { value: '' } });
     alert(`${state.email}로 인증 코드를 다시 보냈습니다.`);
   };
   const checkAuthEmailCode = () => {
