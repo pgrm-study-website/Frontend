@@ -90,8 +90,10 @@ function Message() {
         <MessageOtherName>{sendTestData.userName}</MessageOtherName>
         <MessageList>
           {sendTestData.data.map((i, idx) => (
-            <MessageItem key={i.content}>
-              <div>{i.sendOther ? '받은 쪽지' : '보낸 쪽지'}</div>
+            <MessageItem key={i.content} className="border-bottom">
+              <SendUser sendOther={i.sendOther}>
+                {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
+              </SendUser>
               <div> {i.content}</div>
             </MessageItem>
           ))}
@@ -108,6 +110,11 @@ const MessageOtherName = styled.div`
   font-weight: 700;
   font-size: 20px;
 `;
+const SendUser = styled.div<{ sendOther: boolean }>`
+  color: ${props => (props.sendOther ? ' #ffc963' : '#4cbbc2')};
+  font-weight: 700;
+  padding: 10px 0;
+`;
 const MessageList = styled.ul`
   overflow-y: scroll;
   margin-top: 20px;
@@ -119,6 +126,9 @@ const MessageItem = styled.li`
   &.select {
     background-color: #4cbbc2;
     color: #fff;
+  }
+  &.border-bottom {
+    border-bottom: 1px solid #cecece;
   }
 `;
 const MessageListContainer = styled.div`
