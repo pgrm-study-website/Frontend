@@ -10,9 +10,9 @@ import Bazzi from 'assets/fonts/Bazzi.ttf';
 
 import Login from 'pages/users/Login';
 import SignUp from 'pages/users/SignUp';
-import Sidebar from 'components/sections/sidebar/Sidebar';
-import Header from 'components/sections/header/Header';
-import Footer from 'components/sections/footer/Footer';
+import Sidebar from 'components/sections/Sidebar';
+import Header from 'components/sections/Header';
+import Footer from 'components/sections/Footer';
 import Main from 'pages/main/Main';
 import List from 'pages/posts/list/List';
 import Write from 'pages/posts/write/Write';
@@ -108,6 +108,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="login" element={<Login />} />
+          <Route path="login/:social" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
           <Route
             path="*"
