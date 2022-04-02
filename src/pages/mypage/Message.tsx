@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // type Props = {};
@@ -74,19 +74,29 @@ const sendTestData = {
     },
   ],
 };
+
 function Message() {
+  const [select, setSelect] = useState<number>(-1);
+  const handleMessageClick = (idx: number) => {
+    setSelect(idx);
+  };
   return (
     <Wrapper>
       <MessageListContainer>
         <Title>쪽지함</Title>
         <MessageList>
-          <MessageItem className="select">ssssssssssss</MessageItem>
           {testData.map((item, idx) => (
-            <MessageItem key={idx}>{item.otherName}</MessageItem>
+            <MessageItem
+              key={idx}
+              onClick={() => handleMessageClick(idx)}
+              className={idx === select ? 'select' : ''}
+            >
+              {item.otherName}
+            </MessageItem>
           ))}
         </MessageList>
       </MessageListContainer>
-      <CurrentContent>
+      <CurrentContent current={testData[select]}>
         <MessageOtherName>{sendTestData.userName}</MessageOtherName>
         <MessageList>
           {sendTestData.data.map((i, idx) => (
@@ -123,11 +133,14 @@ const MessageList = styled.ul`
 const MessageItem = styled.li`
   width: 100%;
   height: 60px;
+  padding: 10px;
+  box-sizing: border-box;
   &.select {
     background-color: #4cbbc2;
     color: #fff;
   }
   &.border-bottom {
+    height: fit-content;
     border-bottom: 1px solid #cecece;
   }
 `;
@@ -139,7 +152,7 @@ const MessageListContainer = styled.div`
   padding: 20px;
   overflow-y: hidden;
 `;
-const CurrentContent = styled.div`
+const CurrentContent = styled.div<{ current?: any }>`
   width: calc(100% - 320px);
   margin-left: 20px;
   border: 1px solid #cecece;
