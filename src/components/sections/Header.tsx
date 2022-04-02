@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IoIosNotifications } from 'react-icons/io';
 import { BsPersonCircle } from 'react-icons/bs';
-import NotificationList from '../notification/NotificationModal';
+import NotificationList from './notification/NotificationModal';
 
 const Header = () => {
   const [user, setUser] = useState(123);

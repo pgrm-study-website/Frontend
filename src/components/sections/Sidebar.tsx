@@ -9,7 +9,8 @@ import { BsFillCaretLeftFill, BsPersonCircle } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
 import styled, { css } from 'styled-components';
 import testProfileImage from 'assets/images/profile.png';
-import NotificationModal from '../notification/NotificationModal';
+import NotificationModal from './notification/NotificationModal';
+
 const messageDummyData = [
   {
     id: 10,
@@ -27,6 +28,7 @@ const messageDummyData = [
     content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
   },
 ];
+
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [notificationOpen, SetnotificationOpen] = useState(false);
