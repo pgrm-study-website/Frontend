@@ -52,6 +52,28 @@ const testData = [
     otherName: 'hey name',
   },
 ];
+const sendTestData = {
+  userId: 33333,
+  userName: '익명',
+  data: [
+    {
+      sendOther: true,
+      content: 'Hello',
+    },
+    {
+      sendOther: false, //false 이면 자신
+      content: 'Hi ',
+    },
+    {
+      sendOther: true,
+      content: 'Hello2',
+    },
+    {
+      sendOther: false, //-1이면 자신
+      content: 'Hi 2',
+    },
+  ],
+};
 function Message() {
   return (
     <Wrapper>
@@ -65,15 +87,14 @@ function Message() {
         </MessageList>
       </MessageListContainer>
       <CurrentContent>
-        <MessageOtherName>sumi</MessageOtherName>
+        <MessageOtherName>{sendTestData.userName}</MessageOtherName>
         <MessageList>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
-          <MessageItem>ssssssssssss</MessageItem>
+          {sendTestData.data.map((i, idx) => (
+            <MessageItem key={i.content}>
+              <div>{i.sendOther ? '받은 쪽지' : '보낸 쪽지'}</div>
+              <div> {i.content}</div>
+            </MessageItem>
+          ))}
         </MessageList>
       </CurrentContent>
     </Wrapper>
@@ -90,11 +111,10 @@ const MessageOtherName = styled.div`
 const MessageList = styled.ul`
   overflow-y: scroll;
   margin-top: 20px;
-  height: 100%;
+  height: fit-content;
 `;
 const MessageItem = styled.li`
   width: 100%;
-  /* border: 1px solid grey; */
   height: 60px;
   &.select {
     background-color: #4cbbc2;
@@ -125,6 +145,7 @@ const Wrapper = styled.div`
   padding: 20px;
   display: flex;
   align-items: center;
+  font-family: SuncheonR;
   background-color: #f9f9f9;
 `;
 export default Message;
