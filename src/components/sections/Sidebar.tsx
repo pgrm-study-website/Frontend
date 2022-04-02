@@ -10,6 +10,8 @@ import { IoIosNotifications } from 'react-icons/io';
 import styled, { css } from 'styled-components';
 import testProfileImage from 'assets/images/profile.png';
 import NotificationModal from './notification/NotificationModal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'modules';
 
 const messageDummyData = [
   {
@@ -32,6 +34,9 @@ const messageDummyData = [
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [notificationOpen, SetnotificationOpen] = useState(false);
+
+  const user = useSelector((state: RootState) => state.users.user);
+
   const handleNofiticationClick = () => {
     SetnotificationOpen(!notificationOpen);
   };
@@ -42,54 +47,73 @@ const Sidebar = () => {
         <BsFillCaretLeftFill />
       </FoldIcon>
       <Wrapper open={open}>
-        <Title>
-          <Link to="/">Plming</Link>
-        </Title>
-        <Profile>
-          <img src={testProfileImage} alt="profile" />
-          <Name>seuha516</Name>
-        </Profile>
-        <LinkContainer>
-          <LinkItem to="/mypage/123">
-            <LinkIcon>
-              <BsPersonCircle />
-            </LinkIcon>
-            <LinkText>mypage</LinkText>
-          </LinkItem>
-          <LinkItem to="/message">
-            <LinkIcon>
-              <AiOutlineMessage />
-            </LinkIcon>
-            <LinkText>message</LinkText>
-          </LinkItem>
-          <Item>
-            <LinkIcon onClick={handleNofiticationClick}>
-              <IoIosNotifications />
-            </LinkIcon>
-            <LinkText onClick={handleNofiticationClick}>notification</LinkText>
-            <Notification open={notificationOpen}>
-              <NotificationModal data={messageDummyData}></NotificationModal>
-            </Notification>
-          </Item>
-          <LinkItem
-            //logout 링크 추가 필요
-            to="/"
-          >
-            <LinkIcon>
-              <AiOutlineLogout />
-            </LinkIcon>
-            <LinkText>logout</LinkText>
-          </LinkItem>
-          <LinkItem
-            //임시
-            to="/login"
-          >
-            <LinkIcon>
-              <AiOutlineLogin />
-            </LinkIcon>
-            <LinkText>login</LinkText>
-          </LinkItem>
-        </LinkContainer>
+        {user ? (
+          <>
+            <Title>
+              <Link to="/">Plming</Link>
+            </Title>
+            <Profile>
+              <img src={testProfileImage} alt="profile" />
+              <Name>seuha516</Name>
+            </Profile>
+            <LinkContainer>
+              <LinkItem to="/mypage/123">
+                <LinkIcon>
+                  <BsPersonCircle />
+                </LinkIcon>
+                <LinkText>mypage</LinkText>
+              </LinkItem>
+              <LinkItem to="/message">
+                <LinkIcon>
+                  <AiOutlineMessage />
+                </LinkIcon>
+                <LinkText>message</LinkText>
+              </LinkItem>
+              <Item>
+                <LinkIcon onClick={handleNofiticationClick}>
+                  <IoIosNotifications />
+                </LinkIcon>
+                <LinkText onClick={handleNofiticationClick}>
+                  notification
+                </LinkText>
+                <Notification open={notificationOpen}>
+                  <NotificationModal
+                    data={messageDummyData}
+                  ></NotificationModal>
+                </Notification>
+              </Item>
+              <LinkItem
+                //logout 링크 추가 필요
+                to="/"
+              >
+                <LinkIcon>
+                  <AiOutlineLogout />
+                </LinkIcon>
+                <LinkText>logout</LinkText>
+              </LinkItem>
+            </LinkContainer>
+          </>
+        ) : (
+          <>
+            <Title>
+              <Link to="/">Plming</Link>
+            </Title>
+            <LinkContainer>
+              <LinkItem to="/login">
+                <LinkIcon>
+                  <AiOutlineLogin />
+                </LinkIcon>
+                <LinkText>login</LinkText>
+              </LinkItem>
+              <LinkItem to="/signup">
+                <LinkIcon>
+                  <AiOutlineLogin />
+                </LinkIcon>
+                <LinkText>signup</LinkText>
+              </LinkItem>
+            </LinkContainer>
+          </>
+        )}
       </Wrapper>
     </>
   );
