@@ -70,16 +70,37 @@ const sendTestData = {
       content: 'Hello2',
     },
     {
-      sendOther: false, //-1이면 자신
+      sendOther: false, //false이면 자신
       content: 'Hi 2',
     },
   ],
 };
-
+type messageContentProps = {
+  userId: number;
+  userName: string;
+  data: Array<{
+    sendOther: boolean;
+    content: string;
+  }>;
+};
 function Message() {
   const [select, setSelect] = useState<number>(-1);
-  const handleMessageClick = (idx: number) => {
-    setSelect(idx);
+  const [sendMessageContent, setSendMessageContent] = useState<string>('');
+  const [messageContent, setMessageContent] =
+    useState<messageContentProps>(sendTestData);
+  const handleMessage = () => {
+    setMessageContent({
+      ...messageContent,
+      data: [
+        ...messageContent.data,
+        { sendOther: false, content: sendMessageContent },
+      ],
+    });
+
+    //TODO : DB에 있는 값도 변경 필요, 서버에 전송
+
+    //초기화
+    setSendMessageContent('');
   };
   return (
     <Wrapper>
@@ -89,7 +110,7 @@ function Message() {
           {testData.map((item, idx) => (
             <MessageItem
               key={idx}
-              onClick={() => handleMessageClick(idx)}
+              onClick={() => setSelect(idx)}
               className={idx === select ? 'select' : 'non-select'}
             >
               {item.otherName}
@@ -98,10 +119,10 @@ function Message() {
         </MessageList>
       </MessageListContainer>
       <CurrentContent current={testData[select]}>
-        <MessageOtherName>{sendTestData.userName}</MessageOtherName>
+        <MessageOtherName>{messageContent.userName}</MessageOtherName>
         <ContentContainer>
           <MessageList>
-            {sendTestData.data.map((i, idx) => (
+            {messageContent.data.map((i, idx) => (
               <MessageItem key={i.content} className="border-bottom">
                 <SendUser sendOther={i.sendOther}>
                   {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
@@ -111,8 +132,13 @@ function Message() {
             ))}
           </MessageList>
           <SendMessageContainer>
-            <textarea name="sendMessage" id="sendMessage"></textarea>
-            <button>
+            <textarea
+              name="sendMessage"
+              id="sendMessage"
+              value={sendMessageContent}
+              onChange={e => setSendMessageContent(e.target.value)}
+            ></textarea>
+            <button onClick={handleMessage}>
               <FiSend />
             </button>
           </SendMessageContainer>
