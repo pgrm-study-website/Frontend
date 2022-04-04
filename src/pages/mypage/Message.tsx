@@ -28,56 +28,103 @@ const testData = [
     content: 'this is message',
     otherName: 'heyasdd',
   },
+  // {
+  //   id: 4,
+  //   userId: 123,
+  //   userName: 'sumi',
+  //   otherId: 335734633,
+  //   content: 'this is message',
+  //   otherName: 'heasdy',
+  // },
+  // {
+  //   id: 5,
+  //   userId: 123,
+  //   userName: 'sumi',
+  //   otherId: 333368543,
+  //   content: 'this is message',
+  //   otherName: 'heasddddddy',
+  // },
+  // {
+  //   id: 6,
+  //   userId: 123,
+  //   userName: 'sumi',
+  //   content: 'this is message',
+  //   otherId: 3377733,
+  //   otherName: 'hey name',
+  // },
+];
+
+const sendTestDataList = [
   {
-    id: 4,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 335734633,
-    content: 'this is message',
-    otherName: 'heasdy',
+    id: 33333,
+    name: 'hey',
+    data: [
+      {
+        sendOther: true,
+        content: 'Hello',
+      },
+      {
+        sendOther: false, //false 이면 자신
+        content: 'Hi ',
+      },
+      {
+        sendOther: true,
+        content: 'Hello2',
+      },
+      {
+        sendOther: false, //false이면 자신
+        content: 'Hi 2',
+      },
+    ],
   },
   {
-    id: 5,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 333368543,
-    content: 'this is message',
-    otherName: 'heasddddddy',
+    id: 33313,
+    name: 'hey2312',
+    data: [
+      {
+        sendOther: true,
+        content: 'het hey2312hey2312hey2312',
+      },
+      {
+        sendOther: false, //false 이면 자신
+        content: 'Hi ',
+      },
+      {
+        sendOther: true,
+        content: 'Hello2',
+      },
+      {
+        sendOther: false, //false이면 자신
+        content: 'Hi 2',
+      },
+    ],
   },
   {
-    id: 6,
-    userId: 123,
-    userName: 'sumi',
-    content: 'this is message',
-    otherId: 3377733,
-    otherName: 'hey name',
+    id: 1232132,
+    name: 'heyasdd',
+    data: [
+      {
+        sendOther: true,
+        content: 'this is message',
+      },
+      {
+        sendOther: false, //false 이면 자신
+        content: 'Hi ',
+      },
+      {
+        sendOther: true,
+        content: 'Hello2',
+      },
+      {
+        sendOther: false, //false이면 자신
+        content: 'Hi 2',
+      },
+    ],
   },
 ];
-const sendTestData = {
-  userId: 33333,
-  userName: 'hey',
-  data: [
-    {
-      sendOther: true,
-      content: 'Hello',
-    },
-    {
-      sendOther: false, //false 이면 자신
-      content: 'Hi ',
-    },
-    {
-      sendOther: true,
-      content: 'Hello2',
-    },
-    {
-      sendOther: false, //false이면 자신
-      content: 'Hi 2',
-    },
-  ],
-};
 type messageContentProps = {
-  userId: number;
-  userName: string;
+  id: number;
+  name: string;
   data: Array<{
     sendOther: boolean;
     content: string;
@@ -86,8 +133,11 @@ type messageContentProps = {
 function Message() {
   const [select, setSelect] = useState<number>(-1);
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
-  const [messageContent, setMessageContent] =
-    useState<messageContentProps>(sendTestData);
+  const [messageContent, setMessageContent] = useState<messageContentProps>({
+    id: 0,
+    name: '',
+    data: [],
+  });
   const handleMessage = () => {
     setMessageContent({
       ...messageContent,
@@ -102,6 +152,10 @@ function Message() {
     //초기화
     setSendMessageContent('');
   };
+  const handleSelect = (name: string, idx: number) => {
+    setSelect(idx);
+    setMessageContent(sendTestDataList.filter(item => item.name === name)[0]);
+  };
   return (
     <Wrapper>
       <MessageListContainer>
@@ -110,7 +164,7 @@ function Message() {
           {testData.map((item, idx) => (
             <MessageItem
               key={idx}
-              onClick={() => setSelect(idx)}
+              onClick={() => handleSelect(item.otherName, idx)}
               className={idx === select ? 'select' : 'non-select'}
             >
               {item.otherName}
@@ -119,7 +173,7 @@ function Message() {
         </MessageList>
       </MessageListContainer>
       <CurrentContent current={testData[select]}>
-        <MessageOtherName>{messageContent.userName}</MessageOtherName>
+        <MessageOtherName>{messageContent.name}</MessageOtherName>
         <ContentContainer>
           <MessageList>
             {messageContent.data.map((i, idx) => (
