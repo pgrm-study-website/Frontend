@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { FiSend } from 'react-icons/fi';
 
 // type Props = {};
 const testData = [
@@ -54,7 +55,7 @@ const testData = [
 ];
 const sendTestData = {
   userId: 33333,
-  userName: '익명',
+  userName: 'hey',
   data: [
     {
       sendOther: true,
@@ -89,7 +90,7 @@ function Message() {
             <MessageItem
               key={idx}
               onClick={() => handleMessageClick(idx)}
-              className={idx === select ? 'select' : ''}
+              className={idx === select ? 'select' : 'non-select'}
             >
               {item.otherName}
             </MessageItem>
@@ -98,16 +99,24 @@ function Message() {
       </MessageListContainer>
       <CurrentContent current={testData[select]}>
         <MessageOtherName>{sendTestData.userName}</MessageOtherName>
-        <MessageList>
-          {sendTestData.data.map((i, idx) => (
-            <MessageItem key={i.content} className="border-bottom">
-              <SendUser sendOther={i.sendOther}>
-                {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
-              </SendUser>
-              <div> {i.content}</div>
-            </MessageItem>
-          ))}
-        </MessageList>
+        <ContentContainer>
+          <MessageList>
+            {sendTestData.data.map((i, idx) => (
+              <MessageItem key={i.content} className="border-bottom">
+                <SendUser sendOther={i.sendOther}>
+                  {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
+                </SendUser>
+                <div> {i.content}</div>
+              </MessageItem>
+            ))}
+          </MessageList>
+          <SendMessageContainer>
+            <textarea name="sendMessage" id="sendMessage"></textarea>
+            <button>
+              <FiSend />
+            </button>
+          </SendMessageContainer>
+        </ContentContainer>
       </CurrentContent>
     </Wrapper>
   );
@@ -115,6 +124,33 @@ function Message() {
 const Title = styled.div`
   font-size: 20px;
   font-weight: 700;
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 20px);
+`;
+const SendMessageContainer = styled.div`
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  textarea {
+    height: 100%;
+    border: 1px solid #cecece;
+    padding: 20px;
+    border-radius: 10px;
+    width: calc(100% - 50px);
+  }
+  button {
+    height: 100%;
+    border-radius: 10px;
+    background-color: #4cbbc2;
+    border: 1px solid #4cbbc2;
+    width: 40px;
+    color: #fff;
+    cursor: pointer;
+  }
 `;
 const MessageOtherName = styled.div`
   font-weight: 700;
@@ -143,6 +179,10 @@ const MessageItem = styled.li`
     height: fit-content;
     border-bottom: 1px solid #cecece;
   }
+  &.select,
+  &.non-select {
+    cursor: pointer;
+  }
 `;
 const MessageListContainer = styled.div`
   border: 1px solid #cecece;
@@ -150,9 +190,11 @@ const MessageListContainer = styled.div`
   height: 100%;
   width: 300px;
   padding: 20px;
+  background-color: #fff;
   overflow-y: hidden;
 `;
 const CurrentContent = styled.div<{ current?: any }>`
+  background-color: #fff;
   width: calc(100% - 320px);
   margin-left: 20px;
   border: 1px solid #cecece;
