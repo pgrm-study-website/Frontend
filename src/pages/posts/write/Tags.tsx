@@ -7,7 +7,7 @@ import { changeField } from 'modules/posts/writePosts';
 import PostTagA from 'components/posts/PostTagA';
 import PostTagB from 'components/posts/PostTagB';
 
-const Tags = ({ tags }: { tags: string[] }) => {
+const Tags = ({ tags }: { tags: number[] }) => {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState('');
@@ -15,7 +15,7 @@ const Tags = ({ tags }: { tags: string[] }) => {
     if (x === '') return [];
     const result: string[] = [];
     for (let i = 0; i < tagList.length; i++) {
-      const tagName = tagList[i];
+      const tagName = i;
       if (
         tagName.toLowerCase().includes(x.toLowerCase()) &&
         !tags.includes(tagName)
@@ -52,7 +52,7 @@ const Tags = ({ tags }: { tags: string[] }) => {
         <TagBox>
           {tags.map(i => (
             <TagAItemWrapper key={i} onClick={() => removeTag(i)}>
-              <PostTagA tag={i} />
+              <PostTagA tag={tagList[i]} />
             </TagAItemWrapper>
           ))}
         </TagBox>

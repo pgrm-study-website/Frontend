@@ -14,7 +14,8 @@ const REMOVE_FAILURE = 'readPosts/REMOVE_FAILURE';
 
 export const initRead = createAction(INIT_READ)();
 export const read = createAction(READ)<number>();
-export const readSuccess = createAction(READ_SUCCESS)<postsAPI.postType>();
+export const readSuccess =
+  createAction(READ_SUCCESS)<postsAPI.readResponseType>();
 export const readFailure = createAction(READ_FAILURE)<AxiosError>();
 export const remove = createAction(REMOVE)<number>();
 export const removeSuccess = createAction(REMOVE_SUCCESS)();
@@ -39,7 +40,7 @@ const actions = {
 };
 type readPostsAction = ActionType<typeof actions>;
 type readPostsState = {
-  post: postsAPI.postType | null;
+  post: postsAPI.readResponseType | null;
   error: AxiosError | null;
   remove: boolean | null;
 };

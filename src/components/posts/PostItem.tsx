@@ -9,7 +9,7 @@ import PostTagA from 'components/posts/PostTagA';
 
 const PostItem = ({ post }: { post: postListItemType }) => {
   return (
-    <Wrapper to={`/posts/${post.postId}`} status={post.status}>
+    <Wrapper to={`/posts/${post.id}`} status={post.status}>
       <FirstWrapper>
         <Name>{post.title}</Name>
         <PostCategory category={post.category} />
@@ -37,9 +37,9 @@ const PostItem = ({ post }: { post: postListItemType }) => {
 
 export default PostItem;
 
-const Wrapper = styled(Link)<{ status: number }>`
+const Wrapper = styled(Link)<{ status: string }>`
   ${props =>
-    props.status === 0 &&
+    props.status === '모집 완료' &&
     css`
       filter: contrast(20%);
     `}

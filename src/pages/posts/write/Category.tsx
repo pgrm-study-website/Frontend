@@ -5,7 +5,7 @@ import { changeField } from 'modules/posts/writePosts';
 
 const categoryList = ['스터디', '프로젝트', '공모전', '기타'];
 
-const Category = ({ category }: { category: number }) => {
+const Category = ({ category }: { category: string }) => {
   const dispatch = useDispatch();
 
   return (
@@ -21,7 +21,7 @@ const Category = ({ category }: { category: number }) => {
           >
             <Checkbox
               type="checkbox"
-              checked={category === idx}
+              checked={category === categoryList[idx]}
               onChange={() =>
                 dispatch(changeField({ key: 'category', value: idx }))
               }

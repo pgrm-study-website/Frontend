@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga from 'lib/createRequestSaga';
 import * as postsAPI from 'lib/api/posts';
+import { updateRequestType } from 'lib/api/users';
 
 const INIT_WRITE = 'writePosts/INIT_WRITE';
 const CHANGE_FIELD = 'writePosts/CHANGE_FIELD';
@@ -17,11 +18,12 @@ const UPDATE_FAILURE = 'writePosts/UPDATE_FAILURE';
 export const initWrite = createAction(INIT_WRITE)();
 export const changeField =
   createAction(CHANGE_FIELD)<{ key: string; value: any }>();
-export const setOriginal = createAction(SET_ORIGINAL)<postsAPI.postInputType>();
-export const write = createAction(WRITE)<postsAPI.postInputType>();
+export const setOriginal =
+  createAction(SET_ORIGINAL)<postsAPI.writeRequestType>();
+export const write = createAction(WRITE)<postsAPI.writeRequestType>();
 export const writeSuccess = createAction(WRITE_SUCCESS)<number>();
 export const writeFailure = createAction(WRITE_FAILURE)<AxiosError>();
-export const update = createAction(UPDATE)<postsAPI.postInputType>();
+export const update = createAction(UPDATE)<postsAPI.updateRequestType>();
 export const updateSuccess = createAction(UPDATE_SUCCESS)<number>();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 
@@ -46,16 +48,15 @@ const actions = {
 };
 type writePostsAction = ActionType<typeof actions>;
 type writePostsState = {
-  post: postsAPI.postInputType;
+  post: postsAPI.writeRequestType & { id?: number };
   result: number | null;
 };
 const initialState: writePostsState = {
   post: {
-    postId: null,
     userId: 7, //임시
     title: '',
-    category: 3,
-    tags: [],
+    category: '기타',
+    tagIds: [],
     content: '',
     participantMax: null,
     period: null,

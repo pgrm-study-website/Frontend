@@ -39,7 +39,7 @@ const Write = () => {
 
   return (
     <Wrapper>
-      <Banner isNewPost={post.postId === null} />
+      <Banner isNewPost={post.id === null} />
       <Title title={post.title} />
       <Category category={post.category} />
       <Editor content={post.content} />

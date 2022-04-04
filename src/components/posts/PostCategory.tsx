@@ -2,14 +2,14 @@ import React from 'react';
 import { GiPencil, GiSpellBook, GiPodiumWinner, GiTalk } from 'react-icons/gi';
 import styled from 'styled-components';
 
-const iconList = [
-  { name: '스터디', icon: <GiPencil /> },
-  { name: '프로젝트', icon: <GiSpellBook /> },
-  { name: '공모전', icon: <GiPodiumWinner /> },
-  { name: '기타', icon: <GiTalk /> },
-];
+const iconList: { [key: string]: any } = {
+  스터디: <GiPencil />,
+  프로젝트: <GiSpellBook />,
+  공모전: <GiPodiumWinner />,
+  기타: <GiTalk />,
+};
 
-const PostCategory = ({ category }: { category: number }) => {
+const PostCategory = ({ category }: { category: string }) => {
   return (
     <Wrapper>
       {iconList[category].icon}
