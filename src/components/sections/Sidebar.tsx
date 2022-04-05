@@ -95,6 +95,12 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>logout</LinkText>
               </LinkItem>
+              <LinkItem to="/posts/write">
+                <LinkIcon>
+                  <BsPencilSquare />
+                </LinkIcon>
+                <LinkText>Write</LinkText>
+              </LinkItem>
             </LinkContainer>
           </>
         ) : (
@@ -114,12 +120,6 @@ const Sidebar = () => {
                   <AiOutlineLogin />
                 </LinkIcon>
                 <LinkText>signup</LinkText>
-              </LinkItem>
-              <LinkItem to="/posts/write">
-                <LinkIcon>
-                  <BsPencilSquare />
-                </LinkIcon>
-                <LinkText>Write</LinkText>
               </LinkItem>
             </LinkContainer>
           </>
