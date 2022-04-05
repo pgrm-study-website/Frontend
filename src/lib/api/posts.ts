@@ -13,7 +13,7 @@ export const apply = (payload: applyRequestType) =>
   client.post(`posts/${payload.id}?userId=${payload.userId}`);
 
 export type writeRequestType = {
-  userId: number;
+  userId: number | null;
   title: string;
   category: string;
   content: string;

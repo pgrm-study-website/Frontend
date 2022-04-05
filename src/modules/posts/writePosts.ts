@@ -3,7 +3,6 @@ import { AxiosError } from 'axios';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga from 'lib/createRequestSaga';
 import * as postsAPI from 'lib/api/posts';
-import { updateRequestType } from 'lib/api/users';
 
 const INIT_WRITE = 'writePosts/INIT_WRITE';
 const CHANGE_FIELD = 'writePosts/CHANGE_FIELD';
@@ -53,7 +52,7 @@ type writePostsState = {
 };
 const initialState: writePostsState = {
   post: {
-    userId: 7, //임시
+    userId: null,
     title: '',
     category: '기타',
     tagIds: [],
