@@ -2,23 +2,42 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { BsPencil } from 'react-icons/bs';
 import styled from 'styled-components';
-import { postInputType } from 'lib/api/posts';
+import { writeRequestType } from 'lib/api/posts';
+import { LoadingComponent } from 'components/common/Loading';
+import { write, update } from 'modules/posts/writePosts';
 
 const WriteButton = ({
   post,
   loading,
 }: {
-  post: postInputType;
+  post: writeRequestType & { id?: number };
   loading: boolean;
 }) => {
   const dispatch = useDispatch();
 
   const onClick = () => {
-    alert('글쓰기' + JSON.stringify(post)); //글쓰기 dispatch
+    if (post.title === '') {
+      alert('제목을 입력해 주세요.');
+    } else if (post.content === '') {
+      alert('내용을 입력해 주세요.');
+    } else if (post.tagIds.length === 0) {
+      alert('태그가 최소 1개 필요합니다.');
+    } else {
+      if (post.id) {
+        const id = post.id;
+        const data = post;
+        data.id = undefined;
+        dispatch(update({ id, data }));
+      } else {
+        dispatch(write(post));
+      }
+    }
   };
 
   return loading ? (
-    <div>loading</div>
+    <Wrapper>
+      <LoadingComponent r="60px" />
+    </Wrapper>
   ) : (
     <Wrapper onClick={onClick}>
       <BsPencil />

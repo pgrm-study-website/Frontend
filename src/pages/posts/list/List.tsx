@@ -163,7 +163,6 @@ const List = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    alert('쿼리: ' + location.search.toString());
   }, [location.search]);
 
   return (

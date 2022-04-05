@@ -12,21 +12,19 @@ const Category = ({ category }: { category: string }) => {
     <Wrapper>
       <NameText>카테고리</NameText>
       <ChoiceWrapper>
-        {categoryList.map((item, idx) => (
+        {categoryList.map(i => (
           <Choice
-            key={item}
-            onClick={() =>
-              dispatch(changeField({ key: 'category', value: idx }))
-            }
+            key={i}
+            onClick={() => dispatch(changeField({ key: 'category', value: i }))}
           >
             <Checkbox
               type="checkbox"
-              checked={category === categoryList[idx]}
+              checked={category === i}
               onChange={() =>
-                dispatch(changeField({ key: 'category', value: idx }))
+                dispatch(changeField({ key: 'category', value: i }))
               }
             />
-            {categoryList[idx]}
+            {i}
           </Choice>
         ))}
       </ChoiceWrapper>
