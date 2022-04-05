@@ -5,7 +5,11 @@ import {
   AiOutlineMessage,
   AiOutlineLogin,
 } from 'react-icons/ai';
-import { BsFillCaretLeftFill, BsPersonCircle } from 'react-icons/bs';
+import {
+  BsFillCaretLeftFill,
+  BsPersonCircle,
+  BsPencilSquare,
+} from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
 import styled, { css } from 'styled-components';
 import testProfileImage from 'assets/images/profile.png';
@@ -110,6 +114,12 @@ const Sidebar = () => {
                   <AiOutlineLogin />
                 </LinkIcon>
                 <LinkText>signup</LinkText>
+              </LinkItem>
+              <LinkItem to="/posts/write">
+                <LinkIcon>
+                  <BsPencilSquare />
+                </LinkIcon>
+                <LinkText>Write</LinkText>
               </LinkItem>
             </LinkContainer>
           </>
