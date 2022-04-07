@@ -25,7 +25,6 @@ export default function createRequestSaga<P1, P2>(
     yield put(startLoading(type));
     try {
       const response: ResponseGenerator = yield call(request, action.payload);
-      console.log(response);
       yield put({
         type: SUCCESS,
         payload: response,

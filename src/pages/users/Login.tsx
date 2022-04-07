@@ -56,7 +56,7 @@ const Login = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
-    alert(JSON.stringify(input));
+    dispatch(login({ ...input, social: 0 }));
   };
 
   return (
