@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 type messageProps = {
   id: number;
@@ -15,11 +16,13 @@ export default function NotificationMoal({
   return (
     <NotificationList>
       <Title>알림</Title>
-      {data.map(item => (
+      {data.map((item) => (
         <NotificationItem key={item.id} item={item}></NotificationItem>
       ))}
       <li>
-        <More>more</More>
+        <Link to="/notification">
+          <More>more</More>
+        </Link>
       </li>
     </NotificationList>
   );
