@@ -3,14 +3,14 @@ import client from './client';
 export const signup = (payload: signupRequestType) =>
   client.post('users/', payload);
 export const login = (payload: loginRequestType) =>
-  client.post('users/login', payload);
+  client.post('login', payload); // 임시
 export const check = () => client.get('users/check');
 export const logout = () => client.get('users/logout');
 
 export const sendAuthEmail = (payload: sendAuthEmailRequestType) =>
-  client.post('users/email/send-code', payload);
+  client.post('email/send-code', payload); // 임시
 export const checkAuthEmail = (payload: checkAuthEmailRequestType) =>
-  client.post('users/email/verify-code', payload);
+  client.post('email/verify-code', payload); // 임시
 
 export const read = (payload: number) => client.get(`users/${payload}`);
 export const update = (payload: updateRequestType) =>

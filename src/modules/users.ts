@@ -44,8 +44,7 @@ export const signupSuccess =
   createAction(SIGNUP_SUCCESS)<usersAPI.simpleResponseType>();
 export const signupFailure = createAction(SIGNUP_FAILURE)<AxiosError>();
 export const login = createAction(LOGIN)<usersAPI.loginRequestType>();
-export const loginSuccess =
-  createAction(LOGIN_SUCCESS)<usersAPI.simpleResponseType>();
+export const loginSuccess = createAction(LOGIN_SUCCESS)<any>();
 export const loginFailure = createAction(LOGIN_FAILURE)<AxiosError>();
 export const check = createAction(CHECK)();
 export const checkSuccess = createAction(CHECK_SUCCESS)();
@@ -228,7 +227,7 @@ const users = createReducer<usersState, usersAction>(initialState, {
   }),
   [LOGIN_SUCCESS]: (state, { payload }) => ({
     ...state,
-    user: payload,
+    user: payload.data,
   }),
   [LOGIN_FAILURE]: (state, { payload }) => {
     alert('login error');
