@@ -12,8 +12,8 @@ const iconList: { [key: string]: any } = {
 const PostCategory = ({ category }: { category: string }) => {
   return (
     <Wrapper>
-      {iconList[category].icon}
-      <div>{iconList[category].name}</div>
+      {iconList[category]}
+      <div>{category}</div>
     </Wrapper>
   );
 };
