@@ -69,13 +69,14 @@ const DeleteBtn = styled.div`
 `;
 const Title = styled.h2`
   font-size: 20px;
+  margin-bottom: 20px;
   color: #454545;
 `;
 const NotificationItem = styled.div`
   padding: 20px;
   border: 1px solid #bdbdbd;
   border-radius: 10px;
-  margin: 10px 0;
+  /* margin: 10px 0; */
   position: relative;
 `;
 const SubContent = styled.div`
@@ -91,6 +92,7 @@ const Content = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 10px;
 `;
 
 const Wrapper = styled.div`
