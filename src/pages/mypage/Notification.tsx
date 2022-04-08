@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 import {MdOutlineCancel} from 'react-icons/md';
@@ -40,18 +40,24 @@ const dummyData = [
     },
   },
 ];
+
 const Notification = (props: Props) => {
+  const [data, setData] = useState(dummyData);
+  const handleDelete = (id: number) => {
+    setData(data.filter(item => item.id !== id));
+    //삭제 데이터 서버에 전송
+  };
   return (
     <Wrapper>
       <Title>Notification </Title>
       <Container>
-        {dummyData.map(i => (
-          <NotificationItem>
+        {data.map(i => (
+          <NotificationItem key={i.content}>
             <Content>{i.content}</Content>
             <SubContent>
               <Name>{i.sender.name}</Name> | <div>{i.date.toLocaleDateString()}</div>
             </SubContent>
-            <DeleteBtn>
+            <DeleteBtn onClick={() => handleDelete(i.id)}>
               <MdOutlineCancel />
             </DeleteBtn>
           </NotificationItem>
