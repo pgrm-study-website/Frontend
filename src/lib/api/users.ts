@@ -1,16 +1,25 @@
 import client from './client';
 
+/*
+  axios 요청 함수들
+
+  export로 외부에서 이용 가능하게 하고,
+  parameter로 payload를 받습니다. type을 따로 만들어서 연결해주세요.
+  (payload는 사용에 있어서 전송되는 데이터라는 뜻입니다.)
+
+  return value는 client.[HTTP METHOD]([URL 주소], [REQUEST BODY?]) 형식입니다.
+*/
 export const signup = (payload: signupRequestType) =>
   client.post('users/', payload);
 export const login = (payload: loginRequestType) =>
-  client.post('login', payload); // 임시
+  client.post('users/login', payload);
 export const check = () => client.get('users/check');
 export const logout = () => client.get('users/logout');
 
 export const sendAuthEmail = (payload: sendAuthEmailRequestType) =>
-  client.post('email/send-code', payload); // 임시
+  client.post('users/email/send-code', payload);
 export const checkAuthEmail = (payload: checkAuthEmailRequestType) =>
-  client.post('email/verify-code', payload); // 임시
+  client.post('users/email/verify-code', payload);
 
 export const read = (payload: number) => client.get(`users/${payload}`);
 export const update = (payload: updateRequestType) =>
@@ -22,6 +31,7 @@ export const checkPassword = (payload: passwordRequsetType) =>
 export const changePassword = (payload: passwordRequsetType) =>
   client.patch(`users/${payload.id}/password`, payload.data);
 
+// 타입 이름은 자유이나 저는 RequestType, ResponseType으로 최대한 통일했습니다.
 export type signupRequestType =
   | {
       social: number;
@@ -33,7 +43,6 @@ export type signupRequestType =
       social: number;
       code: string;
     };
-
 export type loginRequestType =
   | {
       social: number;
@@ -44,22 +53,19 @@ export type loginRequestType =
       social: number;
       code: string;
     };
-
 export type simpleResponseType = {
   id: number;
   nickname: string;
   image: string;
 };
-
 export type readResponseType = {
   email: string | null;
   nickname: string;
   image: string;
   introduce: string;
   github: string;
-  tag: string[];
+  tags: string[];
 };
-
 export type updateRequestType = {
   id: number;
   data: {
@@ -67,19 +73,16 @@ export type updateRequestType = {
     image?: string;
     introduce?: string;
     github?: string;
-    tag?: string[];
+    tags?: string[];
   };
 };
-
 export type sendAuthEmailRequestType = {
   email: string;
 };
-
 export type checkAuthEmailRequestType = {
   email: string;
   code: string;
 };
-
 export type passwordRequsetType = {
   id: number;
   data: {

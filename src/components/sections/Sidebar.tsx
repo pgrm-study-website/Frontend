@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AiOutlineLogout,
   AiOutlineMessage,
   AiOutlineLogin,
 } from 'react-icons/ai';
-import { BsFillCaretLeftFill, BsPersonCircle } from 'react-icons/bs';
+import {
+  BsFillCaretLeftFill,
+  BsPersonCircle,
+  BsPencilSquare,
+} from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
-import styled, { css } from 'styled-components';
-import testProfileImage from 'assets/images/profile.png';
-import NotificationModal from './notification/NotificationModal';
-import { useSelector } from 'react-redux';
 import { RootState } from 'modules';
+import { changeField, logout } from 'modules/users';
+import styled, { css } from 'styled-components';
+
+import NotificationModal from './notification/NotificationModal';
 
 const messageDummyData = [
   {
@@ -32,14 +37,16 @@ const messageDummyData = [
 ];
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(true);
-  const [notificationOpen, SetnotificationOpen] = useState(false);
+  const dispatch = useDispatch();
 
+  const [open, setOpen] = useState(true);
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const user = useSelector((state: RootState) => state.users.user);
 
   const handleNofiticationClick = () => {
-    SetnotificationOpen(!notificationOpen);
+    setNotificationOpen(!notificationOpen);
   };
+
   return (
     <>
       <FakeSidebar open={open} />
@@ -53,11 +60,17 @@ const Sidebar = () => {
               <Link to="/">Plming</Link>
             </Title>
             <Profile>
-              <img src={testProfileImage} alt="profile" />
-              <Name>seuha516</Name>
+              <img
+                src={
+                  user?.image ||
+                  'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png'
+                }
+                alt="profile"
+              />
+              <Name>{user.nickname}</Name>
             </Profile>
             <LinkContainer>
-              <LinkItem to="/mypage/123">
+              <LinkItem to={`/mypage/${user.id}`}>
                 <LinkIcon>
                   <BsPersonCircle />
                 </LinkIcon>
@@ -82,20 +95,23 @@ const Sidebar = () => {
                   ></NotificationModal>
                 </Notification>
               </Item>
-              <LinkItem
-                //logout 링크 추가 필요
-                to="/"
-              >
+              <LinkItem to="/posts/write">
+                <LinkIcon>
+                  <BsPencilSquare />
+                </LinkIcon>
+                <LinkText>write</LinkText>
+              </LinkItem>
+              <Item>
                 <LinkIcon>
                   <AiOutlineLogout />
                 </LinkIcon>
-                <LinkText>logout</LinkText>
-              </LinkItem>
+                <LinkText onClick={() => dispatch(logout())}>logout</LinkText>
+              </Item>
             </LinkContainer>
           </>
         ) : (
           <>
-            <Title>
+            <Title style={{ marginBottom: '40px' }}>
               <Link to="/">Plming</Link>
             </Title>
             <LinkContainer>
@@ -111,6 +127,26 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>signup</LinkText>
               </LinkItem>
+              <Item
+                onClick={() =>
+                  dispatch(
+                    changeField({
+                      key: 'user',
+                      value: {
+                        id: 4,
+                        nickname: '닉네임abc12',
+                        image:
+                          'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png',
+                      },
+                    }),
+                  )
+                }
+              >
+                <LinkIcon>
+                  <AiOutlineLogin />
+                </LinkIcon>
+                <LinkText>temp_login</LinkText>
+              </Item>
             </LinkContainer>
           </>
         )}
@@ -120,19 +156,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-const Notification = styled.div<{ open: boolean }>`
-  position: absolute;
-  right: -280px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 15px;
-  z-index: 20;
-  background-color: #fff;
-  //animation
-  transition: opacity 0.5s;
-  pointer-events: ${props => (props.open ? 'auto' : 'none')};
-  opacity: ${props => (props.open ? '1' : '0')};
-`;
 
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
@@ -228,7 +251,6 @@ const Wrapper = styled.div<{ open: boolean }>`
   font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
-  /* overflow: visible; */
   overflow: ${props => (props.open ? 'visible' : 'hidden')};
 
   transition: width 0.2s linear, padding 0.2s linear;
@@ -242,6 +264,12 @@ const Wrapper = styled.div<{ open: boolean }>`
   @media all and (max-width: 900px) {
     display: none;
   }
+
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;
 const Title = styled.div`
   font-family: 'Bazzi';
@@ -251,16 +279,23 @@ const Title = styled.div`
 const Profile = styled.div`
   color: #242424;
   font-weight: 700;
+  img {
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 125px;
+    border: 3px solid black;
+  }
+`;
+const Name = styled.div`
+  font-size: 25px;
+  padding: 20px 0;
 `;
 const LinkContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
   flex-direction: column;
   color: #242424;
-`;
-const Name = styled.div`
-  font-size: 27px;
-  padding: 20px 0;
 `;
 const LinkItem = styled(Link)`
   display: flex;
@@ -286,4 +321,16 @@ const LinkIcon = styled.div`
   position: relative;
   top: 2px;
   cursor: pointer;
+`;
+const Notification = styled.div<{ open: boolean }>`
+  position: absolute;
+  right: -280px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 15px;
+  z-index: 20;
+  background-color: #fff;
+  transition: opacity 0.5s;
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  opacity: ${props => (props.open ? '1' : '0')};
 `;
