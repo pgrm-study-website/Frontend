@@ -256,7 +256,6 @@ function SignUp() {
       alert('6자리 코드를 입력해주세요.');
       return;
     }
-    console.log({ email: state.email, code: state.authEmailCode });
     dispatch(checkAuthEmail({ email: state.email, code: state.authEmailCode }));
   };
 
