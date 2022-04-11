@@ -20,6 +20,7 @@ import Read from 'pages/posts/read/Read';
 import Mypage from 'pages/mypage/Mypage';
 import Message from 'pages/mypage/Message';
 import NotFound from 'components/common/NotFound';
+import Notification from  'pages/mypage/Notification';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -127,6 +128,7 @@ const App = () => {
                     </Route>
                     <Route path="mypage/:id" element={<Mypage />} />
                     <Route path="message/:id" element={<Message />} />
+                    <Route path="notification" element={<Notification />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Footer />
