@@ -21,17 +21,17 @@ import NotificationModal from './notification/NotificationModal';
 const messageDummyData = [
   {
     id: 10,
-    content: "000에 댓글이 달렸습니다",
-    date: "2022.03.30",
+    content: '000에 댓글이 달렸습니다',
+    date: '2022.03.30',
   },
   {
     id: 11,
-    date: "2022.03.30",
-    content: "000 스터디에 가입이 되었습니다",
+    date: '2022.03.30',
+    content: '000 스터디에 가입이 되었습니다',
   },
   {
     id: 12,
-    date: "2022.03.30",
+    date: '2022.03.30',
     content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
   },
 ];
@@ -54,7 +54,7 @@ const Sidebar = () => {
         <BsFillCaretLeftFill />
       </FoldIcon>
       <Wrapper open={open}>
-        {!user ? (
+        {user ? (
           <>
             <Title>
               <Link to="/">Plming</Link>
@@ -62,7 +62,7 @@ const Sidebar = () => {
             <Profile>
               <img
                 src={
-                  user?.image ||
+                  user.image ||
                   'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png'
                 }
                 alt="profile"
@@ -160,13 +160,13 @@ export default Sidebar;
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
   width: 100%;
-  max-width: ${(props) => (props.open ? "250px" : "0px")};
+  max-width: ${props => (props.open ? '250px' : '0px')};
   height: 100vh;
   @media all and (max-width: 1510px) {
-    max-width: ${(props) => (props.open ? "215px" : "0px")};
+    max-width: ${props => (props.open ? '215px' : '0px')};
   }
   @media all and (max-width: 1090px) {
-    max-width: ${(props) => (props.open ? "180px" : "0px")};
+    max-width: ${props => (props.open ? '180px' : '0px')};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -177,21 +177,21 @@ const FoldIcon = styled.div<{ open: boolean }>`
   z-index: 200;
   position: fixed;
   top: calc(0vh);
-  left: ${(props) =>
+  left: ${props =>
     props.open
-      ? "calc(max(0px, calc(50% - 750px)) + 232px)"
-      : "max(0px, calc(50% - 750px))"};
+      ? 'calc(max(0px, calc(50% - 750px)) + 232px)'
+      : 'max(0px, calc(50% - 750px))'};
   @media all and (max-width: 1510px) {
-    left: ${(props) =>
+    left: ${props =>
       props.open
-        ? "calc(max(0px, calc(50% - 750px)) + 197px)"
-        : "max(0px, calc(50% - 750px))"};
+        ? 'calc(max(0px, calc(50% - 750px)) + 197px)'
+        : 'max(0px, calc(50% - 750px))'};
   }
   @media all and (max-width: 1090px) {
-    left: ${(props) =>
+    left: ${props =>
       props.open
-        ? "calc(max(0px, calc(50% - 750px)) + 162px)"
-        : "max(0px, calc(50% - 750px))"};
+        ? 'calc(max(0px, calc(50% - 750px)) + 162px)'
+        : 'max(0px, calc(50% - 750px))'};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -214,7 +214,7 @@ const FoldIcon = styled.div<{ open: boolean }>`
     }
   }
 
-  ${(props) =>
+  ${props =>
     !props.open
       ? css`
           border-right: 18px solid#38d3d3c7;
@@ -238,7 +238,7 @@ const FoldIcon = styled.div<{ open: boolean }>`
 `;
 const Wrapper = styled.div<{ open: boolean }>`
   background-color: #4cbbc2;
-  width: ${(props) => (props.open ? "250px" : "0px")};
+  width: ${props => (props.open ? '250px' : '0px')};
   height: 100vh;
   position: fixed;
   top: 0;
@@ -247,8 +247,8 @@ const Wrapper = styled.div<{ open: boolean }>`
   flex-direction: column;
   text-align: center;
   gap: 25px;
-  padding: ${(props) => (props.open ? "20px" : "20px 0px")};
-  font-family: "KOTRAHOPE";
+  padding: ${props => (props.open ? '20px' : '20px 0px')};
+  font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
   overflow: ${props => (props.open ? 'visible' : 'hidden')};
@@ -256,10 +256,10 @@ const Wrapper = styled.div<{ open: boolean }>`
   transition: width 0.2s linear, padding 0.2s linear;
   z-index: 10;
   @media all and (max-width: 1510px) {
-    width: ${(props) => (props.open ? "215px" : "0px")};
+    width: ${props => (props.open ? '215px' : '0px')};
   }
   @media all and (max-width: 1090px) {
-    width: ${(props) => (props.open ? "180px" : "0px")};
+    width: ${props => (props.open ? '180px' : '0px')};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -272,7 +272,7 @@ const Wrapper = styled.div<{ open: boolean }>`
   user-select: none;
 `;
 const Title = styled.div`
-  font-family: "Bazzi";
+  font-family: 'Bazzi';
   font-size: 50px;
   color: #fff;
 `;
