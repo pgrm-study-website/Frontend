@@ -1,45 +1,52 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AiOutlineLogout,
   AiOutlineMessage,
   AiOutlineLogin,
-} from "react-icons/ai";
-import { BsFillCaretLeftFill, BsPersonCircle } from "react-icons/bs";
-import { IoIosNotifications } from "react-icons/io";
-import styled, { css } from "styled-components";
-import testProfileImage from "assets/images/profile.png";
-import NotificationModal from "./notification/NotificationModal";
-import { useSelector } from "react-redux";
-import { RootState } from "modules";
+} from 'react-icons/ai';
+import {
+  BsFillCaretLeftFill,
+  BsPersonCircle,
+  BsPencilSquare,
+} from 'react-icons/bs';
+import { IoIosNotifications } from 'react-icons/io';
+import { RootState } from 'modules';
+import { changeField, logout } from 'modules/users';
+import styled, { css } from 'styled-components';
+
+import NotificationModal from './notification/NotificationModal';
 
 const messageDummyData = [
   {
     id: 10,
-    content: "000에 댓글이 달렸습니다",
-    date: "2022.03.30",
+    content: '000에 댓글이 달렸습니다',
+    date: '2022.03.30',
   },
   {
     id: 11,
-    date: "2022.03.30",
-    content: "000 스터디에 가입이 되었습니다",
+    date: '2022.03.30',
+    content: '000 스터디에 가입이 되었습니다',
   },
   {
     id: 12,
-    date: "2022.03.30",
+    date: '2022.03.30',
     content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
   },
 ];
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(true);
-  const [notificationOpen, SetnotificationOpen] = useState(false);
+  const dispatch = useDispatch();
 
+  const [open, setOpen] = useState(true);
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const user = useSelector((state: RootState) => state.users.user);
 
   const handleNofiticationClick = () => {
-    SetnotificationOpen(!notificationOpen);
+    setNotificationOpen(!notificationOpen);
   };
+
   return (
     <>
       <FakeSidebar open={open} />
@@ -47,17 +54,23 @@ const Sidebar = () => {
         <BsFillCaretLeftFill />
       </FoldIcon>
       <Wrapper open={open}>
-        {!user ? (
+        {user ? (
           <>
             <Title>
               <Link to="/">Plming</Link>
             </Title>
             <Profile>
-              <img src={testProfileImage} alt="profile" />
-              <Name>seuha516</Name>
+              <img
+                src={
+                  user.image ||
+                  'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png'
+                }
+                alt="profile"
+              />
+              <Name>{user.nickname}</Name>
             </Profile>
             <LinkContainer>
-              <LinkItem to="/mypage/123">
+              <LinkItem to={`/mypage/${user.id}`}>
                 <LinkIcon>
                   <BsPersonCircle />
                 </LinkIcon>
@@ -82,20 +95,23 @@ const Sidebar = () => {
                   ></NotificationModal>
                 </Notification>
               </Item>
-              <LinkItem
-                //logout 링크 추가 필요
-                to="/"
-              >
+              <LinkItem to="/posts/write">
+                <LinkIcon>
+                  <BsPencilSquare />
+                </LinkIcon>
+                <LinkText>write</LinkText>
+              </LinkItem>
+              <Item>
                 <LinkIcon>
                   <AiOutlineLogout />
                 </LinkIcon>
-                <LinkText>logout</LinkText>
-              </LinkItem>
+                <LinkText onClick={() => dispatch(logout())}>logout</LinkText>
+              </Item>
             </LinkContainer>
           </>
         ) : (
           <>
-            <Title>
+            <Title style={{ marginBottom: '40px' }}>
               <Link to="/">Plming</Link>
             </Title>
             <LinkContainer>
@@ -111,6 +127,26 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>signup</LinkText>
               </LinkItem>
+              <Item
+                onClick={() =>
+                  dispatch(
+                    changeField({
+                      key: 'user',
+                      value: {
+                        id: 4,
+                        nickname: '닉네임abc12',
+                        image:
+                          'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png',
+                      },
+                    }),
+                  )
+                }
+              >
+                <LinkIcon>
+                  <AiOutlineLogin />
+                </LinkIcon>
+                <LinkText>temp_login</LinkText>
+              </Item>
             </LinkContainer>
           </>
         )}
@@ -120,30 +156,17 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-const Notification = styled.div<{ open: boolean }>`
-  position: absolute;
-  right: -280px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 15px;
-  z-index: 20;
-  background-color: #fff;
-  //animation
-  transition: opacity 0.5s;
-  pointer-events: ${(props) => (props.open ? "auto" : "none")};
-  opacity: ${(props) => (props.open ? "1" : "0")};
-`;
 
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
   width: 100%;
-  max-width: ${(props) => (props.open ? "250px" : "0px")};
+  max-width: ${props => (props.open ? '250px' : '0px')};
   height: 100vh;
   @media all and (max-width: 1510px) {
-    max-width: ${(props) => (props.open ? "215px" : "0px")};
+    max-width: ${props => (props.open ? '215px' : '0px')};
   }
   @media all and (max-width: 1090px) {
-    max-width: ${(props) => (props.open ? "180px" : "0px")};
+    max-width: ${props => (props.open ? '180px' : '0px')};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -154,21 +177,21 @@ const FoldIcon = styled.div<{ open: boolean }>`
   z-index: 200;
   position: fixed;
   top: calc(0vh);
-  left: ${(props) =>
+  left: ${props =>
     props.open
-      ? "calc(max(0px, calc(50% - 750px)) + 232px)"
-      : "max(0px, calc(50% - 750px))"};
+      ? 'calc(max(0px, calc(50% - 750px)) + 232px)'
+      : 'max(0px, calc(50% - 750px))'};
   @media all and (max-width: 1510px) {
-    left: ${(props) =>
+    left: ${props =>
       props.open
-        ? "calc(max(0px, calc(50% - 750px)) + 197px)"
-        : "max(0px, calc(50% - 750px))"};
+        ? 'calc(max(0px, calc(50% - 750px)) + 197px)'
+        : 'max(0px, calc(50% - 750px))'};
   }
   @media all and (max-width: 1090px) {
-    left: ${(props) =>
+    left: ${props =>
       props.open
-        ? "calc(max(0px, calc(50% - 750px)) + 162px)"
-        : "max(0px, calc(50% - 750px))"};
+        ? 'calc(max(0px, calc(50% - 750px)) + 162px)'
+        : 'max(0px, calc(50% - 750px))'};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -191,7 +214,7 @@ const FoldIcon = styled.div<{ open: boolean }>`
     }
   }
 
-  ${(props) =>
+  ${props =>
     !props.open
       ? css`
           border-right: 18px solid#38d3d3c7;
@@ -215,7 +238,7 @@ const FoldIcon = styled.div<{ open: boolean }>`
 `;
 const Wrapper = styled.div<{ open: boolean }>`
   background-color: #4cbbc2;
-  width: ${(props) => (props.open ? "250px" : "0px")};
+  width: ${props => (props.open ? '250px' : '0px')};
   height: 100vh;
   position: fixed;
   top: 0;
@@ -224,43 +247,55 @@ const Wrapper = styled.div<{ open: boolean }>`
   flex-direction: column;
   text-align: center;
   gap: 25px;
-  padding: ${(props) => (props.open ? "20px" : "20px 0px")};
-  font-family: "KOTRAHOPE";
+  padding: ${props => (props.open ? '20px' : '20px 0px')};
+  font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
-  /* overflow: visible; */
-  overflow: ${(props) => (props.open ? "visible" : "hidden")};
+  overflow: ${props => (props.open ? 'visible' : 'hidden')};
 
   transition: width 0.2s linear, padding 0.2s linear;
   z-index: 10;
   @media all and (max-width: 1510px) {
-    width: ${(props) => (props.open ? "215px" : "0px")};
+    width: ${props => (props.open ? '215px' : '0px')};
   }
   @media all and (max-width: 1090px) {
-    width: ${(props) => (props.open ? "180px" : "0px")};
+    width: ${props => (props.open ? '180px' : '0px')};
   }
   @media all and (max-width: 900px) {
     display: none;
   }
+
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;
 const Title = styled.div`
-  font-family: "Bazzi";
+  font-family: 'Bazzi';
   font-size: 50px;
   color: #fff;
 `;
 const Profile = styled.div`
   color: #242424;
   font-weight: 700;
+  img {
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 125px;
+    border: 3px solid black;
+  }
+`;
+const Name = styled.div`
+  font-size: 25px;
+  padding: 20px 0;
 `;
 const LinkContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
   flex-direction: column;
   color: #242424;
-`;
-const Name = styled.div`
-  font-size: 27px;
-  padding: 20px 0;
 `;
 const LinkItem = styled(Link)`
   display: flex;
@@ -286,4 +321,16 @@ const LinkIcon = styled.div`
   position: relative;
   top: 2px;
   cursor: pointer;
+`;
+const Notification = styled.div<{ open: boolean }>`
+  position: absolute;
+  right: -280px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 15px;
+  z-index: 20;
+  background-color: #fff;
+  transition: opacity 0.5s;
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  opacity: ${props => (props.open ? '1' : '0')};
 `;

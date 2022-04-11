@@ -14,20 +14,28 @@ import { LoadingBox } from 'components/common/Loading';
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // 리덕스 액션을 실행시키는 useDispatch
 
   const { social } = useParams();
   const { code } = qs.parse(location.search, { ignoreQueryPrefix: true });
   const { user, loading } = useSelector(({ users, loading }: RootState) => ({
     user: users.user,
     loading: loading['users/LOGIN'],
-  }));
+  })); // 리덕스 state를 가져오는 useSelector
   const [input, setInput] = useState({ email: '', password: '' });
 
   useEffect(() => {
     const htmlTitle = document.querySelector('title');
     htmlTitle!.innerHTML = 'Plming - Login';
     if (user) {
+      /*
+        리덕스 state 사용하기
+
+        리덕스 state의 users.user 값이 바뀔 때마다 useEffect가 실행됩니다.
+        아래에서는 user값이 null이 아닐 때 메인 페이지로 강제 이동시키고 있습니다.
+        이는 로그인한 사용자가 /login에 들어오면 쫓아내거나,
+        로그인에 성공해서 user값이 non-null로 바뀌면 자연스럽게 메인 페이지로 이동시키는 효과입니다.
+      */
       navigate('/');
       try {
         localStorage.setItem('user', JSON.stringify(user));
@@ -56,7 +64,7 @@ const Login = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
-    dispatch(login({ ...input, social: 0 }));
+    dispatch(login({ ...input, social: 0 })); // 입력한 값을 payload로 보내서 액션 실행
   };
 
   return (
