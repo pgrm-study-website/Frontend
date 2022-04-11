@@ -57,9 +57,7 @@ const Notification = (props: Props) => {
             <SubContent>
               <Name>{i.sender.name}</Name> | <div>{i.date.toLocaleDateString()}</div>
             </SubContent>
-            <DeleteBtn onClick={() => handleDelete(i.id)}>
-              <MdOutlineCancel />
-            </DeleteBtn>
+            <DeleteBtn onClick={() => handleDelete(i.id)}>{/* <MdOutlineCancel /> */}X</DeleteBtn>
           </NotificationItem>
         ))}
       </Container>
@@ -69,7 +67,7 @@ const Notification = (props: Props) => {
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
-  font-size: 18px;
+  font-size: 15px;
   top: 15px;
   right: 20px;
 `;
@@ -80,9 +78,9 @@ const Title = styled.h2`
 `;
 const NotificationItem = styled.div`
   padding: 20px;
-  border: 1px solid #bdbdbd;
   border-radius: 10px;
-  /* margin: 10px 0; */
+  box-shadow: 2px 1px 10px 2px rgb(0 0 0 / 9%);
+  background-color: #fff;
   position: relative;
 `;
 const SubContent = styled.div`
