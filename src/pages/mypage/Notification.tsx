@@ -53,10 +53,13 @@ const Notification = (props: Props) => {
       <Container>
         {data.map(i => (
           <NotificationItem key={i.content}>
-            <Content>{i.content}</Content>
-            <SubContent>
-              <Name>{i.sender.name}</Name> | <div>{i.date.toLocaleDateString()}</div>
-            </SubContent>
+            <ContentImg></ContentImg>
+            <div>
+              <Content>{i.content}</Content>
+              <SubContent>
+                <Name>{i.sender.name}</Name> | <div>{i.date.toLocaleDateString()}</div>
+              </SubContent>
+            </div>
             <DeleteBtn onClick={() => handleDelete(i.id)}>{/* <MdOutlineCancel /> */}X</DeleteBtn>
           </NotificationItem>
         ))}
@@ -64,6 +67,12 @@ const Notification = (props: Props) => {
     </Wrapper>
   );
 };
+const ContentImg = styled.div`
+  width: 55px;
+  background-color: #b8b8b8;
+  height: 55px;
+  margin-right: 10px;
+`;
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
@@ -82,12 +91,15 @@ const NotificationItem = styled.div`
   box-shadow: 2px 1px 10px 2px rgb(0 0 0 / 9%);
   background-color: #fff;
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 const SubContent = styled.div`
   display: flex;
   margin-top: 15px;
   font-size: 14px;
   gap: 10px;
+  color: #454545;
 `;
 const Name = styled.div``;
 const Content = styled.div`
