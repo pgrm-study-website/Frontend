@@ -20,10 +20,10 @@ export const changeField =
 export const setOriginal =
   createAction(SET_ORIGINAL)<postsAPI.writeRequestType>();
 export const write = createAction(WRITE)<postsAPI.writeRequestType>();
-export const writeSuccess = createAction(WRITE_SUCCESS)<number>();
+export const writeSuccess = createAction(WRITE_SUCCESS)<any>();
 export const writeFailure = createAction(WRITE_FAILURE)<AxiosError>();
 export const update = createAction(UPDATE)<postsAPI.updateRequestType>();
-export const updateSuccess = createAction(UPDATE_SUCCESS)<number>();
+export const updateSuccess = createAction(UPDATE_SUCCESS)<any>();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 
 const writeSaga = createRequestSaga(WRITE, postsAPI.write);
@@ -52,13 +52,13 @@ type writePostsState = {
 };
 const initialState: writePostsState = {
   post: {
-    userId: null,
     title: '',
     category: '기타',
     tagIds: [],
     content: '',
     participantMax: null,
     period: null,
+    status: '모집 중',
   },
   result: null,
 };
@@ -83,9 +83,9 @@ const writePosts = createReducer<writePostsState, writePostsAction>(
       result: null,
       error: null,
     }),
-    [WRITE_SUCCESS]: (state, { payload: result }) => ({
+    [WRITE_SUCCESS]: (state, { payload }) => ({
       ...state,
-      result,
+      result: payload.data,
     }),
     [WRITE_FAILURE]: (state, { payload: error }) => {
       alert('write error');
@@ -96,9 +96,9 @@ const writePosts = createReducer<writePostsState, writePostsAction>(
       result: null,
       error: null,
     }),
-    [UPDATE_SUCCESS]: (state, { payload: result }) => ({
+    [UPDATE_SUCCESS]: (state, { payload }) => ({
       ...state,
-      result,
+      result: payload.data,
     }),
     [UPDATE_FAILURE]: (state, { payload: error }) => {
       alert('update error');

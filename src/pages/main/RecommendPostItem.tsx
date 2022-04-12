@@ -28,7 +28,7 @@ const RecommendPostItem = ({ post }: { post: postListItemType }) => {
         </PersonWrapper>
         <EtcWrapper>
           <BsFillEyeFill />
-          <div>{post.viewCount}</div>
+          <div>{post.viewCnt}</div>
         </EtcWrapper>
       </SecondWrapper>
     </Wrapper>

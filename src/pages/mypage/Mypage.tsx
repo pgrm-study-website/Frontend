@@ -8,65 +8,6 @@ import PostTagA from 'components/posts/PostTagA';
 import PostItem from 'components/posts/PostItem';
 import PostTagB from 'components/posts/PostTagB';
 
-const testData = {
-  nickname: '전승하abc12',
-  email: 'seuha516@naver.com',
-  image: 'image.com/123',
-  tags: ['React', 'C++', 'Django', 'Spring', 'AI'],
-  introduce:
-    'Hello World! Hello World! Hello World! Hello World! Hello World! Hello World!',
-  github: 'seuha516',
-};
-const testDataList = [
-  {
-    id: 1,
-    title: 'Node.js 스터디 같이 하실분~~',
-    category: '스터디',
-    tags: ['Node.js', 'JavaScript'],
-    status: '모집 중',
-    participantNum: 5,
-    participantMax: 6,
-    period: 3,
-    viewCount: 26,
-  },
-  {
-    id: 1,
-    title: '포폴용 프로젝트 디자이너 구합니다.',
-    category: '스터디',
-
-    tags: ['Designer', 'UI/UX'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '공모전 앱 만드실 분??',
-    category: '스터디',
-
-    tags: ['FrontEnd', 'BackEnd'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-    category: '스터디',
-
-    tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-];
-
 const Mypage = () => {
   const { id } = useParams();
   const [edit, setEdit] = useState([false, false, false]);
@@ -75,15 +16,15 @@ const Mypage = () => {
   const autoComplete = (x: string) => {
     if (x === '') return [];
     const result: string[] = [];
-    for (let i = 0; i < tagList.length; i++) {
-      const tagName = tagList[i];
-      if (
-        tagName.toLowerCase().includes(x.toLowerCase()) &&
-        !testData.tags.includes(tagName)
-      ) {
-        result.push(tagName);
-      }
-    }
+    // for (let i = 0; i < tagList.length; i++) {
+    //   const tagName = tagList[i];
+    //   if (
+    //     tagName.toLowerCase().includes(x.toLowerCase()) &&
+    //     !testData.tags.includes(tagName)
+    //   ) {
+    //     result.push(tagName);
+    //   }
+    // }
     return result;
   };
 
@@ -105,12 +46,12 @@ const Mypage = () => {
         }}
       />
       <FileInput type="file" id="FileInput_Mypage" />
-      <Nickname>{testData.nickname}</Nickname>
-      <Email>{testData.email}</Email>
+      {/* <Nickname>{testData.nickname}</Nickname>
+      <Email>{testData.email}</Email> */}
 
       {edit[0] ? (
         <>
-          <IntroduceInput defaultValue={testData.introduce} />
+          {/* <IntroduceInput defaultValue={testData.introduce} /> */}
           <SmallButtonWrapper>
             <div onClick={() => onSetEdit(0, false)}>확인</div>
             <div onClick={() => onSetEdit(0, false)}>취소</div>
@@ -118,7 +59,7 @@ const Mypage = () => {
         </>
       ) : (
         <>
-          <Introduce>{testData.introduce}</Introduce>
+          {/* <Introduce>{testData.introduce}</Introduce> */}
           <PencilIcon onClick={() => onSetEdit(0, true)} />
         </>
       )}
@@ -147,11 +88,11 @@ const Mypage = () => {
       ) : (
         <>
           <Tags>
-            {testData.tags.map(i => (
+            {/* {testData.tags.map(i => (
               <Link key={i} to={`/posts?tag=${i}`}>
                 <PostTagA tag={i} />
               </Link>
-            ))}
+            ))} */}
           </Tags>
           <PencilIcon onClick={() => onSetEdit(1, true)} />
         </>
@@ -167,12 +108,9 @@ const Mypage = () => {
         </>
       ) : (
         <>
-          <Github
-            href={`https://github.com/${testData.github}`}
-            target="_blank"
-          >
+          <Github href={`https://github.com/`} target="_blank">
             <BsGithub />
-            <div>{testData.github}</div>
+            {/* <div>{testData.github}</div> */}
           </Github>
           <PencilIcon onClick={() => onSetEdit(2, true)} />
         </>
@@ -180,15 +118,15 @@ const Mypage = () => {
 
       <SmallText>작성한 글</SmallText>
       <PostListWrapper>
-        {testDataList.map((i, idx) => (
+        {/* {testDataList.map((i, idx) => (
           <PostItem key={idx} post={i} />
-        ))}
+        ))} */}
       </PostListWrapper>
       <SmallText>댓글 단 글 (본인만 보임)</SmallText>
       <PostListWrapper>
-        {testDataList.map((i, idx) => (
+        {/* {testDataList.map((i, idx) => (
           <PostItem key={idx} post={i} />
-        ))}
+        ))} */}
       </PostListWrapper>
     </Wrapper>
   );

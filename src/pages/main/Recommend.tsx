@@ -3,145 +3,6 @@ import styled from 'styled-components';
 
 import RecommendPostItem from './RecommendPostItem';
 
-const testDataList = [
-  {
-    text: '마감 임박! 전승하님만 오시면 출발합니다.',
-    list: [
-      {
-        id: 1,
-        title: 'Node.js 스터디 같이 하실분~~',
-        category: '스터디',
-        tags: ['Node.js', 'JavaScript'],
-        status: '모집 중',
-        participantNum: 5,
-        participantMax: 6,
-        period: 3,
-        viewCount: 26,
-      },
-      {
-        id: 1,
-        title: '포폴용 프로젝트 디자이너 구합니다.',
-        category: '스터디',
-        tags: ['Designer', 'UI/UX'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: '공모전 앱 만드실 분??',
-        category: '스터디',
-        tags: ['FrontEnd', 'BackEnd'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-        category: '스터디',
-        tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-    ],
-  },
-  {
-    text: '지금 인기있는 게시물을 확인해보세요.',
-    list: [
-      {
-        id: 1,
-        title: '포폴용 프로젝트 디자이너 구합니다.',
-        category: '스터디',
-        tags: ['Designer', 'UI/UX'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: '공모전 앱 만드실 분??',
-        category: '스터디',
-        tags: ['FrontEnd', 'BackEnd', 'IOS', 'Android'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: 'Node.js 스터디 같이 하실분~~',
-        category: '스터디',
-        tags: ['Node.js', 'JavaScript'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-    ],
-  },
-  {
-    text: '전승하님이 관심 있을만한 팀을 모아봤어요.',
-    list: [
-      {
-        id: 1,
-        title: '포폴용 프로젝트 프론트엔드 구합니다.',
-        category: '스터디',
-        tags: ['FrontEnd', 'Vue.js'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: '공모전 프로젝트 만드실 분??',
-        category: '스터디',
-        tags: ['FrontEnd', 'BackEnd'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: '데이터 분석 스터디 같이 하실분~~ 긴 제목을 가진 게시물',
-        category: '스터디',
-        tags: ['Python', 'DeepLearning', 'FrontEnd', 'BackEnd', 'Node.js'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-      {
-        id: 1,
-        title: '파이썬 코딩테스트 스터디',
-        category: '스터디',
-        tags: ['Python'],
-        status: '모집 중',
-        participantNum: 4,
-        participantMax: 5,
-        period: 4,
-        viewCount: 126,
-      },
-    ],
-  },
-];
-
 const Recommend = () => {
   const [page, setPage] = useState(0);
   const messageDiv = useRef<HTMLDivElement>(null);
@@ -183,12 +44,12 @@ const Recommend = () => {
 
   return (
     <Wrapper>
-      <MessageText ref={messageDiv}>{testDataList[page].text}</MessageText>
+      {/* <MessageText ref={messageDiv}>{testDataList[page].text}</MessageText>
       <PostListWrapper ref={postListDiv}>
         {testDataList[page].list.map((i, idx) => (
           <RecommendPostItem key={idx} post={i} />
         ))}
-      </PostListWrapper>
+      </PostListWrapper> */}
     </Wrapper>
   );
 };

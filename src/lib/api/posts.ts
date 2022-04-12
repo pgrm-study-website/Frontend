@@ -1,25 +1,37 @@
 import client from './client';
+import { AxiosRequestConfig } from 'axios';
 
-export const list = (payload: string) => client.get(`posts${payload}`);
-export const myList = (payload: number) =>
-  client.get(`posts/user?userId=${payload}`);
+export const list = (payload: listRequestType) =>
+  client.get(`posts${payload.qs}`);
+export const myList = () => client.get(`posts/user`);
 export const write = (payload: writeRequestType) =>
   client.post('posts', payload);
 export const read = (payload: number) => client.get(`posts/${payload}`);
 export const remove = (payload: number) => client.delete(`posts/${payload}`);
 export const update = (payload: updateRequestType) =>
   client.patch(`posts/${payload.id}`, payload.data);
-export const apply = (payload: applyRequestType) =>
-  client.post(`posts/${payload.id}?userId=${payload.userId}`);
+
+export type listRequestType = {
+  request: {
+    searchType: string;
+    keyword: string | null;
+    category: string[] | null;
+    status: string[] | null;
+    tagIds: number[] | null;
+    period: number[] | null;
+    participantMax: number[] | null;
+  };
+  qs: string;
+};
 
 export type writeRequestType = {
-  userId: number | null;
   title: string;
   category: string;
   content: string;
   tagIds: number[];
   participantMax: number | null;
   period: number | null;
+  status: string;
 };
 
 export type updateRequestType = {
@@ -37,7 +49,7 @@ export type postListItemType = {
   status: string;
   participantNum: number;
   participantMax: number | null;
-  viewCount: number;
+  viewCnt: number;
 };
 
 export type readResponseType = {
@@ -51,13 +63,8 @@ export type readResponseType = {
   participantNum: number;
   participantMax: number | null;
   tags: string[];
-  viewCount: number;
+  viewCnt: number;
   createDate: Date;
   updateDate: Date;
   deleteYn: string;
-};
-
-export type applyRequestType = {
-  id: number;
-  userId: number;
 };

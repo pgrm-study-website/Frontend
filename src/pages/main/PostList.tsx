@@ -4,75 +4,6 @@ import styled from 'styled-components';
 
 import PostItem from 'components/posts/PostItem';
 
-const testDataList = [
-  {
-    id: 1,
-    title: '포폴용 프로젝트 디자이너 구합니다.',
-    category: '프로젝트',
-    tags: ['Designer', 'UI/UX'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '공모전 앱 만드실 분??',
-    category: '프로젝트',
-    tags: ['FrontEnd', 'BackEnd'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-    category: '프로젝트',
-    tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '포폴용 프로젝트 디자이너 구합니다.',
-    category: '공모전',
-    tags: ['Designer', 'UI/UX'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '공모전 앱 만드실 분??',
-    category: '공모전',
-    tags: ['FrontEnd', 'BackEnd'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    id: 1,
-    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-    category: '스터디',
-    tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-    status: '모집 중',
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-];
-
 const PostList = () => {
   return (
     <Wrapper>
@@ -81,9 +12,9 @@ const PostList = () => {
         <MoreWrapper to="/posts">더보기</MoreWrapper>
       </HeaderWrapper>
       <PostListWrapper>
-        {testDataList.map((i, idx) => (
+        {/* {testDataList.map((i, idx) => (
           <PostItem key={idx} post={i} />
-        ))}
+        ))} */}
       </PostListWrapper>
     </Wrapper>
   );
