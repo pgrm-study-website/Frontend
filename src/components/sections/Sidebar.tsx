@@ -324,7 +324,6 @@ const Notification = styled.div<{ open: boolean }>`
   padding: 15px;
   z-index: 20;
   background-color: #fff;
-  //animation
   transition: opacity 0.5s;
   pointer-events: ${props => (props.open ? 'auto' : 'none')};
   opacity: ${props => (props.open ? '1' : '0')};

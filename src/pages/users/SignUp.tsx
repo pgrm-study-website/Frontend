@@ -82,7 +82,11 @@ const reducer = (state: stateType, action: any) => {
         newWarning.content = '* 올바른 이메일 형식이 아닙니다.';
         newWarning.color = '#ff3939';
       }
-      break;
+      return {
+        ...state,
+        [actionName]: newValue,
+        [actionName + 'Warning']: newWarning,
+      };
     }
     case 'nickname': {
       newWarning.content = '* 2자 이상 8자 이하';
@@ -94,7 +98,11 @@ const reducer = (state: stateType, action: any) => {
       } else {
         newWarning.color = '#ff3939';
       }
-      break;
+      return {
+        ...state,
+        [actionName]: newValue,
+        [actionName + 'Warning']: newWarning,
+      };
     }
     case 'password': {
       const passwordPattern = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
@@ -135,8 +143,13 @@ const reducer = (state: stateType, action: any) => {
             color: '#ff3939',
           },
         };
+      } else {
+        return {
+          ...state,
+          [actionName]: newValue,
+          [actionName + 'Warning']: newWarning,
+        };
       }
-      break;
     }
     case 'passwordConfirm': {
       const passwordPattern = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
@@ -152,21 +165,21 @@ const reducer = (state: stateType, action: any) => {
         newWarning.content = '* 비밀번호가 일치하지 않습니다.';
         newWarning.color = '#ff3939';
       }
-      break;
+      return {
+        ...state,
+        [actionName]: newValue,
+        [actionName + 'Warning']: newWarning,
+      };
     }
     case 'checkClause': {
       return { ...state, checkClause: !state.checkClause };
-      break;
+    }
+    case 'authEmailCode': {
+      return { ...state, authEmailCode: action.target.value };
     }
     default:
-      break;
+      return state;
   }
-
-  return {
-    ...state,
-    [actionName]: newValue,
-    [actionName + 'Warning']: newWarning,
-  };
 };
 
 function SignUp() {
@@ -258,7 +271,6 @@ function SignUp() {
           <FormGrid>
             <ColumnBox>
               <InputItem>
-                {/* 자동완성 무효화 */}
                 <input type="text" style={{ width: 0, height: 0, border: 0 }} />
                 <input
                   type="password"

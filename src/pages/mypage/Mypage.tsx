@@ -7,12 +7,22 @@ import styled from 'styled-components';
 import PostTagA from 'components/posts/PostTagA';
 import PostItem from 'components/posts/PostItem';
 import PostTagB from 'components/posts/PostTagB';
+import { useSelector } from 'react-redux';
+import { RootState } from 'modules';
 
 const Mypage = () => {
   const { id } = useParams();
   const [edit, setEdit] = useState([false, false, false]);
-
   const [input, setInput] = useState('');
+
+  const { user, read, loading } = useSelector(
+    ({ users, loading }: RootState) => ({
+      user: users.user,
+      read: users.read,
+      loading: loading['users/LOGIN'],
+    }),
+  );
+
   const autoComplete = (x: string) => {
     if (x === '') return [];
     const result: string[] = [];
