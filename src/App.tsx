@@ -20,7 +20,7 @@ import Read from 'pages/posts/read/Read';
 import Mypage from 'pages/mypage/Mypage';
 import Message from 'pages/mypage/Message';
 import NotFound from 'components/common/NotFound';
-import Notification from  'pages/mypage/Notification';
+import Notification from 'pages/mypage/Notification';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}

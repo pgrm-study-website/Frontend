@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import {MdOutlineCancel} from 'react-icons/md';
+import { MdOutlineCancel } from 'react-icons/md';
 
-type Props = {};
+type Props = any;
 type notificationDataProps = {
   id: number;
   date: Date;
@@ -55,7 +55,8 @@ const Notification = (props: Props) => {
           <NotificationItem key={i.content}>
             <Content>{i.content}</Content>
             <SubContent>
-              <Name>{i.sender.name}</Name> | <div>{i.date.toLocaleDateString()}</div>
+              <Name>{i.sender.name}</Name> |{' '}
+              <div>{i.date.toLocaleDateString()}</div>
             </SubContent>
             <DeleteBtn onClick={() => handleDelete(i.id)}>
               <MdOutlineCancel />
