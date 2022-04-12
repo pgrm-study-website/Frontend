@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { styleList } from 'lib/utils/tagDatabase';
 
 const SearchOption = ({ name }: { name: string }) => {
   return <Wrapper>{name}</Wrapper>;
@@ -15,4 +14,9 @@ const Wrapper = styled.div`
   padding: 5px 6px 5px 6px;
   font-size: 14px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.15s linear;
+  &:hover {
+    background-color: #9b2929;
+  }
 `;

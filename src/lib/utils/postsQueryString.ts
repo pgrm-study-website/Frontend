@@ -11,6 +11,26 @@ const searchTypeChanger = (x: string) => {
   return y;
 };
 
+const makePageArray = (
+  page: number,
+  totalElements: number,
+  totalPages: number,
+) => {
+  const start = page - 2;
+  const end = page + 2;
+  const ret = [];
+  if (totalElements === 0) {
+    return [1];
+  } else if (page > totalPages) {
+    return [totalPages];
+  } else {
+    for (let i = start; i <= end; i++) {
+      if (i >= 1 && i <= totalPages) ret.push(i);
+    }
+    return ret;
+  }
+};
+
 export type stateType = {
   searchType: string;
   keyword: string;
@@ -36,46 +56,15 @@ export const encodeQs = (state: stateType, page: number) => {
   for (let i = 0; i < state.tagIds.length; i++) {
     result += '&tagIds=' + state.tagIds[i].toString();
   }
-  if (state.period[0] !== 1) {
-    result += '&periodStart=' + state.period[0].toString();
+  if (state.period[0] !== 1 || state.period[1] !== 24) {
+    result += '&period=' + state.period[0].toString();
+    result += '&period=' + state.period[1].toString();
   }
-  if (state.period[1] !== 24) {
-    result += '&periodEnd=' + state.period[1].toString();
-  }
-  if (state.participantMax[0] !== 2) {
-    result += '&participantMaxStart=' + state.participantMax[0].toString();
-  }
-  if (state.participantMax[1] !== 12) {
-    result += '&participantMaxEnd=' + state.participantMax[1].toString();
+  if (state.participantMax[0] !== 2 || state.participantMax[1] !== 12) {
+    result += '&participantMax=' + state.participantMax[0].toString();
+    result += '&participantMax=' + state.participantMax[1].toString();
   }
   return result;
-};
-
-const makePageArray = (
-  page: number,
-  totalElements: number,
-  totalPages: number,
-) => {
-  const start = page - 2;
-  const end = page + 2;
-  const ret = [];
-  if (totalElements === 0) {
-    return [];
-  } else if (page > totalPages) {
-    return [totalPages];
-  } else {
-    for (let i = start; i <= end; i++) {
-      if (i >= 1 && i <= totalPages) ret.push(i);
-    }
-    return ret;
-  }
-};
-
-const changeSearchTypeForRequest = (x: string) => {
-  if (x === '제목, 내용') return 'title&content';
-  if (x === '제목만') return 'title';
-  if (x === '내용만') return 'content';
-  return '';
 };
 
 export const decodeQs = (
@@ -90,15 +79,15 @@ export const decodeQs = (
     category,
     status,
     tagIds,
-    periodStart,
-    periodEnd,
-    participantMaxStart,
-    participantMaxEnd,
+    period,
+    participantMax,
     page,
   } = queryObject;
 
   if (searchType === undefined) {
-    searchType = '제목, 내용';
+    searchType = '제목+내용';
+  } else {
+    searchType = searchTypeChanger(searchType);
   }
   if (keyword === undefined) {
     keyword = '';
@@ -120,28 +109,16 @@ export const decodeQs = (
   } else {
     tagIds = tagIds.map((i: string) => parseInt(i)).slice(0, 5);
   }
-  if (periodStart === undefined) {
-    periodStart = 1;
+  if (participantMax === undefined) {
+    participantMax = [2, 12];
   } else {
-    periodStart = parseInt(periodStart as string);
+    participantMax = participantMax.map((i: string) => parseInt(i)).slice(0, 2);
   }
-  if (periodEnd === undefined) {
-    periodEnd = 24;
+  if (period === undefined) {
+    period = [1, 24];
   } else {
-    periodEnd = parseInt(periodEnd as string);
+    period = period.map((i: string) => parseInt(i)).slice(0, 2);
   }
-  const period = [periodStart, periodEnd];
-  if (participantMaxStart === undefined) {
-    participantMaxStart = 2;
-  } else {
-    participantMaxStart = parseInt(participantMaxStart as string);
-  }
-  if (participantMaxEnd === undefined) {
-    participantMaxEnd = 12;
-  } else {
-    participantMaxEnd = parseInt(participantMaxEnd as string);
-  }
-  const participantMax = [participantMaxStart, participantMaxEnd];
   if (page === undefined) {
     page = 1;
   } else {
@@ -182,6 +159,19 @@ export const decodeQs = (
     showOption.push(`${period[1] as string}주 이하`);
   }
   const pageArray = makePageArray(page, totalElements, totalPages);
+  const payload =
+    encodeQs(
+      {
+        searchType,
+        keyword,
+        category,
+        status,
+        tagIds,
+        period,
+        participantMax,
+      },
+      page - 1,
+    ) + `&size=${size}`;
 
   return {
     searchState: {
@@ -193,24 +183,52 @@ export const decodeQs = (
       period,
       participantMax,
     },
-    payload: {
-      request: {
-        searchType: changeSearchTypeForRequest(searchType),
-        keyword: keyword === '' ? null : keyword,
-        category: category.length === 0 ? null : category,
-        status: status.length === 0 ? null : status,
-        tagIds: tagIds.length === 0 ? null : tagIds,
-        participantMax:
-          participantMax[0] === 2 && participantMax[1] === 12
-            ? null
-            : participantMax,
-        period: period[0] === 1 && period[1] === 24 ? null : period,
-      },
-      qs: `?page=${page - 1}&size=${size}`,
-    },
-    page: page,
+    page,
     showOptionText,
     showOption,
     pageArray,
+    payload,
   };
+};
+
+export const removeSearchOption = (x: string, state: stateType) => {
+  if (x.includes('Search:')) {
+    return { ...state, keyword: '' };
+  } else if (
+    x === '스터디' ||
+    x === '프로젝트' ||
+    x === '공모전' ||
+    x === '기타'
+  ) {
+    return { ...state, category: state.category.filter(i => i !== x) };
+  } else if (x === '모집 중' || x === '모집 완료') {
+    return { ...state, status: state.status.filter(i => i !== x) };
+  } else if (tagList.includes(x)) {
+    return {
+      ...state,
+      tagIds: state.tagIds.filter(i => i !== tagList.indexOf(x)),
+    };
+  } else if (x.includes('명 이상')) {
+    return {
+      ...state,
+      participantMax: [2, state.participantMax[1]],
+    };
+  } else if (x.includes('명 이하')) {
+    return {
+      ...state,
+      participantMax: [state.participantMax[0], 12],
+    };
+  } else if (x.includes('주 이상')) {
+    return {
+      ...state,
+      period: [1, state.period[1]],
+    };
+  } else if (x.includes('주 이하')) {
+    return {
+      ...state,
+      period: [state.period[0], 24],
+    };
+  } else {
+    return state;
+  }
 };

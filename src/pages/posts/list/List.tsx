@@ -13,7 +13,12 @@ import {
   languageTagList,
   etcTagList,
 } from 'lib/utils/tagDatabase';
-import { stateType, encodeQs, decodeQs } from 'lib/utils/postsQueryString';
+import {
+  stateType,
+  encodeQs,
+  decodeQs,
+  removeSearchOption,
+} from 'lib/utils/postsQueryString';
 import styled from 'styled-components';
 
 import Error from 'components/common/Error';
@@ -21,6 +26,7 @@ import Loading from 'components/common/Loading';
 import PostTagC from 'components/posts/PostTagC';
 import SearchOption from 'components/posts/SearchOption';
 import PostItem from 'components/posts/PostItem';
+import NotFound from 'components/common/NotFound';
 
 const List = () => {
   const navigate = useNavigate();
@@ -35,7 +41,7 @@ const List = () => {
     }),
   );
   const [foldOption, setFoldOption] = useState(false);
-  const { searchState, payload, page, showOptionText, showOption, pageArray } =
+  const { searchState, page, showOptionText, showOption, pageArray, payload } =
     decodeQs(
       qs.parse(location.search, {
         ignoreQueryPrefix: true,
@@ -44,7 +50,6 @@ const List = () => {
       posts ? posts.totalElements : 0,
       posts ? posts.totalPages : 0,
     );
-
   const initialState: stateType = searchState;
   const reducer = (state: stateType, action: any) => {
     switch (action.name) {
@@ -149,6 +154,9 @@ const List = () => {
           participantMax: initialState.participantMax,
         };
       }
+      case 'init': {
+        return action.value as stateType;
+      }
       default:
         return state;
     }
@@ -159,8 +167,9 @@ const List = () => {
     const htmlTitle = document.querySelector('title');
     htmlTitle!.innerHTML = 'Plming - List';
     window.scrollTo(0, 0);
-    setFoldOption(false);
 
+    setFoldOption(false);
+    stateDispatch({ name: 'init', value: searchState });
     dispatch(list(payload));
 
     return () => {
@@ -171,11 +180,13 @@ const List = () => {
   const onSearch = () => {
     navigate(`/posts${encodeQs(state, page)}`);
   };
+  const onRemoveOption = (x: string) => {
+    navigate(`/posts${encodeQs(removeSearchOption(x, state), page)}`);
+  };
 
   if (error) {
     return <Error />;
-  }
-  if (!posts) {
+  } else if (!posts) {
     return <Loading />;
   }
   return (
@@ -187,13 +198,18 @@ const List = () => {
             defaultValue={state.searchType}
             onChange={e => stateDispatch({ ...e, name: 'searchType' })}
           >
-            <option>제목, 내용</option>
+            <option>제목+내용</option>
             <option>제목만</option>
             <option>내용만</option>
           </SearchType>
           <SearchInput
             value={state.keyword}
             onChange={e => stateDispatch({ ...e, name: 'keyword' })}
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                onSearch();
+              }
+            }}
             placeholder="Search"
           />
           <BsSearch onClick={onSearch} />
@@ -419,23 +435,29 @@ const List = () => {
         <ShowOptionText>{showOptionText}</ShowOptionText>
         <ShowOptionList>
           {showOption.map((i, idx) => (
-            <SearchOption key={idx} name={i} />
+            <div key={idx} onClick={() => onRemoveOption(i)}>
+              <SearchOption name={i} />
+            </div>
           ))}
         </ShowOptionList>
       </ShowOptionWrapper>
-      <PostListWrapper>
-        {posts.content.map((i, idx) => (
-          <PostItem key={idx} post={i} />
-        ))}
-      </PostListWrapper>
+      <PostListWrapperWrapper>
+        {posts.content.length > 0 ? (
+          <PostListWrapper>
+            {posts.content.map((i, idx) => (
+              <PostItem key={idx} post={i} />
+            ))}
+          </PostListWrapper>
+        ) : (
+          <PostNotFound>게시글이 없습니다.</PostNotFound>
+        )}
+      </PostListWrapperWrapper>
       <PageMoveWrapper>
-        {/* <PageSmallNumber>1</PageSmallNumber>
-        <PageDot>···</PageDot> */}
         {pageArray.map(i => (
-          <PageLargeNumber key={i}>{i}</PageLargeNumber>
+          <PageLargeNumber to={`/posts${encodeQs(state, i)}`} key={i}>
+            {i}
+          </PageLargeNumber>
         ))}
-        {/* <PageDot>···</PageDot>
-        <PageSmallNumber>26</PageSmallNumber> */}
       </PageMoveWrapper>
     </Wrapper>
   );
@@ -716,14 +738,26 @@ const ShowOptionText = styled.div`
 const ShowOptionList = styled.div`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   margin: 10px 0;
+`;
+const PostListWrapperWrapper = styled.div`
+  width: 100%;
+  min-height: 630px;
 `;
 const PostListWrapper = styled.div`
   width: 100%;
-  min-height: 630px;
   display: flex;
   flex-wrap: wrap;
+`;
+const PostNotFound = styled.div`
+  width: 100%;
+  height: 630px;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  font-size: 25px;
+  font-family: SuncheonR;
 `;
 const PageMoveWrapper = styled.div`
   margin: 25px 0 30px 0;
@@ -733,24 +767,9 @@ const PageMoveWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const PageNumber = styled.div`
-  font-size: 25px;
-  margin: 0 10px;
-  color: #565656;
-  cursor: pointer;
-`;
-const PageSmallNumber = styled.div`
-  font-size: 20px;
-  margin: 0 10px;
-  color: #565656;
-  cursor: pointer;
-`;
-const PageLargeNumber = styled.div`
+const PageLargeNumber = styled(Link)`
   font-size: 30px;
   margin: 0 10px;
   color: black;
   cursor: pointer;
-`;
-const PageDot = styled.div`
-  margin: 0 5px;
 `;

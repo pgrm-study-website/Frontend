@@ -1,8 +1,6 @@
 import client from './client';
-import { AxiosRequestConfig } from 'axios';
 
-export const list = (payload: listRequestType) =>
-  client.get(`posts${payload.qs}`);
+export const list = (payload: string) => client.get(`posts${payload}`);
 export const myList = () => client.get(`posts/user`);
 export const write = (payload: writeRequestType) =>
   client.post('posts', payload);
@@ -10,19 +8,6 @@ export const read = (payload: number) => client.get(`posts/${payload}`);
 export const remove = (payload: number) => client.delete(`posts/${payload}`);
 export const update = (payload: updateRequestType) =>
   client.patch(`posts/${payload.id}`, payload.data);
-
-export type listRequestType = {
-  request: {
-    searchType: string;
-    keyword: string | null;
-    category: string[] | null;
-    status: string[] | null;
-    tagIds: number[] | null;
-    period: number[] | null;
-    participantMax: number[] | null;
-  };
-  qs: string;
-};
 
 export type writeRequestType = {
   title: string;

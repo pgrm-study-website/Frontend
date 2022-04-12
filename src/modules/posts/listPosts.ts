@@ -11,7 +11,7 @@ const MY_LIST = 'listPosts/MY_LIST';
 const MY_LIST_SUCCESS = 'listPosts/MY_LIST_SUCCESS';
 const MY_LIST_FAILURE = 'listPosts/MY_LIST_FAILURE';
 
-export const list = createAction(LIST)<postsAPI.listRequestType>();
+export const list = createAction(LIST)<string>();
 export const listSuccess = createAction(LIST_SUCCESS)<any>();
 export const listFailure = createAction(LIST_FAILURE)<AxiosError>();
 export const myList = createAction(MY_LIST)();
