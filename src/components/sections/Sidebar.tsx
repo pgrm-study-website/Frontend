@@ -60,13 +60,7 @@ const Sidebar = () => {
               <Link to="/">Plming</Link>
             </Title>
             <Profile>
-              <img
-                src={
-                  user.image ||
-                  'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png'
-                }
-                alt="profile"
-              />
+              <img src={user.image} alt="profile" />
               <Name>{user.nickname}</Name>
             </Profile>
             <LinkContainer>

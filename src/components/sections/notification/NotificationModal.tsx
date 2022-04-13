@@ -35,7 +35,7 @@ const NotificationItem = ({ item }: { item: messageProps }) => {
     </Item>
   );
 };
-const More = styled.li`
+const More = styled.div`
   font-weight: 700;
   padding-top: 10px;
   cursor: pointer;

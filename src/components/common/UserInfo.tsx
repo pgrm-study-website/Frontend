@@ -4,12 +4,6 @@ import { AiOutlineHome } from 'react-icons/ai';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import styled from 'styled-components';
 
-const testUserData = {
-  nickname: 'seuha516',
-  image:
-    'https://w.namu.la/s/a50a10b0fc00aaa6d9c384e5bdcdc8b791978a45d5864752cb3131e9d6a40dda44b9102f2223390959c5c5ae20523b8512f04d824dbf2e3e3e395f3fcf26010be6b74a1920b61278bb5631862db12c3ab49042b801f4c06d6d2ed31b76003374',
-};
-
 const UserInfo = ({ userId }: { userId: number }) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
   const [popUp, setPopUp] = useState(false);
@@ -40,8 +34,8 @@ const UserInfo = ({ userId }: { userId: number }) => {
     return (
       <Wrapper ref={WrapperRef}>
         <Wrapper2 onClick={() => setPopUp(!popUp)}>
-          <UserImage src={testUserData.image} />
-          <Nickname>{testUserData.nickname}</Nickname>
+          <UserImage src="https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png" />
+          <Nickname>Nickname</Nickname>
         </Wrapper2>
         {popUp && (
           <PopupWrapper>
