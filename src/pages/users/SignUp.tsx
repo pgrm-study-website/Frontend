@@ -3,7 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RootState } from 'modules';
-import { checkAuthEmail, sendAuthEmail, signup } from 'modules/users';
+import {
+  changeField,
+  checkAuthEmail,
+  sendAuthEmail,
+  signup,
+} from 'modules/users';
 import styled from 'styled-components';
 
 import SignTemplate from 'components/users/SignTemplate';
@@ -207,8 +212,7 @@ function SignUp() {
       } catch (e) {
         console.log('localStorage is not working');
       }
-    }
-    if (authEmail) {
+    } else if (authEmail) {
       setPopup(false);
       dispatch(
         signup({
@@ -218,6 +222,7 @@ function SignUp() {
           password: state.password,
         }),
       );
+      dispatch(changeField({ key: 'authEmail', value: null }));
     }
 
     return () => {

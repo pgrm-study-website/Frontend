@@ -21,7 +21,15 @@ export const sendAuthEmail = (payload: sendAuthEmailRequestType) =>
 export const checkAuthEmail = (payload: checkAuthEmailRequestType) =>
   client.post('users/email/verify-code', payload);
 
-export const read = (payload: number) => client.get(`users/${payload}`);
+export const read = (payload: readRequestType) => {
+  if (payload.type === 'id') {
+    return client.get(`users/id/${payload.data}`);
+  } else if (payload.type === 'nickname') {
+    return client.get(`users/nickname/${payload.data}`);
+  } else {
+    return client.get(`users/email/${payload.data}`);
+  }
+};
 export const update = (payload: updateRequestType) =>
   client.patch(`users/${payload.id}`, payload.data);
 export const remove = (payload: number) => client.get(`users/${payload}`);
@@ -58,7 +66,12 @@ export type simpleResponseType = {
   nickname: string;
   image: string;
 };
+export type readRequestType = {
+  data: number | string;
+  type: string;
+};
 export type readResponseType = {
+  id: number;
   email: string | null;
   nickname: string;
   image: string;
@@ -69,11 +82,11 @@ export type readResponseType = {
 export type updateRequestType = {
   id: number;
   data: {
-    nickname?: string;
-    image?: string;
-    introduce?: string;
-    github?: string;
-    tags?: string[];
+    nickname: string;
+    image: string;
+    introduce: string;
+    github: string;
+    tags: string[];
   };
 };
 export type sendAuthEmailRequestType = {
