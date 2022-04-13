@@ -11,17 +11,11 @@ const searchTypeChanger = (x: string) => {
   return y;
 };
 
-const makePageArray = (
-  page: number,
-  totalElements: number,
-  totalPages: number,
-) => {
+const makePageArray = (page: number, totalPages: number) => {
   const start = page - 2;
   const end = page + 2;
   const ret = [];
-  if (totalElements === 0) {
-    return [1];
-  } else if (page > totalPages) {
+  if (page > totalPages) {
     return [totalPages];
   } else {
     for (let i = start; i <= end; i++) {
@@ -70,7 +64,6 @@ export const encodeQs = (state: stateType, page: number) => {
 export const decodeQs = (
   queryObject: any,
   size: number,
-  totalElements: number,
   totalPages: number,
 ) => {
   let {
@@ -132,7 +125,7 @@ export const decodeQs = (
     (keyword === ''
       ? ''
       : `${searchType as string} 검색: "${keyword as string}" / `) +
-    `${totalElements.toString()}개의 글 / ${page as string}페이지`;
+    `${page as string}페이지`;
   const showOption = [];
   if (keyword !== '') {
     showOption.push(`Search: ${keyword as string}`);
@@ -158,7 +151,7 @@ export const decodeQs = (
   if (period[1] !== 24) {
     showOption.push(`${period[1] as string}주 이하`);
   }
-  const pageArray = makePageArray(page, totalElements, totalPages);
+  const pageArray = makePageArray(page, totalPages);
   const payload =
     encodeQs(
       {

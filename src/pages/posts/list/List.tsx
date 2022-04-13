@@ -3,7 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiReset } from 'react-icons/bi';
 import qs from 'qs';
-import { BsSearch, BsPersonFill, BsFillCalendarWeekFill } from 'react-icons/bs';
+import {
+  BsSearch,
+  BsPersonFill,
+  BsFillCalendarWeekFill,
+  BsFillPencilFill,
+} from 'react-icons/bs';
 import { RootState } from 'modules';
 import { list } from 'modules/posts/listPosts';
 import {
@@ -47,7 +52,6 @@ const List = () => {
         ignoreQueryPrefix: true,
       }),
       12,
-      posts ? posts.totalElements : 0,
       posts ? posts.totalPages : 0,
     );
   const initialState: stateType = searchState;
@@ -217,6 +221,13 @@ const List = () => {
       </HeaderWrapper>
       <OptionWrapper>
         <SummaryButtonWrapper>
+          {user ? (
+            <SummaryWrite to="/posts/write">
+              <BsFillPencilFill /> <div>글쓰기</div>
+            </SummaryWrite>
+          ) : (
+            <div />
+          )}
           <SummaryButton onClick={() => setFoldOption(!foldOption)}>
             <div>검색 옵션</div>
             <div>{foldOption ? '▼' : '◀'}</div>
@@ -541,16 +552,27 @@ const OptionWrapper = styled.div`
 const SummaryButtonWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  font-size: 20px;
+  font-family: NanumSquareR;
 `;
 const SummaryButton = styled.div`
   display: flex;
-  font-size: 20px;
-  font-family: NanumSquareR;
   cursor: pointer;
   color: #5c5c5c;
   div + div {
     margin-left: 5px;
+  }
+`;
+const SummaryWrite = styled(Link)`
+  display: flex;
+  svg {
+    margin: 0 5px -4px 0;
+  }
+  color: #555555;
+  transition: color 0.15s linear;
+  &:hover {
+    color: #000000;
   }
 `;
 const OptionsWrapper = styled.div`
