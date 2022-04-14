@@ -40,20 +40,20 @@ const NOTICE_DELETE_ONE_FAILURE = 'notices/NOTICE_DELETE_ONE_FAILURE';
 */
 // create : 입력된 회원정보 (id?)
 export const noticeCreate = createAction(NOTICE_CREATE)();
-export const noticeCreateSuccess = createAction(NOTICE_CREATE_SUCCESS)();
-export const noticeCreateFailure = createAction(NOTICE_CREATE_FAILURE)();
+export const noticeCreateSuccess = createAction(NOTICE_CREATE_SUCCESS)<AxiosError>();
+export const noticeCreateFailure = createAction(NOTICE_CREATE_FAILURE)<AxiosError>();
 export const noticeRead = createAction(NOTICE_READ)();
 export const noticeReadSuccess = createAction(NOTICE_READ_SUCCESS)();
-export const noticeReadFailure = createAction(NOTICE_READ_FAILURE)();
-export const noticeReadOne = createAction(NOTICE_READ_ONE)();
-export const noticeReadOneSuccess = createAction(NOTICE_READ_ONE_SUCCESS)();
-export const noticeReadOneFailure = createAction(NOTICE_READ_ONE_FAILURE)();
+export const noticeReadFailure = createAction(NOTICE_READ_FAILURE)<AxiosError>();
+export const noticeReadOne = createAction(NOTICE_READ_ONE)<any>();
+export const noticeReadOneSuccess = createAction(NOTICE_READ_ONE_SUCCESS)<any>();
+export const noticeReadOneFailure = createAction(NOTICE_READ_ONE_FAILURE)<AxiosError>();
 export const noticeDelete = createAction(NOTICE_DELETE)();
 export const noticeDeleteSuccess = createAction(NOTICE_DELETE_SUCCESS)();
-export const noticeDeleteFailure = createAction(NOTICE_DELETE_FAILURE)();
-export const noticeDeleteOne = createAction(NOTICE_DELETE_ONE)();
-export const noticeDeleteOneSuccess = createAction(NOTICE_DELETE_ONE_SUCCESS)();
-export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)();
+export const noticeDeleteFailure = createAction(NOTICE_DELETE_FAILURE)<AxiosError>();
+export const noticeDeleteOne = createAction(NOTICE_DELETE_ONE)<any>();
+export const noticeDeleteOneSuccess = createAction(NOTICE_DELETE_ONE_SUCCESS)<any>();
+export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)<AxiosError>();
 
 /*
   Redux-Saga
@@ -71,17 +71,25 @@ export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)();
 */
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
 const initialState = {
-  notice: {
-    date: '',
-    content: 'string',
-    noticeId: '1',
-    type: undefined,
-    category: 'messages',
-    image: '',
-  },
+  notice: null,
   result: null,
 };
-
+type notificationState = {
+  id: number;
+  date: Date;
+  content: string;
+  noticeId: number;
+  category?: 'announcement' | 'messages' | undefined;
+  image?: string;
+};
+// 밑과 같이 써야하는 걸까요?
+// const initialState :  notificationState = {
+//   id: null;
+//   date: null;
+//   content: '';
+//   noticeId: null;
+//   category : undefined;
+// };
 const notices = createReducer(initialState, {
   //새로운 알림 발생
   [NOTICE_CREATE]: (state, {payload}) => ({
