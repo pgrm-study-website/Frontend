@@ -1,6 +1,6 @@
-import {createAction, ActionType, createReducer} from 'typesafe-actions';
-import {AxiosError} from 'axios';
-import {call, takeLatest} from 'redux-saga/effects';
+import { createAction, ActionType, createReducer } from 'typesafe-actions';
+import { AxiosError } from 'axios';
+import { call, takeLatest } from 'redux-saga/effects';
 import createRequestSaga from 'lib/createRequestSaga';
 import * as noticeAPI from 'lib/api/notice';
 /*
@@ -41,19 +41,32 @@ const NOTICE_DELETE_ONE_FAILURE = 'notices/NOTICE_DELETE_ONE_FAILURE';
 // create : 입력된 회원정보 (id?)
 export const noticeCreate = createAction(NOTICE_CREATE)();
 export const noticeCreateSuccess = createAction(NOTICE_CREATE_SUCCESS)();
-export const noticeCreateFailure = createAction(NOTICE_CREATE_FAILURE)<AxiosError>();
+export const noticeCreateFailure = createAction(
+  NOTICE_CREATE_FAILURE,
+)<AxiosError>();
 export const noticeRead = createAction(NOTICE_READ)();
 export const noticeReadSuccess = createAction(NOTICE_READ_SUCCESS)();
-export const noticeReadFailure = createAction(NOTICE_READ_FAILURE)<AxiosError>();
+export const noticeReadFailure =
+  createAction(NOTICE_READ_FAILURE)<AxiosError>();
 export const noticeReadOne = createAction(NOTICE_READ_ONE)<any>();
-export const noticeReadOneSuccess = createAction(NOTICE_READ_ONE_SUCCESS)<any>();
-export const noticeReadOneFailure = createAction(NOTICE_READ_ONE_FAILURE)<AxiosError>();
+export const noticeReadOneSuccess = createAction(
+  NOTICE_READ_ONE_SUCCESS,
+)<any>();
+export const noticeReadOneFailure = createAction(
+  NOTICE_READ_ONE_FAILURE,
+)<AxiosError>();
 export const noticeDelete = createAction(NOTICE_DELETE)();
 export const noticeDeleteSuccess = createAction(NOTICE_DELETE_SUCCESS)();
-export const noticeDeleteFailure = createAction(NOTICE_DELETE_FAILURE)<AxiosError>();
+export const noticeDeleteFailure = createAction(
+  NOTICE_DELETE_FAILURE,
+)<AxiosError>();
 export const noticeDeleteOne = createAction(NOTICE_DELETE_ONE)<any>();
-export const noticeDeleteOneSuccess = createAction(NOTICE_DELETE_ONE_SUCCESS)<any>();
-export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)<AxiosError>();
+export const noticeDeleteOneSuccess = createAction(
+  NOTICE_DELETE_ONE_SUCCESS,
+)<any>();
+export const noticeDeleteOneFailure = createAction(
+  NOTICE_DELETE_ONE_FAILURE,
+)<AxiosError>();
 
 /*
   Redux-Saga
@@ -95,15 +108,15 @@ const initialState: noticesState = {
 //서버로부터 받아온 응답은 success의 payload
 const notices = createReducer(initialState, {
   //새로운 알림 발생
-  [NOTICE_CREATE]: (state, {payload}) => ({
+  [NOTICE_CREATE]: (state, { payload }) => ({
     ...state,
     notice: null,
   }),
-  [NOTICE_CREATE_SUCCESS]: (state, {payload}) => ({
+  [NOTICE_CREATE_SUCCESS]: (state, { payload }) => ({
     ...state,
     notice: payload.data,
   }),
-  [NOTICE_CREATE_FAILURE]: (state, {payload: error}) => {
+  [NOTICE_CREATE_FAILURE]: (state, { payload: error }) => {
     alert('notice reading error');
     return {
       ...state,
@@ -111,15 +124,15 @@ const notices = createReducer(initialState, {
     };
   },
   //모든 알림 읽기
-  [NOTICE_READ]: (state, {payload}) => ({
+  [NOTICE_READ]: (state, { payload }) => ({
     ...state,
     notice: null,
   }),
-  [NOTICE_READ_SUCCESS]: (state, {payload}) => ({
+  [NOTICE_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     notice: payload.data,
   }),
-  [NOTICE_READ_FAILURE]: (state, {payload: error}) => {
+  [NOTICE_READ_FAILURE]: (state, { payload: error }) => {
     alert('notice read error');
     return {
       ...state,
@@ -127,15 +140,15 @@ const notices = createReducer(initialState, {
     };
   },
   //알림 하나만 읽기
-  [NOTICE_READ_ONE]: (state, {payload}) => ({
+  [NOTICE_READ_ONE]: (state, { payload }) => ({
     ...state,
     notice: null,
   }),
-  [NOTICE_READ_ONE_SUCCESS]: (state, {payload}) => ({
+  [NOTICE_READ_ONE_SUCCESS]: (state, { payload }) => ({
     ...state,
     notice: payload.data,
   }),
-  [NOTICE_READ_ONE_FAILURE]: (state, {payload: error}) => {
+  [NOTICE_READ_ONE_FAILURE]: (state, { payload: error }) => {
     alert('notice read one error');
     return {
       ...state,
@@ -143,15 +156,17 @@ const notices = createReducer(initialState, {
     };
   },
   //모든 알림 삭제
-  [NOTICE_DELETE]: (state, {payload}) => ({
+  [NOTICE_DELETE]: (state, { payload }) => ({
     ...state,
+    remove: null,
     notice: null,
   }),
-  [NOTICE_DELETE_SUCCESS]: (state, {payload}) => ({
+  [NOTICE_DELETE_SUCCESS]: (state, { payload }) => ({
     ...state,
+    remove: true,
     notice: payload.data,
   }),
-  [NOTICE_DELETE_FAILURE]: (state, {payload: error}) => {
+  [NOTICE_DELETE_FAILURE]: (state, { payload: error }) => {
     alert('notice delete error');
     return {
       ...state,
@@ -159,15 +174,17 @@ const notices = createReducer(initialState, {
     };
   },
   //알림 하나만 삭제
-  [NOTICE_DELETE_ONE]: (state, {payload}) => ({
+  [NOTICE_DELETE_ONE]: (state, { payload }) => ({
     ...state,
+    remove: null,
     notice: null,
   }),
-  [NOTICE_DELETE_ONE_SUCCESS]: (state, {payload}) => ({
+  [NOTICE_DELETE_ONE_SUCCESS]: (state, { payload }) => ({
     ...state,
+    remove: true,
     notice: payload.data,
   }),
-  [NOTICE_DELETE_ONE_FAILURE]: (state, {payload: error}) => {
+  [NOTICE_DELETE_ONE_FAILURE]: (state, { payload: error }) => {
     alert('notice delete one error');
     return {
       ...state,
