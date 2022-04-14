@@ -5,6 +5,8 @@ import {MdOutlineCancel} from 'react-icons/md';
 import {RootState} from 'modules';
 import {notificationProps} from 'lib/api/notice';
 
+type Props = {};
+
 const dummyData: Array<notificationProps> = [
   {
     id: 1,

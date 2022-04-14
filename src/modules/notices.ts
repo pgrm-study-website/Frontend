@@ -72,12 +72,12 @@ export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)<Ax
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
 type noticesState = {
   notice: noticeAPI.notificationProps | null;
-  result: number | null;
+  remove: boolean | null;
   error: AxiosError | null;
 };
 const initialState: noticesState = {
   notice: null,
-  result: null,
+  remove: null,
   error: null,
 };
 
