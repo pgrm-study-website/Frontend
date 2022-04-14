@@ -70,9 +70,15 @@ export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)<Ax
   
 */
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
-const initialState = {
+type noticesState = {
+  notice: notificationState | null;
+  result: number | null;
+  error: AxiosError | null;
+};
+const initialState: noticesState = {
   notice: null,
   result: null,
+  error: null,
 };
 type notificationState = {
   id: number;
