@@ -1,52 +1,50 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
-import { MdOutlineCancel } from 'react-icons/md';
+import {MdOutlineCancel} from 'react-icons/md';
+import {RootState} from 'modules';
 
 type Props = any;
 type notificationDataProps = {
   id: number;
   date: Date;
   content: string;
-  sender: {
-    name: string;
-    type: 'announcement' | undefined;
-    image?: string;
-  };
+  noticeId: number;
+  category?: 'announcement' | 'messages' | undefined;
+  image?: string;
 };
-const dummyData = [
+const dummyData: Array<notificationDataProps> = [
   {
     id: 1,
     date: new Date(),
     content: '알림입니다!',
-    sender: {
-      name: '플밍',
-    },
+    noticeId: 1,
   },
   {
     id: 2,
     date: new Date(),
     content: '알림입니다! 2',
-    sender: {
-      name: '플밍',
-    },
+    noticeId: 2,
   },
   {
     id: 3,
     date: new Date(),
     content: '알림입니다! 3',
-    sender: {
-      name: '플밍',
-    },
+    noticeId: 3,
   },
 ];
 
-const Notification = (props: Props) => {
+const Notification = ({}: Props) => {
   const [data, setData] = useState(dummyData);
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
     //삭제 데이터 서버에 전송
   };
+  // const {posts, error, user} = useSelector(({listPosts, users}: RootState) => ({
+  //   posts: listPosts.posts,
+  //   error: listPosts.error,
+  //   user: users.user,
+  // }));
   return (
     <Wrapper>
       <Title>Notification </Title>
@@ -55,8 +53,7 @@ const Notification = (props: Props) => {
           <NotificationItem key={i.content}>
             <Content>{i.content}</Content>
             <SubContent>
-              <Name>{i.sender.name}</Name> |{' '}
-              <div>{i.date.toLocaleDateString()}</div>
+              <Name>{i.noticeId}</Name> | <div>{i.date.toLocaleDateString()}</div>
             </SubContent>
             <DeleteBtn onClick={() => handleDelete(i.id)}>
               <MdOutlineCancel />
@@ -113,3 +110,10 @@ const Wrapper = styled.div`
   background-color: #f9f9f9;
 `;
 export default Notification;
+function useSelector(arg0: ({listPosts, users}: RootState) => {posts: any; error: any; user: any}): {
+  posts: any;
+  error: any;
+  user: any;
+} {
+  throw new Error('Function not implemented.');
+}
