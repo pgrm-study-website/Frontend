@@ -19,6 +19,8 @@ import List from 'pages/posts/list/List';
 import Write from 'pages/posts/write/Write';
 import Read from 'pages/posts/read/Read';
 import Mypage from 'pages/mypage/Mypage';
+import PwdChange from 'pages/users/PwdChange';
+import SignOut from 'pages/users/SignOut';
 import Message from 'pages/mypage/Message';
 import Notification from 'pages/mypage/Notification';
 import NotFound from 'components/common/NotFound';
@@ -129,6 +131,8 @@ const App = () => {
                       <Route path=":id" element={<Read />} />
                     </Route>
                     <Route path="mypage/:id" element={<Mypage />} />
+                    <Route path="pwd_change" element={<PwdChange />} />
+                    <Route path="signout" element={<SignOut />} />
                     <Route path="message/:id" element={<Message />} />
                     <Route path="notification" element={<Notification />} />
                     <Route path="*" element={<NotFound />} />

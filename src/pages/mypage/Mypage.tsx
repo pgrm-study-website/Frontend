@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { AiFillSetting } from 'react-icons/ai';
 import { BsGithub, BsPencil } from 'react-icons/bs';
 import { tagList } from 'lib/utils/tagDatabase';
 import styled from 'styled-components';
@@ -48,6 +49,13 @@ const Mypage = () => {
 
   return (
     <Wrapper>
+      <PrivateSettingWrapper>
+        <AiFillSetting />
+        <Link to="/pwd_change">비밀번호 변경</Link>
+        <div>/</div>
+        <Link to="/signout">회원 탈퇴</Link>
+      </PrivateSettingWrapper>
+
       <ProfileImage
         src={require('assets/images/defaultProfile.png')}
         alt="profile"
@@ -147,11 +155,27 @@ export default Mypage;
 const Wrapper = styled.div`
   width: 100%;
   min-height: 400px;
-  padding: 85px 20px;
+  padding: 35px 20px 85px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #f9f9f9;
+`;
+const PrivateSettingWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  margin-bottom: 40px;
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-top: -1px;
+  }
+  div,
+  a {
+    margin: 0 3px;
+  }
 `;
 const ProfileImage = styled.img`
   width: 160px;

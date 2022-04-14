@@ -60,7 +60,10 @@ const Sidebar = () => {
               <Link to="/">Plming</Link>
             </Title>
             <Profile>
-              <img src={user.image} alt="profile" />
+              <img
+                src={user.image || require('assets/images/defaultProfile.png')}
+                alt="profile"
+              />
               <Name>{user.nickname}</Name>
             </Profile>
             <LinkContainer>
@@ -121,26 +124,6 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>signup</LinkText>
               </LinkItem>
-              <Item
-                onClick={() =>
-                  dispatch(
-                    changeField({
-                      key: 'user',
-                      value: {
-                        id: 4,
-                        nickname: '닉네임abc12',
-                        image:
-                          'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png',
-                      },
-                    }),
-                  )
-                }
-              >
-                <LinkIcon>
-                  <AiOutlineLogin />
-                </LinkIcon>
-                <LinkText>temp_login</LinkText>
-              </Item>
             </LinkContainer>
           </>
         )}
