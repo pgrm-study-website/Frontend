@@ -107,10 +107,10 @@ function PwdFind() {
         changeField({ key: 'read', value: { data: null, error: null } }),
       );
     } else if (read.error) {
+      setPopup(false);
       dispatch(
         changeField({ key: 'read', value: { data: null, error: null } }),
       );
-      setPopup(false);
     }
 
     return () => {
@@ -164,6 +164,11 @@ function PwdFind() {
             <InputText
               value={state.email}
               onChange={e => stateDispatch({ ...e, name: 'email' })}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  submit();
+                }
+              }}
               type="text"
               id="inputEmail"
               placeholder="Input Email"
