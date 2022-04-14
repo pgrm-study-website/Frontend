@@ -302,8 +302,6 @@ const users = createReducer<usersState, usersAction>(initialState, {
       authEmail: false,
     };
   },
-
-  // 아래부턴 테스트되지 않았음
   [READ]: state => ({
     ...state,
     read: {
@@ -314,7 +312,7 @@ const users = createReducer<usersState, usersAction>(initialState, {
   [READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     read: {
-      data: payload,
+      data: payload.data,
       error: null,
     },
   }),

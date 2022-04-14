@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
+import { BiArrowBack } from 'react-icons/bi';
 import { RootState } from 'modules';
 import {
   changeField,
   sendAuthEmail,
   checkAuthEmail,
   read as userRead,
-  changePassword,
+  changePassword as userChangePassword,
 } from 'modules/users';
 import styled from 'styled-components';
 
@@ -73,53 +74,49 @@ function PwdFind() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, authEmail, read, loading } = useSelector(
-    ({ users, loading }: RootState) => ({
+  const { user, authEmail, read, changePassword } = useSelector(
+    ({ users }: RootState) => ({
       user: users.user,
       authEmail: users.authEmail,
       read: users.read,
-      loading: loading['users/CHANGE_PASSWORD'],
+      changePassword: users.changePassword,
     }),
   );
   const [state, stateDispatch] = useReducer(reducer, initialState);
   const [popUp, setPopup] = useState(false);
   const [newPwd, setNewPwd] = useState('');
 
-  async function getId(x: string) {
-    // const newValue = Math.random().toString(36).substring(2, 11);
-    // const userData = await read({ data: 'seuha516', type: 'nickname' });
-    // dispatch(
-    //   changePassword({
-    //     id: (userData as { [key: string]: any }).id,
-    //     data: { password: newValue },
-    //   }),
-    // );
-    // setNewPwd(newValue);
-    // dispatch(changeField({ key: 'authEmail', value: null }));
-  }
-
   useEffect(() => {
     const htmlTitle = document.querySelector('title');
-    htmlTitle!.innerHTML = 'Plming - Signup';
+    htmlTitle!.innerHTML = 'Plming - Pwd Find';
+
     if (user) {
       navigate('/');
-    } else if (authEmail && read) {
+    } else if (authEmail && read.data) {
       setPopup(false);
-      dispatch(changeField({ key: 'authEmail', value: null }));
-      dispatch(changeField({ key: 'read', value: null }));
       const newValue = Math.random().toString(36).substring(2, 11);
+      setNewPwd(newValue);
       dispatch(
-        changePassword({
-          id: read.data!.id,
+        userChangePassword({
+          id: read.data.id,
           data: { password: newValue },
         }),
       );
+      dispatch(changeField({ key: 'authEmail', value: null }));
+      dispatch(
+        changeField({ key: 'read', value: { data: null, error: null } }),
+      );
+    } else if (read.error) {
+      dispatch(
+        changeField({ key: 'read', value: { data: null, error: null } }),
+      );
+      setPopup(false);
     }
 
     return () => {
       htmlTitle!.innerHTML = 'Plming';
     };
-  }, [navigate, dispatch, user, authEmail]);
+  }, [navigate, dispatch, user, authEmail, read]);
 
   const submit = () => {
     if (state.emailWarning.color !== '#009112') {
@@ -129,8 +126,7 @@ function PwdFind() {
     stateDispatch({ name: 'authEmailCode', target: { value: '' } });
     setPopup(true);
     dispatch(sendAuthEmail({ email: state.email }));
-    //dispatch(userRead({ data: state.email, type: 'email' }));
-    dispatch(userRead({ data: 'seuha516', type: 'nickname' }));
+    dispatch(userRead({ data: state.email, type: 'email' }));
   };
   const sendAgain = () => {
     dispatch(sendAuthEmail({ email: state.email }));
@@ -148,29 +144,44 @@ function PwdFind() {
   return (
     <SignTemplate>
       <Trapezoid text={'Pwd Find'} />
-      <PwdFindContainer>
-        <InputItem>
-          <Label htmlFor="inputEmail">Email</Label>
-          <InputText
-            value={state.email}
-            onChange={e => stateDispatch({ ...e, name: 'email' })}
-            type="text"
-            id="inputEmail"
-            placeholder="Input Email"
-          />
-          <Warning color={state.emailWarning.color}>
-            {state.emailWarning.content}
-          </Warning>
-        </InputItem>
-        <div
-          onClick={submit}
-          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-        >
-          <Button value="Login" className="btn btn--grey">
-            비밀번호 찾기
-          </Button>
-        </div>
-      </PwdFindContainer>
+      {changePassword ? (
+        <PwdFindContainer>
+          <ChangeMessage>비밀번호가 변경되었습니다.</ChangeMessage>
+          <ChangeMessage>{`임시 비밀번호: ${newPwd}`}</ChangeMessage>
+          <Home to="/login">
+            <BiArrowBack />
+            Login
+          </Home>
+          <Home to="/">
+            <BiArrowBack />
+            Home
+          </Home>
+        </PwdFindContainer>
+      ) : (
+        <PwdFindContainer>
+          <InputItem>
+            <Label htmlFor="inputEmail">Email</Label>
+            <InputText
+              value={state.email}
+              onChange={e => stateDispatch({ ...e, name: 'email' })}
+              type="text"
+              id="inputEmail"
+              placeholder="Input Email"
+            />
+            <Warning color={state.emailWarning.color}>
+              {state.emailWarning.content}
+            </Warning>
+          </InputItem>
+          <div
+            onClick={submit}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+          >
+            <Button value="Login" className="btn btn--grey">
+              비밀번호 찾기
+            </Button>
+          </div>
+        </PwdFindContainer>
+      )}
       {popUp && (
         <AuthEmailBackground>
           <AuthEmailWrapper>
@@ -312,6 +323,34 @@ const AuthEmailSendAgain = styled.div`
 `;
 const AuthEmailSignup = styled.div`
   font-size: 20px;
+`;
+const ChangeMessage = styled.div`
+  font-size: 20px;
+  font-family: NanumSquareR;
+  margin: 5px 0;
+  -ms-user-select: text;
+  -moz-user-select: -moz-text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  user-select: text;
+`;
+const Home = styled(Link)`
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  font-size: 24px;
+  font-family: 'Press Start 2P', cursive;
+  color: #9b9b9b;
+  svg {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px 1.5px 0;
+  }
+  cursor: pointer;
+  transition: all 0.2s linear;
+  &:hover {
+    color: black;
+  }
 `;
 
 export default PwdFind;
