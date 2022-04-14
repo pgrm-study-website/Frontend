@@ -40,7 +40,7 @@ const NOTICE_DELETE_ONE_FAILURE = 'notices/NOTICE_DELETE_ONE_FAILURE';
 */
 // create : 입력된 회원정보 (id?)
 export const noticeCreate = createAction(NOTICE_CREATE)();
-export const noticeCreateSuccess = createAction(NOTICE_CREATE_SUCCESS)<AxiosError>();
+export const noticeCreateSuccess = createAction(NOTICE_CREATE_SUCCESS)();
 export const noticeCreateFailure = createAction(NOTICE_CREATE_FAILURE)<AxiosError>();
 export const noticeRead = createAction(NOTICE_READ)();
 export const noticeReadSuccess = createAction(NOTICE_READ_SUCCESS)();
@@ -90,11 +90,15 @@ type notificationState = {
 //   noticeId: null;
 //   category : undefined;
 // };
+
+//기본 : API로 보내기 시작하는 단계"
+//API와의 연동 결과에 따라 success, failure가 자동으로 실행
+//서버로부터 받아온 응답은 success의 payload
 const notices = createReducer(initialState, {
   //새로운 알림 발생
   [NOTICE_CREATE]: (state, {payload}) => ({
     ...state,
-    notice: payload.data,
+    notice: null,
   }),
   [NOTICE_CREATE_SUCCESS]: (state, {payload}) => ({
     ...state,
@@ -108,6 +112,10 @@ const notices = createReducer(initialState, {
     };
   },
   //모든 알림 읽기
+  [NOTICE_READ]: (state, {payload}) => ({
+    ...state,
+    notice: null,
+  }),
   [NOTICE_READ_SUCCESS]: (state, {payload}) => ({
     ...state,
     notice: payload.data,
@@ -120,6 +128,10 @@ const notices = createReducer(initialState, {
     };
   },
   //알림 하나만 읽기
+  [NOTICE_READ_ONE]: (state, {payload}) => ({
+    ...state,
+    notice: null,
+  }),
   [NOTICE_READ_ONE_SUCCESS]: (state, {payload}) => ({
     ...state,
     notice: payload.data,
@@ -132,6 +144,10 @@ const notices = createReducer(initialState, {
     };
   },
   //모든 알림 삭제
+  [NOTICE_DELETE]: (state, {payload}) => ({
+    ...state,
+    notice: null,
+  }),
   [NOTICE_DELETE_SUCCESS]: (state, {payload}) => ({
     ...state,
     notice: payload.data,
@@ -144,6 +160,10 @@ const notices = createReducer(initialState, {
     };
   },
   //알림 하나만 삭제
+  [NOTICE_DELETE_ONE]: (state, {payload}) => ({
+    ...state,
+    notice: null,
+  }),
   [NOTICE_DELETE_ONE_SUCCESS]: (state, {payload}) => ({
     ...state,
     notice: payload.data,
