@@ -6,7 +6,7 @@ export const readOne = (payload: number) => client.get(`notices/${payload}`);
 export const removeAll = () => client.delete(`notices`);
 export const removeOne = (payload: number) => client.delete(`notices/${payload}`);
 
-export type notificationDataProps = {
+export type notificationProps = {
   id: number;
   date: Date;
   content: string;

@@ -2,7 +2,7 @@ import {createAction, ActionType, createReducer} from 'typesafe-actions';
 import {AxiosError} from 'axios';
 import {call, takeLatest} from 'redux-saga/effects';
 import createRequestSaga from 'lib/createRequestSaga';
-import * as usersAPI from 'lib/api/users';
+import * as noticeAPI from 'lib/api/notice';
 /*
   액션 타입
 
@@ -71,7 +71,7 @@ export const noticeDeleteOneFailure = createAction(NOTICE_DELETE_ONE_FAILURE)<Ax
 */
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
 type noticesState = {
-  notice: notificationState | null;
+  notice: noticeAPI.notificationProps | null;
   result: number | null;
   error: AxiosError | null;
 };
@@ -80,14 +80,7 @@ const initialState: noticesState = {
   result: null,
   error: null,
 };
-type notificationState = {
-  id: number;
-  date: Date;
-  content: string;
-  noticeId: number;
-  category?: 'announcement' | 'messages' | undefined;
-  image?: string;
-};
+
 // 밑과 같이 써야하는 걸까요?
 // const initialState :  notificationState = {
 //   id: null;

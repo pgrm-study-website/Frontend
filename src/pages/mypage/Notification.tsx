@@ -3,17 +3,9 @@ import styled from 'styled-components';
 
 import {MdOutlineCancel} from 'react-icons/md';
 import {RootState} from 'modules';
+import {notificationProps} from 'lib/api/notice';
 
-type Props = any;
-type notificationDataProps = {
-  id: number;
-  date: Date;
-  content: string;
-  noticeId: number;
-  category?: 'announcement' | 'messages' | undefined;
-  image?: string;
-};
-const dummyData: Array<notificationDataProps> = [
+const dummyData: Array<notificationProps> = [
   {
     id: 1,
     date: new Date(),
