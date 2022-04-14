@@ -10,6 +10,7 @@ import Bazzi from 'assets/fonts/Bazzi.ttf';
 
 import Login from 'pages/users/Login';
 import SignUp from 'pages/users/SignUp';
+import PwdFind from 'pages/users/PwdFind';
 import Sidebar from 'components/sections/Sidebar';
 import Header from 'components/sections/Header';
 import Footer from 'components/sections/Footer';
@@ -19,8 +20,8 @@ import Write from 'pages/posts/write/Write';
 import Read from 'pages/posts/read/Read';
 import Mypage from 'pages/mypage/Mypage';
 import Message from 'pages/mypage/Message';
-import NotFound from 'components/common/NotFound';
 import Notification from 'pages/mypage/Notification';
+import NotFound from 'components/common/NotFound';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -112,6 +113,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="login/:social" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path="pwd_find" element={<PwdFind />} />
           <Route
             path="*"
             element={
