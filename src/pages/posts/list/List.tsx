@@ -31,7 +31,6 @@ import Loading from 'components/common/Loading';
 import PostTagC from 'components/posts/PostTagC';
 import SearchOption from 'components/posts/SearchOption';
 import PostItem from 'components/posts/PostItem';
-import NotFound from 'components/common/NotFound';
 
 const List = () => {
   const navigate = useNavigate();
