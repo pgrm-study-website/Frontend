@@ -317,7 +317,6 @@ const users = createReducer<usersState, usersAction>(initialState, {
     },
   }),
   [READ_FAILURE]: (state, { payload }) => {
-    alert(payload.response?.data.message);
     return {
       ...state,
       read: {

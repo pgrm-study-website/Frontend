@@ -130,7 +130,7 @@ const App = () => {
                       <Route path="write" element={<Write />} />
                       <Route path=":id" element={<Read />} />
                     </Route>
-                    <Route path="mypage/:id" element={<Mypage />} />
+                    <Route path="mypage/:nickname" element={<Mypage />} />
                     <Route path="pwd_change" element={<PwdChange />} />
                     <Route path="signout" element={<SignOut />} />
                     <Route path="message/:id" element={<Message />} />
@@ -165,4 +165,5 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   transition: all 0.5s linear;
+  overflow: hidden;
 `;

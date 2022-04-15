@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AiFillSetting } from 'react-icons/ai';
 import { BsGithub, BsPencil } from 'react-icons/bs';
 import { tagList } from 'lib/utils/tagDatabase';
@@ -8,146 +8,166 @@ import styled from 'styled-components';
 import PostTagA from 'components/posts/PostTagA';
 import PostItem from 'components/posts/PostItem';
 import PostTagB from 'components/posts/PostTagB';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
+import { read as userRead } from 'modules/users';
+import autoCompleteTag from 'lib/utils/autoCompleteTag';
+import Loading from 'components/common/Loading';
+import NotFound from 'components/common/NotFound';
+import { myList } from 'modules/posts/listPosts';
 
 const Mypage = () => {
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { nickname } = useParams();
   const [edit, setEdit] = useState([false, false, false]);
   const [input, setInput] = useState('');
 
-  const { user, read, loading } = useSelector(
-    ({ users, loading }: RootState) => ({
-      user: users.user,
-      read: users.read,
-      loading: loading['users/LOGIN'],
-    }),
-  );
-
-  const autoComplete = (x: string) => {
-    if (x === '') return [];
-    const result: string[] = [];
-    // for (let i = 0; i < tagList.length; i++) {
-    //   const tagName = tagList[i];
-    //   if (
-    //     tagName.toLowerCase().includes(x.toLowerCase()) &&
-    //     !testData.tags.includes(tagName)
-    //   ) {
-    //     result.push(tagName);
-    //   }
-    // }
-    return result;
-  };
+  const { user, read } = useSelector(({ users, loading }: RootState) => ({
+    user: users.user,
+    read: users.read,
+  }));
 
   useEffect(() => {
-    //alert('userId: ' + id!.toString() + ' <- API 요청.. (미구현)');
-  }, [id]);
+    dispatch(userRead({ data: nickname!, type: 'nickname' }));
+  }, [nickname]);
+
+  useEffect(() => {
+    if (user && user.nickname == nickname) {
+      dispatch(myList());
+    }
+  }, [user]);
 
   const onSetEdit = (x: number, y: boolean) => {
     setEdit(edit.map((i, idx) => (idx === x ? y : edit[idx])));
   };
 
-  return (
-    <Wrapper>
-      <PrivateSettingWrapper>
-        <AiFillSetting />
-        <Link to="/pwd_change">비밀번호 변경</Link>
-        <div>/</div>
-        <Link to="/signout">회원 탈퇴</Link>
-      </PrivateSettingWrapper>
+  if (!read) {
+    return <Loading />;
+  } else if (read.error || !read.data) {
+    return <NotFound />;
+  } else {
+    return (
+      <Wrapper>
+        <PrivateSettingWrapper>
+          {user && user.nickname == nickname && (
+            <>
+              <AiFillSetting />
+              <Link to="/pwd_change">비밀번호 변경</Link>
+              <div>/</div>
+              <Link to="/signout">회원 탈퇴</Link>
+            </>
+          )}
+        </PrivateSettingWrapper>
+        <ProfileImage
+          src={read.data.image || require('assets/images/defaultProfile.png')}
+          alt="profile"
+          onClick={() => {
+            document.getElementById('FileInput_Mypage')?.click();
+          }}
+        />
+        <FileInput type="file" id="FileInput_Mypage" />
+        <Nickname>{read.data.nickname}</Nickname>
+        <Email>{read.data.email}</Email>
+        <Introduce>
+          {!read.data.introduce || read.data.introduce === ''
+            ? '소개말이 없습니다.'
+            : read.data.introduce}
+        </Introduce>
+        <MessageButton>메시지 보내기(본인은안보임)</MessageButton>
+        <Tags>
+          {read.data.tagsList.map(i => (
+            <Link key={i} to={`/posts?tag=${i}`}>
+              <PostTagA tag={i} />
+            </Link>
+          ))}
+        </Tags>
+        <Github href={`https://github.com/`} target="_blank">
+          <BsGithub />
+          <div>{read.data.github}</div>
+        </Github>
 
-      <ProfileImage
-        src={require('assets/images/defaultProfile.png')}
-        alt="profile"
-        onClick={() => {
-          document.getElementById('FileInput_Mypage')?.click();
-        }}
-      />
-      <FileInput type="file" id="FileInput_Mypage" />
-      {/* <Nickname>{testData.nickname}</Nickname>
-      <Email>{testData.email}</Email> */}
+        {/* {edit[0] ? (
+          <>
+            <IntroduceInput defaultValue={testData.introduce} />
+            <SmallButtonWrapper>
+              <div onClick={() => onSetEdit(0, false)}>확인</div>
+              <div onClick={() => onSetEdit(0, false)}>취소</div>
+            </SmallButtonWrapper>
+          </>
+        ) : (
+          <>
+            <Introduce>{testData.introduce}</Introduce> 
+            <PencilIcon onClick={() => onSetEdit(0, true)} />
+          </>
+        )} */}
 
-      {edit[0] ? (
-        <>
-          {/* <IntroduceInput defaultValue={testData.introduce} /> */}
-          <SmallButtonWrapper>
-            <div onClick={() => onSetEdit(0, false)}>확인</div>
-            <div onClick={() => onSetEdit(0, false)}>취소</div>
-          </SmallButtonWrapper>
-        </>
-      ) : (
-        <>
-          {/* <Introduce>{testData.introduce}</Introduce> */}
-          <PencilIcon onClick={() => onSetEdit(0, true)} />
-        </>
-      )}
+        {/* {edit[1] ? (
+          <>
+            <TagInput
+              placeholder="ex) Frontend, Java, ..."
+              value={input}
+              onChange={e => setInput(e.target.value)}
+            />
+            <AutoCompleteTagWrapper>
+              {autoCompleteTag(localTags, input).map(i => (
+                <TagBItemWrapper key={i} onClick={() => insertTag(i)}>
+                  <PostTagB tag={i} />
+                </TagBItemWrapper>
+              ))}
+            </AutoCompleteTagWrapper>
+            <SmallButtonWrapper>
+              <div onClick={() => onSetEdit(1, false)}>확인</div>
+              <div onClick={() => onSetEdit(1, false)}>취소</div>
+            </SmallButtonWrapper>
+          </>
+        ) : (
+          <>
+            <Tags>
+              {testData.tags.map(i => (
+                <Link key={i} to={`/posts?tag=${i}`}>
+                  <PostTagA tag={i} />
+                </Link>
+              ))}
+            </Tags>
+            <PencilIcon onClick={() => onSetEdit(1, true)} />
+          </>
+        )} */}
 
-      <MessageButton>메시지 보내기(본인은안보임)</MessageButton>
+        {/* {edit[2] ? (
+          <>
+            <GithubInput placeholder="Github 아이디" />
+            <SmallButtonWrapper>
+              <div onClick={() => onSetEdit(2, false)}>확인</div>
+              <div onClick={() => onSetEdit(2, false)}>취소</div>
+            </SmallButtonWrapper>
+          </>
+        ) : (
+          <>
+            <Github href={`https://github.com/`} target="_blank">
+              <BsGithub />
+               <div>{testData.github}</div> 
+            </Github>
+            <PencilIcon onClick={() => onSetEdit(2, true)} />
+          </>
+        )} */}
 
-      {edit[1] ? (
-        <>
-          <TagInput
-            placeholder="ex) Frontend, Java, ..."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-          />
-          <AutoCompleteTagWrapper>
-            {autoComplete(input).map(i => (
-              <TagBItemWrapper key={i}>
-                <PostTagB tag={i} />
-              </TagBItemWrapper>
-            ))}
-          </AutoCompleteTagWrapper>
-          <SmallButtonWrapper>
-            <div onClick={() => onSetEdit(1, false)}>확인</div>
-            <div onClick={() => onSetEdit(1, false)}>취소</div>
-          </SmallButtonWrapper>
-        </>
-      ) : (
-        <>
-          <Tags>
-            {/* {testData.tags.map(i => (
-              <Link key={i} to={`/posts?tag=${i}`}>
-                <PostTagA tag={i} />
-              </Link>
-            ))} */}
-          </Tags>
-          <PencilIcon onClick={() => onSetEdit(1, true)} />
-        </>
-      )}
-
-      {edit[2] ? (
-        <>
-          <GithubInput placeholder="Github 아이디" />
-          <SmallButtonWrapper>
-            <div onClick={() => onSetEdit(2, false)}>확인</div>
-            <div onClick={() => onSetEdit(2, false)}>취소</div>
-          </SmallButtonWrapper>
-        </>
-      ) : (
-        <>
-          <Github href={`https://github.com/`} target="_blank">
-            <BsGithub />
-            {/* <div>{testData.github}</div> */}
-          </Github>
-          <PencilIcon onClick={() => onSetEdit(2, true)} />
-        </>
-      )}
-
-      <SmallText>작성한 글</SmallText>
-      <PostListWrapper>
-        {/* {testDataList.map((i, idx) => (
+        <SmallText>작성한 글</SmallText>
+        <PostListWrapper>
+          {/* {testDataList.map((i, idx) => (
           <PostItem key={idx} post={i} />
         ))} */}
-      </PostListWrapper>
-      <SmallText>댓글 단 글 (본인만 보임)</SmallText>
-      <PostListWrapper>
-        {/* {testDataList.map((i, idx) => (
+        </PostListWrapper>
+        <SmallText>댓글 단 글 (본인만 보임)</SmallText>
+        <PostListWrapper>
+          {/* {testDataList.map((i, idx) => (
           <PostItem key={idx} post={i} />
         ))} */}
-      </PostListWrapper>
-    </Wrapper>
-  );
+        </PostListWrapper>
+      </Wrapper>
+    );
+  }
 };
 
 export default Mypage;
@@ -163,6 +183,7 @@ const Wrapper = styled.div`
 `;
 const PrivateSettingWrapper = styled.div`
   width: 100%;
+  height: 20px;
   display: flex;
   justify-content: flex-end;
   align-content: center;
