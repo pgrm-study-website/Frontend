@@ -360,7 +360,7 @@ const users = createReducer<usersState, usersAction>(initialState, {
     ...state,
     checkPassword: null,
   }),
-  [CHANGE_PASSWORD_SUCCESS]: state => ({
+  [CHECK_PASSWORD_SUCCESS]: state => ({
     ...state,
     checkPassword: true,
   }),

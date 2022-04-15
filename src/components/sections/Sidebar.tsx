@@ -67,7 +67,7 @@ const Sidebar = () => {
               <Name>{user.nickname}</Name>
             </Profile>
             <LinkContainer>
-              <LinkItem to={`/mypage/${user.id}`}>
+              <LinkItem to={`/mypage/${user.nickname}`}>
                 <LinkIcon>
                   <BsPersonCircle />
                 </LinkIcon>

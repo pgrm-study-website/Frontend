@@ -87,9 +87,6 @@ function PwdFind() {
   const [newPwd, setNewPwd] = useState('');
 
   useEffect(() => {
-    const htmlTitle = document.querySelector('title');
-    htmlTitle!.innerHTML = 'Plming - Pwd Find';
-
     if (user) {
       navigate('/');
     } else if (authEmail && read.data) {
@@ -112,11 +109,17 @@ function PwdFind() {
         changeField({ key: 'read', value: { data: null, error: null } }),
       );
     }
+  }, [navigate, dispatch, user, authEmail, read]);
 
+  useEffect(() => {
+    const htmlTitle = document.querySelector('title');
+    htmlTitle!.innerHTML = 'Plming - Pwd Find';
     return () => {
       htmlTitle!.innerHTML = 'Plming';
+      dispatch(changeField({ key: 'checkPassword', value: null }));
+      dispatch(changeField({ key: 'changePassword', value: null }));
     };
-  }, [navigate, dispatch, user, authEmail, read]);
+  }, [dispatch]);
 
   const submit = () => {
     if (state.emailWarning.color !== '#009112') {
@@ -181,7 +184,7 @@ function PwdFind() {
             onClick={submit}
             style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
           >
-            <Button value="Login" className="btn btn--grey">
+            <Button value="PwdFind" className="btn btn--grey">
               비밀번호 찾기
             </Button>
           </div>
@@ -226,7 +229,7 @@ const PwdFindContainer = styled.div`
   @media screen and (max-width: 768px) {
     min-height: calc(100vh - 200px);
   }
-  padding: 40px 20px 80px 20px;
+  padding: 20px 20px 80px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;

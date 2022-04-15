@@ -573,4 +573,5 @@ const SocialContainerText = styled(Link)`
   font-family: NanumSquareR;
   margin: 20px 0 10px 0;
 `;
+
 export default SignUp;
