@@ -45,6 +45,7 @@ const List = () => {
       user: users.user,
     }),
   );
+
   const [foldOption, setFoldOption] = useState(false);
   const { searchState, page, showOptionText, showOption, pageArray, payload } =
     decodeQs(

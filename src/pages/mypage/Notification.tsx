@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import {MdOutlineCancel} from 'react-icons/md';
-import {RootState} from 'modules';
-import {notificationProps} from 'lib/api/notice';
-
-type Props = {};
+import { MdOutlineCancel } from 'react-icons/md';
+import { RootState } from 'modules';
+import { notificationProps } from 'lib/api/notice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { test } from '../../modules/notices';
+// type Props = {};
 
 const dummyData: Array<notificationProps> = [
   {
@@ -28,17 +30,23 @@ const dummyData: Array<notificationProps> = [
   },
 ];
 
-const Notification = ({}: Props) => {
+const Notification = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [data, setData] = useState(dummyData);
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
     //삭제 데이터 서버에 전송
   };
-  // const {posts, error, user} = useSelector(({listPosts, users}: RootState) => ({
-  //   posts: listPosts.posts,
-  //   error: listPosts.error,
-  //   user: users.user,
-  // }));
+  const { notice } = useSelector((state: RootState) => ({
+    notice: state.notices,
+  }));
+  const Intest = () => dispatch(test());
+  useEffect(() => {
+    Intest();
+    console.log(notice);
+  }, []);
+
   return (
     <Wrapper>
       <Title>Notification </Title>
@@ -47,7 +55,8 @@ const Notification = ({}: Props) => {
           <NotificationItem key={i.content}>
             <Content>{i.content}</Content>
             <SubContent>
-              <Name>{i.noticeId}</Name> | <div>{i.date.toLocaleDateString()}</div>
+              <Name>{i.noticeId}</Name> |{' '}
+              <div>{i.date.toLocaleDateString()}</div>
             </SubContent>
             <DeleteBtn onClick={() => handleDelete(i.id)}>
               <MdOutlineCancel />
@@ -104,10 +113,16 @@ const Wrapper = styled.div`
   background-color: #f9f9f9;
 `;
 export default Notification;
-function useSelector(arg0: ({listPosts, users}: RootState) => {posts: any; error: any; user: any}): {
-  posts: any;
-  error: any;
-  user: any;
-} {
-  throw new Error('Function not implemented.');
-}
+// function useSelector(
+//   arg0: ({ listPosts, users }: RootState) => {
+//     posts: any;
+//     error: any;
+//     user: any;
+//   },
+// ): {
+//   posts: any;
+//   error: any;
+//   user: any;
+// } {
+//   throw new Error('Function not implemented.');
+// }

@@ -10,6 +10,7 @@ import * as noticeAPI from 'lib/api/notice';
   요청을 보내고, 응답의 성공/실패 여부가 영향을 주는 경우에는 그 액션의
   SUCCESS 및 FAILURE도 함께 만듭니다.
 */
+const TEST = 'notices/test';
 const NOTICE_CREATE = 'notices/NOTICE_CREATE';
 const NOTICE_CREATE_SUCCESS = 'notices/NOTICE_CREATE_SUCCESS';
 const NOTICE_CREATE_FAILURE = 'notices/NOTICE_CREATE_FAILURE';
@@ -39,6 +40,8 @@ const NOTICE_DELETE_ONE_FAILURE = 'notices/NOTICE_DELETE_ONE_FAILURE';
   (꼭 필요할 때만 사용합니다.)
 */
 // create : 입력된 회원정보 (id?)
+export const test = createAction(TEST)();
+
 export const noticeCreate = createAction(NOTICE_CREATE)();
 export const noticeCreateSuccess = createAction(NOTICE_CREATE_SUCCESS)();
 export const noticeCreateFailure = createAction(
@@ -84,7 +87,7 @@ export const noticeDeleteOneFailure = createAction(
 */
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
 type noticesState = {
-  notice: noticeAPI.notificationProps | null;
+  notice: Array<noticeAPI.notificationProps> | null;
   remove: boolean | null;
   error: AxiosError | null;
 };
@@ -93,21 +96,36 @@ const initialState: noticesState = {
   remove: null,
   error: null,
 };
-
-// 밑과 같이 써야하는 걸까요?
-// const initialState :  notificationState = {
-//   id: null;
-//   date: null;
-//   content: '';
-//   noticeId: null;
-//   category : undefined;
-// };
+const dummyData: Array<noticeAPI.notificationProps> = [
+  {
+    id: 1,
+    date: new Date(),
+    content: '알림입니다!',
+    noticeId: 1,
+  },
+  {
+    id: 2,
+    date: new Date(),
+    content: '알림입니다! 2',
+    noticeId: 2,
+  },
+  {
+    id: 3,
+    date: new Date(),
+    content: '알림입니다! 3',
+    noticeId: 3,
+  },
+];
 
 //기본 : API로 보내기 시작하는 단계"
 //API와의 연동 결과에 따라 success, failure가 자동으로 실행
 //서버로부터 받아온 응답은 success의 payload
 const notices = createReducer(initialState, {
   //새로운 알림 발생
+  [TEST]: (state, { payload }) => ({
+    ...state,
+    notice: dummyData,
+  }),
   [NOTICE_CREATE]: (state, { payload }) => ({
     ...state,
     notice: null,
