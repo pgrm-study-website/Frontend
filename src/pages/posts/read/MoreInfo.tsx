@@ -40,7 +40,7 @@ const MoreInfo = ({
                 ? (period / 4).toString() + '달'
                 : period.toString() + '주'
               : '미정'
-          }`}</SmallNameText>{' '}
+          }`}</SmallNameText>
           <CalendarIconWrapper>
             {period ? (
               Array.from({ length: period }, () => null).map((i, idx) => (

@@ -9,7 +9,7 @@ import PostTagA from 'components/posts/PostTagA';
 
 const RecommendPostItem = ({ post }: { post: postListItemType }) => {
   return (
-    <Wrapper to={`/posts/${post.postId}`}>
+    <Wrapper to={`/posts/${post.id}`}>
       <FirstWrapper>
         <Name>{post.title}</Name>
         <PostCategory category={post.category} />
@@ -28,7 +28,7 @@ const RecommendPostItem = ({ post }: { post: postListItemType }) => {
         </PersonWrapper>
         <EtcWrapper>
           <BsFillEyeFill />
-          <div>{post.viewCount}</div>
+          <div>{post.viewCnt}</div>
         </EtcWrapper>
       </SecondWrapper>
     </Wrapper>

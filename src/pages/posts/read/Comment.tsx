@@ -13,7 +13,7 @@ const Comment = () => {
   return (
     <Wrapper>
       <NameText>댓글 4개</NameText>
-      {[1, 2, 3, 4].map((i, idx) => (
+      {[1, 2].map((i, idx) => (
         <div key={idx}>
           <CommentItem
             isReply={false}

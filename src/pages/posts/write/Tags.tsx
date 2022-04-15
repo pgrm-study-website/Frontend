@@ -2,45 +2,41 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { tagList } from 'lib/utils/tagDatabase';
+import tagsToTagIds from 'lib/utils/tagsToTagIds';
 import { changeField } from 'modules/posts/writePosts';
 
 import PostTagA from 'components/posts/PostTagA';
 import PostTagB from 'components/posts/PostTagB';
+import autoCompleteTag from 'lib/utils/autoCompleteTag';
 
-const Tags = ({ tags }: { tags: string[] }) => {
+const Tags = ({ tagIds }: { tagIds: number[] }) => {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState('');
-  const autoComplete = (x: string) => {
-    if (x === '') return [];
-    const result: string[] = [];
-    for (let i = 0; i < tagList.length; i++) {
-      const tagName = tagList[i];
-      if (
-        tagName.toLowerCase().includes(x.toLowerCase()) &&
-        !tags.includes(tagName)
-      ) {
-        result.push(tagName);
-      }
-    }
-    return result;
-  };
+  const [localTags, setLocalTags] = useState<string[]>(
+    tagIds.map(i => tagList[i]),
+  );
+
   const insertTag = (i: string) => {
-    if (tags.length === 5) {
+    if (localTags.length === 5) {
       alert('태그는 5개까지 가능합니다.');
       return;
     }
-    if (tags.includes(i)) {
+    if (localTags.includes(i)) {
       alert('이미 있는 태그입니다.');
       return;
     }
-    dispatch(changeField({ key: 'tags', value: [...tags, i] }));
+    setLocalTags([...localTags, i]);
+    dispatch(
+      changeField({ key: 'tagIds', value: tagsToTagIds([...localTags, i]) }),
+    );
   };
   const removeTag = (i: string) => {
+    setLocalTags(localTags.filter(j => i !== j));
     dispatch(
       changeField({
-        key: 'tags',
-        value: tags.filter(j => i !== j),
+        key: 'tagIds',
+        value: tagsToTagIds(localTags.filter(j => i !== j)),
       }),
     );
   };
@@ -48,9 +44,9 @@ const Tags = ({ tags }: { tags: string[] }) => {
   return (
     <Wrapper>
       <NameText>태그</NameText>
-      {tags.length > 0 && (
+      {localTags.length > 0 && (
         <TagBox>
-          {tags.map(i => (
+          {localTags.map(i => (
             <TagAItemWrapper key={i} onClick={() => removeTag(i)}>
               <PostTagA tag={i} />
             </TagAItemWrapper>
@@ -63,7 +59,7 @@ const Tags = ({ tags }: { tags: string[] }) => {
         onChange={e => setInput(e.target.value)}
       />
       <AutoCompleteTagWrapper>
-        {autoComplete(input).map(i => (
+        {autoCompleteTag(localTags, input).map(i => (
           <TagBItemWrapper key={i} onClick={() => insertTag(i)}>
             <PostTagB tag={i} />
           </TagBItemWrapper>
