@@ -6,63 +6,45 @@ import { RootState } from 'modules';
 import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { test } from '../../modules/notices';
+import { noticesState, test } from '../../modules/notices';
 // type Props = {};
-
-const dummyData: Array<notificationProps> = [
-  {
-    id: 1,
-    date: new Date(),
-    content: '알림입니다!',
-    noticeId: 1,
-  },
-  {
-    id: 2,
-    date: new Date(),
-    content: '알림입니다! 2',
-    noticeId: 2,
-  },
-  {
-    id: 3,
-    date: new Date(),
-    content: '알림입니다! 3',
-    noticeId: 3,
-  },
-];
 
 const Notification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [data, setData] = useState(dummyData);
+  const [data, setData] = useState<Array<notificationProps>>();
+  const { notice } = useSelector((state: RootState) => ({
+    notice: state.notices.notice,
+  }));
+  useEffect(() => {
+    dispatch(test());
+    if (notice) {
+      setData(notice);
+    }
+  }, [data, notice]);
+
   const handleDelete = (id: number) => {
-    setData(data.filter(item => item.id !== id));
+    data && setData(data.filter(item => item.id !== id));
+
     //삭제 데이터 서버에 전송
   };
-  const { notice } = useSelector((state: RootState) => ({
-    notice: state.notices,
-  }));
-  const Intest = () => dispatch(test());
-  useEffect(() => {
-    Intest();
-    console.log(notice);
-  }, []);
-
   return (
     <Wrapper>
       <Title>Notification </Title>
       <Container>
-        {data.map(i => (
-          <NotificationItem key={i.content}>
-            <Content>{i.content}</Content>
-            <SubContent>
-              <Name>{i.noticeId}</Name> |{' '}
-              <div>{i.date.toLocaleDateString()}</div>
-            </SubContent>
-            <DeleteBtn onClick={() => handleDelete(i.id)}>
-              <MdOutlineCancel />
-            </DeleteBtn>
-          </NotificationItem>
-        ))}
+        {data &&
+          data.map(i => (
+            <NotificationItem key={i.content}>
+              <Content>{i.content}</Content>
+              <SubContent>
+                <Name>{i.noticeId}</Name> |{' '}
+                <div>{i.date.toLocaleDateString()}</div>
+              </SubContent>
+              <DeleteBtn onClick={() => handleDelete(i.id)}>
+                <MdOutlineCancel />
+              </DeleteBtn>
+            </NotificationItem>
+          ))}
       </Container>
     </Wrapper>
   );

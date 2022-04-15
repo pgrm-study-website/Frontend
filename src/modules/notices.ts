@@ -86,7 +86,7 @@ export const noticeDeleteOneFailure = createAction(
   
 */
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
-type noticesState = {
+export type noticesState = {
   notice: Array<noticeAPI.notificationProps> | null;
   remove: boolean | null;
   error: AxiosError | null;
