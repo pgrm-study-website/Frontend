@@ -32,7 +32,7 @@ export const read = (payload: readRequestType) => {
 };
 export const update = (payload: updateRequestType) =>
   client.patch(`users/${payload.id}`, payload.data);
-export const remove = (payload: number) => client.get(`users/${payload}`);
+export const remove = (payload: number) => client.delete(`users/${payload}`);
 
 export const checkPassword = (payload: passwordRequsetType) =>
   client.post(`users/${payload.id}/password-check`, payload.data);

@@ -1,7 +1,4 @@
 import React, { useEffect, useReducer } from 'react';
-import styled from 'styled-components';
-
-import Button from 'components/common/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'modules';
@@ -10,6 +7,9 @@ import {
   checkPassword as userCheckPassword,
   changePassword as userChangePassword,
 } from 'modules/users';
+import styled from 'styled-components';
+
+import Button from 'components/common/Button';
 
 type stateType = {
   currentPassword: string;
