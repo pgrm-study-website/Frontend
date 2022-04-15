@@ -9,12 +9,8 @@ import {
   AiOutlineLogin,
 } from 'react-icons/ai';
 
-
-
-
 import testProfileImage from 'assets/images/profile.png';
 import NotificationModal from './notification/NotificationModal';
-import { useSelector } from 'react-redux';
 import { RootState } from 'modules';
 
 import {
@@ -23,11 +19,8 @@ import {
   BsPencilSquare,
 } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
-import { RootState } from 'modules';
 import { changeField, logout } from 'modules/users';
 import styled, { css } from 'styled-components';
-
-
 
 const messageDummyData = [
   {
@@ -175,7 +168,6 @@ const Notification = styled.div<{ open: boolean }>`
   pointer-events: ${props => (props.open ? 'auto' : 'none')};
   opacity: ${props => (props.open ? '1' : '0')};
 `;
-
 
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
@@ -342,16 +334,4 @@ const LinkIcon = styled.div`
   position: relative;
   top: 2px;
   cursor: pointer;
-`;
-const Notification = styled.div<{ open: boolean }>`
-  position: absolute;
-  right: -280px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 15px;
-  z-index: 20;
-  background-color: #fff;
-  transition: opacity 0.5s;
-  pointer-events: ${props => (props.open ? 'auto' : 'none')};
-  opacity: ${props => (props.open ? '1' : '0')};
 `;

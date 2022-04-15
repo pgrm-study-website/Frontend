@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import { MdOutlineCancel } from 'react-icons/md';
 
-
-type Props = any;
+// type Props = any;
 
 type notificationDataProps = {
   id: number;
@@ -55,7 +54,6 @@ const Notification = () => {
       <Container>
         {data.map(i => (
           <NotificationItem key={i.content}>
-
             <ContentImg></ContentImg>
             <div>
               <Content>{i.content}</Content>
