@@ -158,6 +158,10 @@ const PwdChange = () => {
   }, [dispatch]);
 
   const submit = () => {
+    if (state.currentPassword === '') {
+      alert('현재 비밀번호를 입력해 주세요.');
+      return;
+    }
     dispatch(
       userCheckPassword({
         id: user!.id,

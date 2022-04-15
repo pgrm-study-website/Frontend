@@ -77,7 +77,7 @@ export type readResponseType = {
   image: string;
   introduce: string;
   github: string;
-  tags: string[];
+  tagsList: string[];
 };
 export type updateRequestType = {
   id: number;
