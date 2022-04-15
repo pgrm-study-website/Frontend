@@ -1,28 +1,57 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { changeField } from 'modules/posts/writePosts';
+import styled from 'styled-components';
 
 const Editor = ({ content }: { content: string }) => {
   const dispatch = useDispatch();
 
   const QuillRef = useRef<ReactQuill>();
-  const modules = {
-    toolbar: {
-      container: [
-        [{ size: ['small', false, 'large'] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
-        ['blockquote'],
-        [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image'],
-        ['clean'],
-      ],
-    },
-    clipboard: { matchVisual: false },
+  const imageHandler = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+    input.addEventListener('change', async () => {
+      const file = input.files![0];
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const result = await axios.post(
+          process.env.REACT_APP_API_IMAGE!,
+          formData,
+        );
+        const IMG_URL = result.data;
+        const editor = QuillRef.current!.getEditor();
+        const range = editor.getSelection();
+        editor.insertEmbed(range!.index, 'image', IMG_URL);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ size: ['small', false, 'large'] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ color: [] }, { background: [] }],
+          ['blockquote'],
+          [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'image'],
+          ['clean'],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+      clipboard: { matchVisual: false },
+    };
+  }, []);
   const formats = [
     'size',
     'bold',
