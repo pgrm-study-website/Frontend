@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   AiOutlineLogout,
   AiOutlineMessage,
   AiOutlineLogin,
-} from "react-icons/ai";
-import { BsFillCaretLeftFill, BsPersonCircle } from "react-icons/bs";
-import { IoIosNotifications } from "react-icons/io";
-import styled, { css } from "styled-components";
-import testProfileImage from "assets/images/profile.png";
-import NotificationModal from "./notification/NotificationModal";
-import { useSelector } from "react-redux";
-import { RootState } from "modules";
+} from 'react-icons/ai';
+import { BsFillCaretLeftFill, BsPersonCircle } from 'react-icons/bs';
+import { IoIosNotifications } from 'react-icons/io';
+import styled, { css } from 'styled-components';
+import testProfileImage from 'assets/images/profile.png';
+import NotificationModal from './notification/NotificationModal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'modules';
 
 const messageDummyData = [
   {
     id: 10,
-    content: "000에 댓글이 달렸습니다",
-    date: "2022.03.30",
+    content: '000에 댓글이 달렸습니다',
+    date: '2022.03.30',
   },
   {
     id: 11,
-    date: "2022.03.30",
-    content: "000 스터디에 가입이 되었습니다",
+    date: '2022.03.30',
+    content: '000 스터디에 가입이 되었습니다',
   },
   {
     id: 12,
-    date: "2022.03.30",
+    date: '2022.03.30',
     content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
   },
 ];
@@ -130,20 +130,20 @@ const Notification = styled.div<{ open: boolean }>`
   background-color: #fff;
   //animation
   transition: opacity 0.5s;
-  pointer-events: ${(props) => (props.open ? "auto" : "none")};
-  opacity: ${(props) => (props.open ? "1" : "0")};
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  opacity: ${props => (props.open ? '1' : '0')};
 `;
 
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
   width: 100%;
-  max-width: ${(props) => (props.open ? "250px" : "0px")};
+  max-width: ${props => (props.open ? '250px' : '0px')};
   height: 100vh;
   @media all and (max-width: 1510px) {
-    max-width: ${(props) => (props.open ? "215px" : "0px")};
+    max-width: ${props => (props.open ? '215px' : '0px')};
   }
   @media all and (max-width: 1090px) {
-    max-width: ${(props) => (props.open ? "180px" : "0px")};
+    max-width: ${props => (props.open ? '180px' : '0px')};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -154,21 +154,21 @@ const FoldIcon = styled.div<{ open: boolean }>`
   z-index: 200;
   position: fixed;
   top: calc(0vh);
-  left: ${(props) =>
+  left: ${props =>
     props.open
-      ? "calc(max(0px, calc(50% - 750px)) + 232px)"
-      : "max(0px, calc(50% - 750px))"};
+      ? 'calc(max(0px, calc(50% - 750px)) + 232px)'
+      : 'max(0px, calc(50% - 750px))'};
   @media all and (max-width: 1510px) {
-    left: ${(props) =>
+    left: ${props =>
       props.open
-        ? "calc(max(0px, calc(50% - 750px)) + 197px)"
-        : "max(0px, calc(50% - 750px))"};
+        ? 'calc(max(0px, calc(50% - 750px)) + 197px)'
+        : 'max(0px, calc(50% - 750px))'};
   }
   @media all and (max-width: 1090px) {
-    left: ${(props) =>
+    left: ${props =>
       props.open
-        ? "calc(max(0px, calc(50% - 750px)) + 162px)"
-        : "max(0px, calc(50% - 750px))"};
+        ? 'calc(max(0px, calc(50% - 750px)) + 162px)'
+        : 'max(0px, calc(50% - 750px))'};
   }
   @media all and (max-width: 900px) {
     display: none;
@@ -191,7 +191,7 @@ const FoldIcon = styled.div<{ open: boolean }>`
     }
   }
 
-  ${(props) =>
+  ${props =>
     !props.open
       ? css`
           border-right: 18px solid#38d3d3c7;
@@ -215,7 +215,7 @@ const FoldIcon = styled.div<{ open: boolean }>`
 `;
 const Wrapper = styled.div<{ open: boolean }>`
   background-color: #4cbbc2;
-  width: ${(props) => (props.open ? "250px" : "0px")};
+  width: ${props => (props.open ? '250px' : '0px')};
   height: 100vh;
   position: fixed;
   top: 0;
@@ -224,27 +224,27 @@ const Wrapper = styled.div<{ open: boolean }>`
   flex-direction: column;
   text-align: center;
   gap: 25px;
-  padding: ${(props) => (props.open ? "20px" : "20px 0px")};
-  font-family: "KOTRAHOPE";
+  padding: ${props => (props.open ? '20px' : '20px 0px')};
+  font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
   /* overflow: visible; */
-  overflow: ${(props) => (props.open ? "visible" : "hidden")};
+  overflow: ${props => (props.open ? 'visible' : 'hidden')};
 
   transition: width 0.2s linear, padding 0.2s linear;
   z-index: 10;
   @media all and (max-width: 1510px) {
-    width: ${(props) => (props.open ? "215px" : "0px")};
+    width: ${props => (props.open ? '215px' : '0px')};
   }
   @media all and (max-width: 1090px) {
-    width: ${(props) => (props.open ? "180px" : "0px")};
+    width: ${props => (props.open ? '180px' : '0px')};
   }
   @media all and (max-width: 900px) {
     display: none;
   }
 `;
 const Title = styled.div`
-  font-family: "Bazzi";
+  font-family: 'Bazzi';
   font-size: 50px;
   color: #fff;
 `;

@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import {MdOutlineCancel} from 'react-icons/md';
+import { MdOutlineCancel } from 'react-icons/md';
 
-type Props = {};
+// type Props = {};
 type notificationDataProps = {
   id: number;
   date: Date;
@@ -41,7 +41,7 @@ const dummyData = [
   },
 ];
 
-const Notification = (props: Props) => {
+const Notification = () => {
   const [data, setData] = useState(dummyData);
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
@@ -57,10 +57,13 @@ const Notification = (props: Props) => {
             <div>
               <Content>{i.content}</Content>
               <SubContent>
-                <Name>{i.sender.name}</Name> | <div>{i.date.toLocaleDateString()}</div>
+                <Name>{i.sender.name}</Name> |{' '}
+                <div>{i.date.toLocaleDateString()}</div>
               </SubContent>
             </div>
-            <DeleteBtn onClick={() => handleDelete(i.id)}>{/* <MdOutlineCancel /> */}X</DeleteBtn>
+            <DeleteBtn onClick={() => handleDelete(i.id)}>
+              {/* <MdOutlineCancel /> */}X
+            </DeleteBtn>
           </NotificationItem>
         ))}
       </Container>
