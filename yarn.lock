@@ -1387,6 +1387,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@looop/quill-image-resize-module-react@^3.1.5":
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/@looop/quill-image-resize-module-react/-/quill-image-resize-module-react-3.1.5.tgz#1b46e9f29ada229e50b2339e9ea96d6b7104bdea"
+  integrity sha512-Rr8R8ScVoKYFzSKMG92sWv91AFggOq0qovrToRoVJFMVxHavltLdrpUIzsEXxsRkECI7EY+SSyiXFIu2Cj5W1Q==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -7180,6 +7185,11 @@ quill-delta@^3.6.2:
     deep-equal "^1.0.1"
     extend "^3.0.2"
     fast-diff "1.1.2"
+
+quill-image-uploader@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/quill-image-uploader/-/quill-image-uploader-1.2.2.tgz#ef4722f0394fbbcdef937d9ad29b4b43e2f5c3f3"
+  integrity sha512-23jM2SVJC2W4hCXre4PX1hy4Lk3fBNVIognvHoyKTLl0AjQOiCSnsoIoUSnS2+9+wxvZIk6ET/cMVvtwpERa6g==
 
 quill@^1.3.7:
   version "1.3.7"

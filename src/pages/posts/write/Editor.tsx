@@ -1,38 +1,19 @@
 import React, { useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
+import ImageUploader from 'quill-image-uploader';
+import ImageResize from '@looop/quill-image-resize-module-react';
 import 'react-quill/dist/quill.snow.css';
 import { changeField } from 'modules/posts/writePosts';
 import styled from 'styled-components';
+Quill.register('modules/imageUploader', ImageUploader);
+Quill.register('modules/ImageResize', ImageResize);
 
 const Editor = ({ content }: { content: string }) => {
   const dispatch = useDispatch();
 
   const QuillRef = useRef<ReactQuill>();
-  const imageHandler = () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.click();
-    input.addEventListener('change', async () => {
-      const file = input.files![0];
-      const formData = new FormData();
-      formData.append('file', file);
-      try {
-        const result = await axios.post(
-          process.env.REACT_APP_API_IMAGE!,
-          formData,
-        );
-        const IMG_URL = result.data;
-        const editor = QuillRef.current!.getEditor();
-        const range = editor.getSelection();
-        editor.insertEmbed(range!.index, 'image', IMG_URL);
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -45,9 +26,29 @@ const Editor = ({ content }: { content: string }) => {
           ['link', 'image'],
           ['clean'],
         ],
-        handlers: {
-          image: imageHandler,
+      },
+      imageUploader: {
+        upload: async (file: any) => {
+          const formData = new FormData();
+          formData.append('file', file);
+          try {
+            const result = await axios.post(
+              process.env.REACT_APP_API_IMAGE!,
+              formData,
+            );
+            return result.data;
+          } catch (error) {
+            console.log(error);
+          }
         },
+      },
+      ImageResize: {
+        displayStyles: {
+          backgroundColor: 'black',
+          border: 'none',
+          color: 'white',
+        },
+        modules: ['Resize', 'DisplaySize'],
       },
       clipboard: { matchVisual: false },
     };
