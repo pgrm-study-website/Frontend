@@ -133,7 +133,7 @@ const App = () => {
                     <Route path="mypage/:nickname" element={<Mypage />} />
                     <Route path="pwd_change" element={<PwdChange />} />
                     <Route path="signout" element={<SignOut />} />
-                    <Route path="message/:id" element={<Message />} />
+                    <Route path="message" element={<Message />} />
                     <Route path="notification" element={<Notification />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
