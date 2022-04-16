@@ -103,9 +103,9 @@ const Sidebar = () => {
                   notification
                 </LinkText>
                 <Notification open={notificationOpen}>
-                  <NotificationModal
-                    data={messageDummyData}
-                  ></NotificationModal>
+                  {notificationOpen && (
+                    <NotificationModal data={messageDummyData} />
+                  )}
                 </Notification>
               </Item>
               <LinkItem to="/posts/write">
@@ -328,10 +328,12 @@ const Notification = styled.div<{ open: boolean }>`
   right: -280px;
   border-radius: 5px;
   box-sizing: border-box;
-  padding: 15px;
   z-index: 20;
   background-color: #fff;
-  transition: opacity 0.15s;
-  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  transition: opacity 0.15s, height 0.15s, padding 0.15s;
   opacity: ${props => (props.open ? '1' : '0')};
+  width: 320px;
+  height: ${props => (props.open ? '300px' : '0')};
+  padding: ${props => (props.open ? '15px' : '0')};
+  box-shadow: 2px 2px 2px black;
 `;
