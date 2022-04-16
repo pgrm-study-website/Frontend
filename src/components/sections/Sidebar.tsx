@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -13,7 +13,7 @@ import {
 } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
 import { RootState } from 'modules';
-import { changeField, logout } from 'modules/users';
+import { logout } from 'modules/users';
 import styled, { css } from 'styled-components';
 
 import NotificationModal from './notification/NotificationModal';
@@ -39,13 +39,25 @@ const messageDummyData = [
 const Sidebar = () => {
   const dispatch = useDispatch();
 
+  const NotificationWrapperRef = useRef<HTMLDivElement>(null);
+  const user = useSelector((state: RootState) => state.users.user);
   const [open, setOpen] = useState(true);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const user = useSelector((state: RootState) => state.users.user);
 
-  const handleNofiticationClick = () => {
-    setNotificationOpen(!notificationOpen);
-  };
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+      if (
+        NotificationWrapperRef.current &&
+        !NotificationWrapperRef.current.contains(e.target as Node)
+      ) {
+        setNotificationOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [NotificationWrapperRef]);
 
   return (
     <>
@@ -79,11 +91,15 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>message</LinkText>
               </LinkItem>
-              <Item>
-                <LinkIcon onClick={handleNofiticationClick}>
+              <Item ref={NotificationWrapperRef}>
+                <LinkIcon
+                  onClick={() => setNotificationOpen(!notificationOpen)}
+                >
                   <IoIosNotifications />
                 </LinkIcon>
-                <LinkText onClick={handleNofiticationClick}>
+                <LinkText
+                  onClick={() => setNotificationOpen(!notificationOpen)}
+                >
                   notification
                 </LinkText>
                 <Notification open={notificationOpen}>
@@ -102,13 +118,21 @@ const Sidebar = () => {
                 <LinkIcon>
                   <AiOutlineLogout />
                 </LinkIcon>
-                <LinkText onClick={() => dispatch(logout())}>logout</LinkText>
+                <LinkText
+                  onClick={() => {
+                    if (window.confirm('로그아웃 하시겠습니까?')) {
+                      dispatch(logout());
+                    }
+                  }}
+                >
+                  logout
+                </LinkText>
               </Item>
             </LinkContainer>
           </>
         ) : (
           <>
-            <Title style={{ marginBottom: '40px' }}>
+            <Title style={{ marginBottom: '50px' }}>
               <Link to="/">Plming</Link>
             </Title>
             <LinkContainer>
@@ -118,7 +142,7 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>login</LinkText>
               </LinkItem>
-              <LinkItem to="/signup">
+              <LinkItem to="/signup" style={{ marginTop: '10px' }}>
                 <LinkIcon>
                   <AiOutlineLogin />
                 </LinkIcon>
@@ -307,7 +331,7 @@ const Notification = styled.div<{ open: boolean }>`
   padding: 15px;
   z-index: 20;
   background-color: #fff;
-  transition: opacity 0.5s;
+  transition: opacity 0.15s;
   pointer-events: ${props => (props.open ? 'auto' : 'none')};
   opacity: ${props => (props.open ? '1' : '0')};
 `;
