@@ -1,22 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   AiOutlineLogout,
   AiOutlineMessage,
   AiOutlineLogin,
 } from 'react-icons/ai';
+
+import testProfileImage from 'assets/images/profile.png';
+import NotificationModal from './notification/NotificationModal';
+import { RootState } from 'modules';
+
 import {
   BsFillCaretLeftFill,
   BsPersonCircle,
   BsPencilSquare,
 } from 'react-icons/bs';
-import { IoIosNotifications } from 'react-icons/io';
+import { IoIosNotifications } from 'react-icons/io
 import { RootState } from 'modules';
 import { logout } from 'modules/users';
 import styled, { css } from 'styled-components';
-
-import NotificationModal from './notification/NotificationModal';
 
 const messageDummyData = [
   {
@@ -158,6 +163,20 @@ const Sidebar = () => {
 
 export default Sidebar;
 
+const Notification = styled.div<{ open: boolean }>`
+  position: absolute;
+  right: -280px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 15px;
+  z-index: 20;
+  background-color: #fff;
+  //animation
+  transition: opacity 0.5s;
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  opacity: ${props => (props.open ? '1' : '0')};
+`;
+
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
   width: 100%;
@@ -252,6 +271,7 @@ const Wrapper = styled.div<{ open: boolean }>`
   font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
+
   overflow: ${props => (props.open ? 'visible' : 'hidden')};
 
   transition: width 0.2s linear, padding 0.2s linear;
