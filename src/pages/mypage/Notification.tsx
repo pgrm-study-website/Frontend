@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { MdOutlineCancel } from 'react-icons/md';
 
-type Props = any;
+// type Props = any;
+
 type notificationDataProps = {
   id: number;
   date: Date;
@@ -41,7 +42,7 @@ const dummyData = [
   },
 ];
 
-const Notification = (props: Props) => {
+const Notification = () => {
   const [data, setData] = useState(dummyData);
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
@@ -53,13 +54,17 @@ const Notification = (props: Props) => {
       <Container>
         {data.map(i => (
           <NotificationItem key={i.content}>
-            <Content>{i.content}</Content>
-            <SubContent>
-              <Name>{i.sender.name}</Name> |{' '}
-              <div>{i.date.toLocaleDateString()}</div>
-            </SubContent>
+            <ContentImg></ContentImg>
+            <div>
+              <Content>{i.content}</Content>
+              <SubContent>
+                <Name>{i.sender.name}</Name> |{' '}
+                <div>{i.date.toLocaleDateString()}</div>
+              </SubContent>
+            </div>
+
             <DeleteBtn onClick={() => handleDelete(i.id)}>
-              <MdOutlineCancel />
+              {/* <MdOutlineCancel /> */}X
             </DeleteBtn>
           </NotificationItem>
         ))}
@@ -67,10 +72,16 @@ const Notification = (props: Props) => {
     </Wrapper>
   );
 };
+const ContentImg = styled.div`
+  width: 55px;
+  background-color: #b8b8b8;
+  height: 55px;
+  margin-right: 10px;
+`;
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
-  font-size: 18px;
+  font-size: 15px;
   top: 15px;
   right: 20px;
 `;
@@ -81,16 +92,19 @@ const Title = styled.h2`
 `;
 const NotificationItem = styled.div`
   padding: 20px;
-  border: 1px solid #bdbdbd;
   border-radius: 10px;
-  /* margin: 10px 0; */
+  box-shadow: 2px 1px 10px 2px rgb(0 0 0 / 9%);
+  background-color: #fff;
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 const SubContent = styled.div`
   display: flex;
   margin-top: 15px;
   font-size: 14px;
   gap: 10px;
+  color: #454545;
 `;
 const Name = styled.div``;
 const Content = styled.div`
