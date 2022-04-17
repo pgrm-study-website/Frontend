@@ -178,7 +178,7 @@ const Notification = styled.div<{ open: boolean }>`
   background-color: #fff;
   width: 300px;
   border-radius: 5px;
-  right: 0;
+  right: -50px;
   height: fit-content;
   color: #242424;
   font-size: 18px;
