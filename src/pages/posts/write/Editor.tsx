@@ -1,28 +1,58 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import ReactQuill from 'react-quill';
+import axios from 'axios';
+import ReactQuill, { Quill } from 'react-quill';
+import ImageUploader from 'quill-image-uploader';
+import ImageResize from '@looop/quill-image-resize-module-react';
 import 'react-quill/dist/quill.snow.css';
 import { changeField } from 'modules/posts/writePosts';
+import styled from 'styled-components';
+Quill.register('modules/imageUploader', ImageUploader);
+Quill.register('modules/ImageResize', ImageResize);
 
 const Editor = ({ content }: { content: string }) => {
   const dispatch = useDispatch();
 
   const QuillRef = useRef<ReactQuill>();
-  const modules = {
-    toolbar: {
-      container: [
-        [{ size: ['small', false, 'large'] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ color: [] }, { background: [] }],
-        ['blockquote'],
-        [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image'],
-        ['clean'],
-      ],
-    },
-    clipboard: { matchVisual: false },
-  };
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ size: ['small', false, 'large'] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ color: [] }, { background: [] }],
+          ['blockquote'],
+          [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'image'],
+          ['clean'],
+        ],
+      },
+      imageUploader: {
+        upload: async (file: any) => {
+          const formData = new FormData();
+          formData.append('file', file);
+          try {
+            const result = await axios.post(
+              process.env.REACT_APP_API_IMAGE!,
+              formData,
+            );
+            return result.data;
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+      ImageResize: {
+        displayStyles: {
+          backgroundColor: 'black',
+          border: 'none',
+          color: 'white',
+        },
+        modules: ['Resize', 'DisplaySize'],
+      },
+      clipboard: { matchVisual: false },
+    };
+  }, []);
   const formats = [
     'size',
     'bold',

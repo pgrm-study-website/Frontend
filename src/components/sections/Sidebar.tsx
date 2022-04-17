@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   AiOutlineLogout,
   AiOutlineMessage,
   AiOutlineLogin,
 } from 'react-icons/ai';
-
-import testProfileImage from 'assets/images/profile.png';
-import NotificationModal from './notification/NotificationModal';
-import { RootState } from 'modules';
-
 import {
   BsFillCaretLeftFill,
   BsPersonCircle,
   BsPencilSquare,
 } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
-import { changeField, logout } from 'modules/users';
+import { RootState } from 'modules';
+import { logout } from 'modules/users';
 import styled, { css } from 'styled-components';
+
+import NotificationModal from './notification/NotificationModal';
 
 const messageDummyData = [
   {
@@ -43,13 +39,25 @@ const messageDummyData = [
 const Sidebar = () => {
   const dispatch = useDispatch();
 
+  const NotificationWrapperRef = useRef<HTMLDivElement>(null);
+  const user = useSelector((state: RootState) => state.users.user);
   const [open, setOpen] = useState(true);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const user = useSelector((state: RootState) => state.users.user);
 
-  const handleNofiticationClick = () => {
-    setNotificationOpen(!notificationOpen);
-  };
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+      if (
+        NotificationWrapperRef.current &&
+        !NotificationWrapperRef.current.contains(e.target as Node)
+      ) {
+        setNotificationOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [NotificationWrapperRef]);
 
   return (
     <>
@@ -64,11 +72,14 @@ const Sidebar = () => {
               <Link to="/">Plming</Link>
             </Title>
             <Profile>
-              <img src={user.image} alt="profile" />
+              <img
+                src={user.image || require('assets/images/defaultProfile.png')}
+                alt="profile"
+              />
               <Name>{user.nickname}</Name>
             </Profile>
             <LinkContainer>
-              <LinkItem to={`/mypage/${user.id}`}>
+              <LinkItem to={`/mypage/${user.nickname}`}>
                 <LinkIcon>
                   <BsPersonCircle />
                 </LinkIcon>
@@ -80,17 +91,21 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>message</LinkText>
               </LinkItem>
-              <Item>
-                <LinkIcon onClick={handleNofiticationClick}>
+              <Item ref={NotificationWrapperRef}>
+                <LinkIcon
+                  onClick={() => setNotificationOpen(!notificationOpen)}
+                >
                   <IoIosNotifications />
                 </LinkIcon>
-                <LinkText onClick={handleNofiticationClick}>
+                <LinkText
+                  onClick={() => setNotificationOpen(!notificationOpen)}
+                >
                   notification
                 </LinkText>
                 <Notification open={notificationOpen}>
-                  <NotificationModal
-                    data={messageDummyData}
-                  ></NotificationModal>
+                  {notificationOpen && (
+                    <NotificationModal data={messageDummyData} />
+                  )}
                 </Notification>
               </Item>
               <LinkItem to="/posts/write">
@@ -103,13 +118,21 @@ const Sidebar = () => {
                 <LinkIcon>
                   <AiOutlineLogout />
                 </LinkIcon>
-                <LinkText onClick={() => dispatch(logout())}>logout</LinkText>
+                <LinkText
+                  onClick={() => {
+                    if (window.confirm('로그아웃 하시겠습니까?')) {
+                      dispatch(logout());
+                    }
+                  }}
+                >
+                  logout
+                </LinkText>
               </Item>
             </LinkContainer>
           </>
         ) : (
           <>
-            <Title style={{ marginBottom: '40px' }}>
+            <Title style={{ marginBottom: '50px' }}>
               <Link to="/">Plming</Link>
             </Title>
             <LinkContainer>
@@ -119,32 +142,12 @@ const Sidebar = () => {
                 </LinkIcon>
                 <LinkText>login</LinkText>
               </LinkItem>
-              <LinkItem to="/signup">
+              <LinkItem to="/signup" style={{ marginTop: '10px' }}>
                 <LinkIcon>
                   <AiOutlineLogin />
                 </LinkIcon>
                 <LinkText>signup</LinkText>
               </LinkItem>
-              <Item
-                onClick={() =>
-                  dispatch(
-                    changeField({
-                      key: 'user',
-                      value: {
-                        id: 4,
-                        nickname: '닉네임abc12',
-                        image:
-                          'https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png',
-                      },
-                    }),
-                  )
-                }
-              >
-                <LinkIcon>
-                  <AiOutlineLogin />
-                </LinkIcon>
-                <LinkText>temp_login</LinkText>
-              </Item>
             </LinkContainer>
           </>
         )}
@@ -154,20 +157,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-const Notification = styled.div<{ open: boolean }>`
-  position: absolute;
-  right: -280px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 15px;
-  z-index: 20;
-  background-color: #fff;
-  //animation
-  transition: opacity 0.5s;
-  pointer-events: ${props => (props.open ? 'auto' : 'none')};
-  opacity: ${props => (props.open ? '1' : '0')};
-`;
 
 const FakeSidebar = styled.div<{ open: boolean }>`
   background-color: black;
@@ -263,7 +252,6 @@ const Wrapper = styled.div<{ open: boolean }>`
   font-family: 'KOTRAHOPE';
   font-weight: normal;
   font-style: normal;
-
   overflow: ${props => (props.open ? 'visible' : 'hidden')};
 
   transition: width 0.2s linear, padding 0.2s linear;
@@ -334,4 +322,18 @@ const LinkIcon = styled.div`
   position: relative;
   top: 2px;
   cursor: pointer;
+`;
+const Notification = styled.div<{ open: boolean }>`
+  position: absolute;
+  right: -280px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  z-index: 20;
+  background-color: #fff;
+  transition: opacity 0.15s, height 0.15s, padding 0.15s;
+  opacity: ${props => (props.open ? '1' : '0')};
+  width: 320px;
+  height: ${props => (props.open ? '300px' : '0')};
+  padding: ${props => (props.open ? '15px' : '0')};
+  box-shadow: 2px 2px 2px black;
 `;
