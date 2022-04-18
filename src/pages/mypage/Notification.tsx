@@ -41,22 +41,25 @@ const Notification = () => {
     <Wrapper>
       <Title>Notification </Title>
       <Container>
-        {data.map(i => (
-          <NotificationItem key={i.content}>
-            <ContentImg></ContentImg>
-            <div>
-              <Content>{i.content}</Content>
-              <SubContent>
-                <Name>{i.sender.name}</Name> |{' '}
-                <div>{i.date.toLocaleDateString()}</div>
-              </SubContent>
-            </div>
+        {data &&
+          data.map(i => (
+            <NotificationItem key={i.content}>
+              {/* <ContentImg></ContentImg> */}
+              <div>
+                <Content>{i.content}</Content>
+                <SubContent>
+                  <Name>{i.user_id}</Name> |{' '}
+                  <div>
+                    {i.create_date && i.create_date.toLocaleDateString()}
+                  </div>
+                </SubContent>
+              </div>
 
-            <DeleteBtn onClick={() => handleDelete(i.id)}>
-              {/* <MdOutlineCancel /> */}X
-            </DeleteBtn>
-          </NotificationItem>
-        ))}
+              <DeleteBtn onClick={() => handleDelete(i.id)}>
+                {/* <MdOutlineCancel /> */}X
+              </DeleteBtn>
+            </NotificationItem>
+          ))}
       </Container>
     </Wrapper>
   );
