@@ -1,34 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FiSend } from 'react-icons/fi';
-
-// type Props = {};
-const testData = [
-  {
-    id: 1,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 33333,
-    otherName: 'hey',
-    content: 'this is message',
-  },
-  {
-    id: 2,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 33313,
-    content: 'this is message',
-    otherName: 'hey2312',
-  },
-  {
-    id: 3,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 1232132,
-    content: 'this is message',
-    otherName: 'heyasdd',
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { messageRead } from 'modules/message';
+import { RootState } from 'modules';
 
 const sendTestDataList = [
   {
@@ -107,6 +82,8 @@ type messageContentProps = {
   }>;
 };
 function Message() {
+  const dispatch = useDispatch();
+  const [messageDatas, setMessageDatas] = useState([]);
   const [select, setSelect] = useState<number>(-1);
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
   const [messageContent, setMessageContent] = useState<messageContentProps>({
@@ -114,6 +91,16 @@ function Message() {
     name: '',
     data: [],
   });
+  const { messages } = useSelector((state: RootState) => ({
+    notice: state.notices.notice,
+  }));
+  useEffect(() => {
+    // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
+    dispatch(messageRead());
+    if (messageDatas) {
+      setMessageDatas(messages);
+    }
+  }, [data, notice]);
   const handleMessage = () => {
     setMessageContent({
       ...messageContent,

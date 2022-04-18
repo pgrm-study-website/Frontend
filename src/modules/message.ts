@@ -57,7 +57,12 @@ export const messageSendFailure =
 // const signupSaga = createRequestSaga(SIGNUP, usersAPI.signup);
 
 export type messageState = {
-  messages: Array<messageAPI.messageProps> | null;
+  messages: Array<messageAPI.messagesProps> | null;
+  remove: boolean | null;
+  error: AxiosError | null;
+};
+export type messageDetailState = {
+  messageDetail: Array<messageAPI.messagesDetailProps> | null;
   remove: boolean | null;
   error: AxiosError | null;
 };
@@ -66,14 +71,20 @@ const initialState: messageState = {
   remove: null,
   error: null,
 };
+const initialMessageDetailState: messageDetailState = {
+  messageDetail: null,
+  remove: null,
+  error: null,
+};
 const messages = createReducer(initialState, {
   [MESSAGE_READ]: (state, { payload }) => ({
     ...state,
-    notice: null,
+    messages: null,
+    // notice: messageUserListTestData,
   }),
   [MESSAGE_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
-    notice: payload.data,
+    messages: payload.data,
   }),
   [MESSAGE_READ_FAILURE]: (state, { payload: error }) => {
     alert('message reading error');
@@ -82,14 +93,15 @@ const messages = createReducer(initialState, {
       error,
     };
   },
-
+});
+export const messageDetail = createReducer(initialMessageDetailState, {
   [MESSAGE_DETAIL_READ]: (state, { payload }) => ({
     ...state,
-    notice: null,
+    messageDetail: null,
   }),
   [MESSAGE_DETAIL_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
-    notice: payload.data,
+    messageDetail: payload.data,
   }),
   [MESSAGE_DETAIL_READ_FAILURE]: (state, { payload: error }) => {
     alert('message reading error');
@@ -100,12 +112,12 @@ const messages = createReducer(initialState, {
   },
   [MESSAGE_DELETE_ALL]: (state, { payload }) => ({
     ...state,
-    notice: null,
+    messageDetail: null,
   }),
   [MESSAGE_DELETE_ALL_SUCCESS]: (state, { payload }) => ({
     ...state,
     remove: true,
-    notice: payload.data,
+    messageDetail: payload.data,
   }),
   [MESSAGE_DELETE_ALL_FAILURE]: (state, { payload: error }) => {
     alert('message delete error');
@@ -116,12 +128,12 @@ const messages = createReducer(initialState, {
   },
   [MESSAGE_DELETE_ONE]: (state, { payload }) => ({
     ...state,
-    notice: null,
+    messageDetail: null,
   }),
   [MESSAGE_DELETE_ONE_SUCCESS]: (state, { payload }) => ({
     ...state,
     remove: true,
-    notice: payload.data,
+    messageDetail: payload.data,
   }),
   [MESSAGE_DELETE_ONE_FAILURE]: (state, { payload: error }) => {
     alert('message delete error');
@@ -132,11 +144,11 @@ const messages = createReducer(initialState, {
   },
   [MESSAGE_SEND]: (state, { payload }) => ({
     ...state,
-    notice: null,
+    messageDetail: null,
   }),
   [MESSAGE_SEND_SUCCESS]: (state, { payload }) => ({
     ...state,
-    notice: payload.data,
+    messageDetail: payload.data,
   }),
   [MESSAGE_SEND_FAILURE]: (state, { payload: error }) => {
     alert('message send error');
@@ -146,5 +158,31 @@ const messages = createReducer(initialState, {
     };
   },
 });
-
 export default messages;
+
+const messageUserListTestData = [
+  {
+    id: 1,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 33333,
+    otherName: 'hey',
+    content: 'this is message',
+  },
+  {
+    id: 2,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 33313,
+    content: 'this is message',
+    otherName: 'hey2312',
+  },
+  {
+    id: 3,
+    userId: 123,
+    userName: 'sumi',
+    otherId: 1232132,
+    content: 'this is message',
+    otherName: 'heyasdd',
+  },
+];

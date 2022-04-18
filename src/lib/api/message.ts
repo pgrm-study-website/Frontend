@@ -1,3 +1,4 @@
+import { StringLiteralLike } from 'typescript';
 import client from './client';
 
 export const read = (user_id: number) => client.get(`messages/${user_id}`);
@@ -14,20 +15,15 @@ export type sendMessageProps = {
   other: number;
   content: string;
 };
-export type messageProps = {
-  id: number;
-  user_id: number;
+export type messagesProps = {
+  otherPersonId: number;
+  otherPersionNickname: StringLiteralLike;
   content: string;
-  url: string;
-  notification_type:
-    | 'apply'
-    | 'accept'
-    | 'reject'
-    | 'comment'
-    | 'recomment'
-    | 'message';
-  is_read: boolean;
-  create_date?: Date;
-  update_date?: Date;
-  image?: string;
+  createDate: Date;
+};
+export type messagesDetailProps = {
+  messageId: number;
+  type: 'send' | 'receive';
+  content: string;
+  createDate: Date;
 };

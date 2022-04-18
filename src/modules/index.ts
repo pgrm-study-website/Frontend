@@ -7,6 +7,7 @@ import listPosts, { listPostsSaga } from 'modules/posts/listPosts';
 import writePosts, { writePostsSaga } from 'modules/posts/writePosts';
 import readPosts, { readPostsSaga } from 'modules/posts/readPosts';
 import notices from 'modules/notices';
+import messages, { messageDetail } from './message';
 
 const rootReducer = combineReducers({
   loading,
@@ -15,6 +16,8 @@ const rootReducer = combineReducers({
   writePosts,
   readPosts,
   notices,
+  messages,
+  messageDetail,
 });
 
 export function* rootSaga() {
