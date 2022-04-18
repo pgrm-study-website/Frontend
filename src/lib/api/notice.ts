@@ -9,9 +9,18 @@ export const removeOne = (payload: number) =>
 
 export type notificationProps = {
   id: number;
-  date: Date;
+  user_id: number;
   content: string;
-  noticeId: number;
-  category?: 'announcement' | 'messages' | undefined;
+  url: string;
+  notification_type:
+    | 'apply'
+    | 'accept'
+    | 'reject'
+    | 'comment'
+    | 'recomment'
+    | 'message';
+  is_read: boolean;
+  create_date?: Date;
+  update_date?: Date;
   image?: string;
 };

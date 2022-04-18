@@ -99,21 +99,30 @@ const initialState: noticesState = {
 const dummyData: Array<noticeAPI.notificationProps> = [
   {
     id: 1,
-    date: new Date(),
+    user_id: 1,
     content: '알림입니다!',
-    noticeId: 1,
+    url: ' https://github.com/sumi-0011',
+    notification_type: 'message',
+    create_date: new Date(),
+    is_read: false,
   },
   {
     id: 2,
-    date: new Date(),
+    user_id: 1,
     content: '알림입니다! 2',
-    noticeId: 2,
+    url: ' https://github.com/sumi-0011',
+    notification_type: 'message',
+    is_read: false,
+    create_date: new Date(),
   },
   {
     id: 3,
-    date: new Date(),
+    user_id: 1,
     content: '알림입니다! 3',
-    noticeId: 3,
+    url: ' https://github.com/sumi-0011',
+    notification_type: 'message',
+    is_read: false,
+    create_date: new Date(),
   },
 ];
 
@@ -148,7 +157,8 @@ const notices = createReducer(initialState, {
   }),
   [NOTICE_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
-    notice: payload.data,
+    // notice: payload.data,
+    notice: dummyData,
   }),
   [NOTICE_READ_FAILURE]: (state, { payload: error }) => {
     alert('notice read error');

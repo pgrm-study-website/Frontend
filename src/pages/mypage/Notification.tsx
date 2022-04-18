@@ -6,7 +6,11 @@ import { RootState } from 'modules';
 import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { noticesState, test } from '../../modules/notices';
+import {
+  noticeRead,
+  noticeReadSuccess,
+  noticesState,
+} from '../../modules/notices';
 // type Props = {};
 
 const Notification = () => {
@@ -17,7 +21,8 @@ const Notification = () => {
     notice: state.notices.notice,
   }));
   useEffect(() => {
-    dispatch(test());
+    // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
+    dispatch(noticeReadSuccess());
     if (notice) {
       setData(notice);
     }
@@ -37,8 +42,8 @@ const Notification = () => {
             <NotificationItem key={i.content}>
               <Content>{i.content}</Content>
               <SubContent>
-                <Name>{i.noticeId}</Name> |{' '}
-                <div>{i.date.toLocaleDateString()}</div>
+                <Name>{i.user_id}</Name> |{' '}
+                <div>{i.create_date && i.create_date.toLocaleDateString()}</div>
               </SubContent>
               <DeleteBtn onClick={() => handleDelete(i.id)}>
                 <MdOutlineCancel />
