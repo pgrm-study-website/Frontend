@@ -8,7 +8,7 @@ type messageProps = {
   date: string | Date;
 };
 
-export default function NotificationMoal({
+export default function NotificationModal({
   data,
 }: {
   data: Array<messageProps>;

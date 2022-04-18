@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { BiReset } from 'react-icons/bi';
 import qs from 'qs';
+import { BiReset } from 'react-icons/bi';
 import {
   BsSearch,
   BsPersonFill,
@@ -31,7 +31,6 @@ import Loading from 'components/common/Loading';
 import PostTagC from 'components/posts/PostTagC';
 import SearchOption from 'components/posts/SearchOption';
 import PostItem from 'components/posts/PostItem';
-import NotFound from 'components/common/NotFound';
 
 const List = () => {
   const navigate = useNavigate();

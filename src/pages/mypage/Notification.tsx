@@ -41,27 +41,36 @@ const Notification = () => {
     <Wrapper>
       <Title>Notification </Title>
       <Container>
-        {data &&
-          data.map(i => (
-            <NotificationItem key={i.content}>
+        {data.map(i => (
+          <NotificationItem key={i.content}>
+            <ContentImg></ContentImg>
+            <div>
               <Content>{i.content}</Content>
               <SubContent>
-                <Name>{i.user_id}</Name> |{' '}
-                <div>{i.create_date && i.create_date.toLocaleDateString()}</div>
+                <Name>{i.sender.name}</Name> |{' '}
+                <div>{i.date.toLocaleDateString()}</div>
               </SubContent>
-              <DeleteBtn onClick={() => handleDelete(i.id)}>
-                <MdOutlineCancel />
-              </DeleteBtn>
-            </NotificationItem>
-          ))}
+            </div>
+
+            <DeleteBtn onClick={() => handleDelete(i.id)}>
+              {/* <MdOutlineCancel /> */}X
+            </DeleteBtn>
+          </NotificationItem>
+        ))}
       </Container>
     </Wrapper>
   );
 };
+const ContentImg = styled.div`
+  width: 55px;
+  background-color: #b8b8b8;
+  height: 55px;
+  margin-right: 10px;
+`;
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
-  font-size: 18px;
+  font-size: 15px;
   top: 15px;
   right: 20px;
 `;
@@ -74,9 +83,12 @@ const Title = styled.h2`
 `;
 const NotificationItem = styled.div`
   padding: 20px;
-  border: 1px solid #bdbdbd;
   border-radius: 10px;
+  box-shadow: 2px 1px 10px 2px rgb(0 0 0 / 9%);
+  background-color: #fff;
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 const SubContent = styled.div`
   display: flex;
@@ -84,6 +96,7 @@ const SubContent = styled.div`
   margin-left: 3px;
   font-size: 18px;
   gap: 10px;
+  color: #454545;
 `;
 const Name = styled.div``;
 const Content = styled.div`

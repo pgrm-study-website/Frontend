@@ -81,7 +81,7 @@ export const checkAuthEmailSuccess = createAction(CHECK_AUTH_EMAIL_SUCCESS)();
 export const checkAuthEmailFailure = createAction(
   CHECK_AUTH_EMAIL_FAILURE,
 )<AxiosError>();
-export const read = createAction(READ)<number>();
+export const read = createAction(READ)<usersAPI.readRequestType>();
 export const readSuccess = createAction(READ_SUCCESS)<any>();
 export const readFailure = createAction(READ_FAILURE)<AxiosError>();
 export const update = createAction(UPDATE)<usersAPI.updateRequestType>();
@@ -92,9 +92,7 @@ export const removeSuccess = createAction(REMOVE_SUCCESS)();
 export const removeFailure = createAction(REMOVE_FAILURE)<AxiosError>();
 export const checkPassword =
   createAction(CHECK_PASSWORD)<usersAPI.passwordRequsetType>();
-export const checkPasswordSuccess = createAction(
-  CHECK_PASSWORD_SUCCESS,
-)<boolean>();
+export const checkPasswordSuccess = createAction(CHECK_PASSWORD_SUCCESS)();
 export const checkPasswordFailure = createAction(
   CHECK_PASSWORD_FAILURE,
 )<AxiosError>();
@@ -304,8 +302,6 @@ const users = createReducer<usersState, usersAction>(initialState, {
       authEmail: false,
     };
   },
-
-  // 아래부턴 테스트되지 않았음
   [READ]: state => ({
     ...state,
     read: {
@@ -316,12 +312,11 @@ const users = createReducer<usersState, usersAction>(initialState, {
   [READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     read: {
-      data: payload,
+      data: payload.data,
       error: null,
     },
   }),
   [READ_FAILURE]: (state, { payload }) => {
-    alert(payload.response?.data.message);
     return {
       ...state,
       read: {
@@ -364,9 +359,9 @@ const users = createReducer<usersState, usersAction>(initialState, {
     ...state,
     checkPassword: null,
   }),
-  [CHECK_PASSWORD_SUCCESS]: (state, { payload }) => ({
+  [CHECK_PASSWORD_SUCCESS]: state => ({
     ...state,
-    checkPassword: payload,
+    checkPassword: true,
   }),
   [CHECK_PASSWORD_FAILURE]: (state, { payload }) => {
     alert(payload.response?.data.message);

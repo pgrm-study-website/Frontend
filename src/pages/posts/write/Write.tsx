@@ -71,4 +71,5 @@ const Wrapper = styled.div`
   width: 100%;
   max-width: 1000px;
   padding: 30px 20px 70px 20px;
+  overflow: hidden;
 `;
