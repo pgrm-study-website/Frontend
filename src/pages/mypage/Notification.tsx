@@ -7,6 +7,8 @@ import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
+  noticeDeleteOne,
+  noticeDeleteOneSuccess,
   noticeRead,
   noticeReadSuccess,
   noticesState,
@@ -32,6 +34,8 @@ const Notification = () => {
     data && setData(data.filter(item => item.id !== id));
 
     //삭제 데이터 서버에 전송
+    const log = dispatch(noticeDeleteOne(id));
+    console.log(log);
   };
   return (
     <Wrapper>
@@ -62,39 +66,44 @@ const DeleteBtn = styled.div`
   right: 20px;
 `;
 const Title = styled.h2`
-  font-size: 20px;
+  font-size: 30px;
   margin-bottom: 20px;
+  font-weight: 700;
+  font-family: 'Bazzi';
   color: #454545;
 `;
 const NotificationItem = styled.div`
   padding: 20px;
   border: 1px solid #bdbdbd;
   border-radius: 10px;
-  /* margin: 10px 0; */
   position: relative;
 `;
 const SubContent = styled.div`
   display: flex;
   margin-top: 15px;
-  font-size: 14px;
+  margin-left: 3px;
+  font-size: 18px;
   gap: 10px;
 `;
 const Name = styled.div``;
 const Content = styled.div`
-  font-size: 18px;
+  font-size: 22px;
+  color: #454545;
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  font-family: 'Bazzi';
   gap: 10px;
 `;
 
 const Wrapper = styled.div`
   width: 100%;
   font-family: SuncheonR;
+  font-family: 'Bazzi';
   min-height: 400px;
   height: calc(100vh - 100px);
-  padding: 20px;
+  padding: 30px;
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
