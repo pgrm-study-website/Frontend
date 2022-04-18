@@ -7,6 +7,7 @@ import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
+  noticeDelete,
   noticeDeleteOne,
   noticeDeleteOneSuccess,
   noticeRead,
@@ -36,10 +37,17 @@ const Notification = () => {
     //삭제 데이터 서버에 전송
     const log = dispatch(noticeDeleteOne(id));
     console.log(log);
+    alert(`알림이 삭제되었습니다`);
+  };
+  const handleDeleteAll = () => {
+    dispatch(noticeDelete());
   };
   return (
     <Wrapper>
-      <Title>Notification </Title>
+      <Title>
+        Notification
+        <button onClick={() => handleDeleteAll()}>알림 전체 삭제</button>
+      </Title>
       <Container>
         {data &&
           data.map(i => (
@@ -83,6 +91,18 @@ const Title = styled.h2`
   font-weight: 700;
   font-family: 'Bazzi';
   color: #454545;
+  position: relative;
+  button {
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: 'Bazzi';
+    font-size: 17px;
+    border: 1px solid #454545;
+    color: #454545;
+  }
 `;
 const NotificationItem = styled.div`
   padding: 20px;
