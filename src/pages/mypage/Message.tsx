@@ -28,30 +28,6 @@ const testData = [
     content: 'this is message',
     otherName: 'heyasdd',
   },
-  // {
-  //   id: 4,
-  //   userId: 123,
-  //   userName: 'sumi',
-  //   otherId: 335734633,
-  //   content: 'this is message',
-  //   otherName: 'heasdy',
-  // },
-  // {
-  //   id: 5,
-  //   userId: 123,
-  //   userName: 'sumi',
-  //   otherId: 333368543,
-  //   content: 'this is message',
-  //   otherName: 'heasddddddy',
-  // },
-  // {
-  //   id: 6,
-  //   userId: 123,
-  //   userName: 'sumi',
-  //   content: 'this is message',
-  //   otherId: 3377733,
-  //   otherName: 'hey name',
-  // },
 ];
 
 const sendTestDataList = [
