@@ -17,7 +17,7 @@ export type sendMessageProps = {
 };
 export type messagesProps = {
   otherPersonId: number;
-  otherPersionNickname: StringLiteralLike;
+  otherPersionNickname: string;
   content: string;
   createDate: Date;
 };

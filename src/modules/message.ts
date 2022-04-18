@@ -79,8 +79,8 @@ const initialMessageDetailState: messageDetailState = {
 const messages = createReducer(initialState, {
   [MESSAGE_READ]: (state, { payload }) => ({
     ...state,
-    messages: null,
-    // notice: messageUserListTestData,
+    // messages: null,
+    messages: messageUserListTestData,
   }),
   [MESSAGE_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
@@ -160,29 +160,23 @@ export const messageDetail = createReducer(initialMessageDetailState, {
 });
 export default messages;
 
-const messageUserListTestData = [
+const messageUserListTestData: Array<messageAPI.messagesProps> = [
   {
-    id: 1,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 33333,
-    otherName: 'hey',
+    otherPersonId: 3,
+    otherPersionNickname: `other3`,
     content: 'this is message',
+    createDate: new Date(),
   },
   {
-    id: 2,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 33313,
-    content: 'this is message',
-    otherName: 'hey2312',
+    otherPersonId: 5,
+    otherPersionNickname: 'other555',
+    content: 'this is new 5  message',
+    createDate: new Date(),
   },
   {
-    id: 3,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 1232132,
-    content: 'this is message',
-    otherName: 'heyasdd',
+    otherPersonId: 6,
+    otherPersionNickname: 'other666',
+    content: 'this is message new 6',
+    createDate: new Date(),
   },
 ];
