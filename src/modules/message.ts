@@ -55,6 +55,26 @@ export const messageSendFailure =
 
 //   Redux-Saga
 // const signupSaga = createRequestSaga(SIGNUP, usersAPI.signup);
+const messageUserListTestData: Array<messageAPI.messagesProps> = [
+  {
+    otherPersonId: 3,
+    otherPersionNickname: `other3`,
+    content: 'this is message',
+    createDate: new Date(),
+  },
+  {
+    otherPersonId: 5,
+    otherPersionNickname: 'other555',
+    content: 'this is new 5  message',
+    createDate: new Date(),
+  },
+  {
+    otherPersonId: 6,
+    otherPersionNickname: 'other666',
+    content: 'this is message new 6',
+    createDate: new Date(),
+  },
+];
 
 export type messageState = {
   messages: Array<messageAPI.messagesProps> | null;
@@ -85,6 +105,7 @@ const messages = createReducer(initialState, {
   [MESSAGE_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     messages: payload.data,
+    // messages: messageUserListTestData,
   }),
   [MESSAGE_READ_FAILURE]: (state, { payload: error }) => {
     alert('message reading error');
@@ -159,24 +180,3 @@ export const messageDetail = createReducer(initialMessageDetailState, {
   },
 });
 export default messages;
-
-const messageUserListTestData: Array<messageAPI.messagesProps> = [
-  {
-    otherPersonId: 3,
-    otherPersionNickname: `other3`,
-    content: 'this is message',
-    createDate: new Date(),
-  },
-  {
-    otherPersonId: 5,
-    otherPersionNickname: 'other555',
-    content: 'this is new 5  message',
-    createDate: new Date(),
-  },
-  {
-    otherPersonId: 6,
-    otherPersionNickname: 'other666',
-    content: 'this is message new 6',
-    createDate: new Date(),
-  },
-];

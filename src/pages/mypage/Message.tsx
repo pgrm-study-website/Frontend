@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FiSend } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { messageRead } from 'modules/message';
+import { messageRead, messageReadSuccess } from 'modules/message';
 import { RootState } from 'modules';
+import { messagesProps } from 'lib/api/message';
 
 const sendTestDataList = [
   {
@@ -83,7 +84,7 @@ type messageContentProps = {
 };
 function Message() {
   const dispatch = useDispatch();
-  const [messageDatas, setMessageDatas] = useState([]);
+  const [messageDatas, setMessageDatas] = useState<messagesProps[] | null>([]);
   const [select, setSelect] = useState<number>(-1);
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
   const [messageContent, setMessageContent] = useState<messageContentProps>({
@@ -92,15 +93,16 @@ function Message() {
     data: [],
   });
   const { messages } = useSelector((state: RootState) => ({
-    notice: state.notices.notice,
+    messages: state.messages.messages,
   }));
   useEffect(() => {
-    // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
+    //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
     dispatch(messageRead());
-    if (messageDatas) {
+    if (messages) {
       setMessageDatas(messages);
+      console.log(messages);
     }
-  }, [data, notice]);
+  }, [messages]);
   const handleMessage = () => {
     setMessageContent({
       ...messageContent,
@@ -124,18 +126,19 @@ function Message() {
       <MessageListContainer>
         <Title>쪽지함</Title>
         <MessageList>
-          {testData.map((item, idx) => (
-            <MessageItem
-              key={idx}
-              onClick={() => handleSelect(item.otherName, idx)}
-              className={idx === select ? 'select' : 'non-select'}
-            >
-              {item.otherName}
-            </MessageItem>
-          ))}
+          {messageDatas &&
+            messageDatas.map((item, idx) => (
+              <MessageItem
+                key={idx}
+                onClick={() => handleSelect(item.otherPersionNickname, idx)}
+                className={idx === select ? 'select' : 'non-select'}
+              >
+                {item.otherPersionNickname}
+              </MessageItem>
+            ))}
         </MessageList>
       </MessageListContainer>
-      <CurrentContent current={testData[select]}>
+      {/* <CurrentContent current={testData[select]}>
         <MessageOtherName>{messageContent.name}</MessageOtherName>
         <ContentContainer>
           <MessageList>
@@ -160,7 +163,7 @@ function Message() {
             </button>
           </SendMessageContainer>
         </ContentContainer>
-      </CurrentContent>
+      </CurrentContent> */}
     </Wrapper>
   );
 }
