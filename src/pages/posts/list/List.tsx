@@ -52,7 +52,7 @@ const List = () => {
         ignoreQueryPrefix: true,
       }),
       12,
-      posts ? posts.totalPages : 0,
+      posts ? posts.totalPages + 1 : 0,
     );
   const initialState: stateType = searchState;
   const reducer = (state: stateType, action: any) => {
