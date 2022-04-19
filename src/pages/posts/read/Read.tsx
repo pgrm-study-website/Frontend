@@ -19,6 +19,7 @@ import MoreInfo from './MoreInfo';
 import Loading from 'components/common/Loading';
 import Error from 'components/common/Error';
 import NotFound from 'components/common/NotFound';
+import { initComment } from 'modules/posts/comments';
 
 const Read = () => {
   const navigate = useNavigate();
@@ -38,9 +39,11 @@ const Read = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(initRead());
+    dispatch(initComment());
     dispatch(read(parseInt(id!)));
     return () => {
       dispatch(initRead());
+      dispatch(initComment());
     };
   }, [dispatch]);
 
@@ -95,7 +98,7 @@ const Read = () => {
             </UtilButton>
           </UtilButtonWrapper>
         )}
-        {/* <Comment /> */}
+        <Comment id={post.id} />
       </Wrapper>
     );
   }

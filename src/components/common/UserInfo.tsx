@@ -82,29 +82,20 @@ const UserImage = styled.img`
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  background-color: white;
+  border-radius: 5px;
 `;
 const Nickname = styled.div`
   font-size: 18px;
   font-family: NanumSquareR;
   margin-top: 1px;
 `;
-const QuestionImage = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  font-size: 20px;
-  background-color: #464646;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  font-weight: 700;
-  margin-right: 10px;
-`;
 const PopupWrapper = styled.div`
   cursor: default;
   width: 90px;
   height: 50px;
-  background-color: #ffffff;
+  background-color: #f1f1f1;
+  box-shadow: 2px 2px 2px black;
   border-radius: 10px;
   z-index: 10;
   position: absolute;
@@ -128,7 +119,7 @@ const PopupWrapper = styled.div`
     border-top: 0px solid transparent;
     border-left: 0px solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 20px solid #ffffff;
+    border-bottom: 20px solid #f1f1f1;
     content: '';
     position: absolute;
     top: -10px;
