@@ -84,7 +84,7 @@ const Read = () => {
         />
         <Content content={post.content} />
         <MoreInfo participantMax={post.participantMax} period={post.period} />
-        {/* <Participant participantNum={post.participantNum} /> */}
+        <Participant participantNum={post.participantNum} />
         <Tags tags={post.tags} />
         {user && post.userId === user.id && (
           <UtilButtonWrapper>
