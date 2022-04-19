@@ -14,7 +14,7 @@ import {
   read as userRead,
   update as userUpdate,
 } from 'modules/users';
-import { myList } from 'modules/posts/listPosts';
+import { initList, myList } from 'modules/posts/listPosts';
 import styled from 'styled-components';
 
 import PostTagA from 'components/posts/PostTagA';
@@ -55,6 +55,7 @@ const Mypage = () => {
           },
         }),
       );
+      dispatch(initList());
     };
   }, []);
   useEffect(() => {
