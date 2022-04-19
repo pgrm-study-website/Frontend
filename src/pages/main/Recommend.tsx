@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { postListItemType } from 'lib/api/posts';
 import styled from 'styled-components';
 
 import RecommendPostItem from './RecommendPostItem';
+import { LoadingBox } from 'components/common/Loading';
 
-const Recommend = () => {
+const recommendMessage = [
+  '임시 (그냥 최신순) 1',
+  '임시 (그냥 최신순) 2',
+  '임시 (그냥 최신순) 3',
+];
+const MAX_PAGE = 3;
+
+const Recommend = ({ recommend }: { recommend: any }) => {
   const [page, setPage] = useState(0);
   const messageDiv = useRef<HTMLDivElement>(null);
   const postListDiv = useRef<HTMLDivElement>(null);
@@ -12,7 +21,7 @@ const Recommend = () => {
   const changePage = () => {
     if (timer === null) {
       timer = setInterval(() => {
-        setPage(page => (page + 1) % 3);
+        setPage(page => (page + 1) % MAX_PAGE);
         messageDiv.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
           duration: 300,
           easing: 'linear',
@@ -32,7 +41,6 @@ const Recommend = () => {
       }, 10000);
     }
   };
-
   useEffect(() => {
     changePage();
     return () => {
@@ -44,12 +52,20 @@ const Recommend = () => {
 
   return (
     <Wrapper>
-      {/* <MessageText ref={messageDiv}>{testDataList[page].text}</MessageText>
-      <PostListWrapper ref={postListDiv}>
-        {testDataList[page].list.map((i, idx) => (
-          <RecommendPostItem key={idx} post={i} />
-        ))}
-      </PostListWrapper> */}
+      {recommend ? (
+        <>
+          <MessageText ref={messageDiv}>{recommendMessage[page]}</MessageText>
+          <PostListWrapper ref={postListDiv}>
+            {recommend[page].map(
+              (i: postListItemType, idx: React.Key | null | undefined) => (
+                <RecommendPostItem key={idx} post={i} />
+              ),
+            )}
+          </PostListWrapper>
+        </>
+      ) : (
+        <LoadingBox r="70px" />
+      )}
     </Wrapper>
   );
 };

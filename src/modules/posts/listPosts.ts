@@ -4,6 +4,7 @@ import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga from 'lib/createRequestSaga';
 import * as postsAPI from 'lib/api/posts';
 
+const INIT_LIST = 'listPosts/INIT_LIST';
 const LIST = 'listPosts/LIST';
 const LIST_SUCCESS = 'listPosts/LIST_SUCCESS';
 const LIST_FAILURE = 'listPosts/LIST_FAILURE';
@@ -11,6 +12,7 @@ const MY_LIST = 'listPosts/MY_LIST';
 const MY_LIST_SUCCESS = 'listPosts/MY_LIST_SUCCESS';
 const MY_LIST_FAILURE = 'listPosts/MY_LIST_FAILURE';
 
+export const initList = createAction(INIT_LIST)();
 export const list = createAction(LIST)<string>();
 export const listSuccess = createAction(LIST_SUCCESS)<any>();
 export const listFailure = createAction(LIST_FAILURE)<AxiosError>();
@@ -27,6 +29,7 @@ export function* listPostsSaga() {
 }
 
 const actions = {
+  initList,
   list,
   listSuccess,
   listFailure,
@@ -50,6 +53,7 @@ const initialState: listPostsState = {
 };
 
 const listPosts = createReducer<listPostsState, listPostsAction>(initialState, {
+  [INIT_LIST]: () => initialState,
   [LIST]: () => initialState,
   [LIST_SUCCESS]: (state, { payload }) => ({
     ...state,

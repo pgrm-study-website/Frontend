@@ -286,6 +286,7 @@ const Profile = styled.div`
     object-fit: cover;
     border-radius: 125px;
     border: 3px solid black;
+    background-color: white;
   }
 `;
 const Name = styled.div`

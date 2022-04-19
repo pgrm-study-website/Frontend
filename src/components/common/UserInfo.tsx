@@ -3,11 +3,20 @@ import { Link } from 'react-router-dom';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import styled from 'styled-components';
+import { read } from 'lib/api/users';
 
 const UserInfo = ({ userId }: { userId: number }) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
+  const [info, setInfo] = useState<any>(null);
   const [popUp, setPopUp] = useState(false);
 
+  useEffect(() => {
+    const loadData = async () => {
+      const infoResponse = await read({ data: userId, type: 'id' });
+      setInfo(infoResponse.data);
+    };
+    void loadData();
+  }, []);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -23,33 +32,30 @@ const UserInfo = ({ userId }: { userId: number }) => {
     };
   }, [WrapperRef]);
 
-  if (userId === -1) {
-    return (
-      <Wrapper>
-        <QuestionImage>?</QuestionImage>
-        <Nickname style={{ color: '#363636' }}>??????</Nickname>
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper ref={WrapperRef}>
-        <Wrapper2 onClick={() => setPopUp(!popUp)}>
-          <UserImage src="https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png" />
-          <Nickname>Nickname</Nickname>
-        </Wrapper2>
-        {popUp && (
-          <PopupWrapper>
-            <Link to={`/mypage/${userId}`}>
-              <AiOutlineHome />
-            </Link>
-            <Link to="/comments">
-              <BiMessageAltDetail />
-            </Link>
-          </PopupWrapper>
-        )}
-      </Wrapper>
-    );
-  }
+  return (
+    <Wrapper ref={WrapperRef}>
+      <Wrapper2 onClick={() => setPopUp(!popUp)}>
+        <UserImage
+          src={
+            info
+              ? info.image || require('assets/images/defaultProfile.png')
+              : require('assets/images/defaultProfile.png')
+          }
+        />
+        <Nickname>{info ? info.nickname || '' : ''}</Nickname>
+      </Wrapper2>
+      {popUp && (
+        <PopupWrapper>
+          <Link to={`/mypage/${info ? (info.nickname as string) : ''}`}>
+            <AiOutlineHome />
+          </Link>
+          <Link to="/message">
+            <BiMessageAltDetail />
+          </Link>
+        </PopupWrapper>
+      )}
+    </Wrapper>
+  );
 };
 
 export default UserInfo;

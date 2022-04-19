@@ -85,7 +85,7 @@ export const read = createAction(READ)<usersAPI.readRequestType>();
 export const readSuccess = createAction(READ_SUCCESS)<any>();
 export const readFailure = createAction(READ_FAILURE)<AxiosError>();
 export const update = createAction(UPDATE)<usersAPI.updateRequestType>();
-export const updateSuccess = createAction(UPDATE_SUCCESS)();
+export const updateSuccess = createAction(UPDATE_SUCCESS)<any>();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 export const remove = createAction(REMOVE)<number>();
 export const removeSuccess = createAction(REMOVE_SUCCESS)();
@@ -215,7 +215,7 @@ type usersState = {
     data: usersAPI.readResponseType | null;
     error: AxiosError | null;
   };
-  update: boolean | null;
+  update: usersAPI.updateRequestType | null;
   remove: boolean | null;
   checkPassword: boolean | null;
   changePassword: boolean | null;
@@ -302,13 +302,6 @@ const users = createReducer<usersState, usersAction>(initialState, {
       authEmail: false,
     };
   },
-  [READ]: state => ({
-    ...state,
-    read: {
-      data: null,
-      error: null,
-    },
-  }),
   [READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     read: {
@@ -329,16 +322,13 @@ const users = createReducer<usersState, usersAction>(initialState, {
     ...state,
     update: null,
   }),
-  [UPDATE_SUCCESS]: state => ({
+  [UPDATE_SUCCESS]: (state, { payload }) => ({
     ...state,
-    update: true,
+    update: payload.data,
   }),
   [UPDATE_FAILURE]: (state, { payload }) => {
     alert(payload.response?.data.message);
-    return {
-      ...state,
-      update: false,
-    };
+    return state;
   },
   [REMOVE]: state => ({
     ...state,

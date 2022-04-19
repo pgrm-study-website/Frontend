@@ -195,6 +195,7 @@ const MyInfoWrapper = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 5px;
+    background-color: white;
     cursor: pointer;
   }
 `;
