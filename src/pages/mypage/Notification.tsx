@@ -1,73 +1,73 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { MdOutlineCancel } from 'react-icons/md';
-
-// type Props = any;
-
-type notificationDataProps = {
-  id: number;
-  date: Date;
-  content: string;
-  sender: {
-    name: string;
-    type: 'announcement' | undefined;
-    image?: string;
-  };
-};
-const dummyData = [
-  {
-    id: 1,
-    date: new Date(),
-    content: '알림입니다!',
-    sender: {
-      name: '플밍',
-    },
-  },
-  {
-    id: 2,
-    date: new Date(),
-    content: '알림입니다! 2',
-    sender: {
-      name: '플밍',
-    },
-  },
-  {
-    id: 3,
-    date: new Date(),
-    content: '알림입니다! 3',
-    sender: {
-      name: '플밍',
-    },
-  },
-];
+import { RootState } from 'modules';
+import { notificationProps } from 'lib/api/notice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  noticeDelete,
+  noticeDeleteOne,
+  noticeDeleteOneSuccess,
+  noticeRead,
+  noticeReadSuccess,
+  noticesState,
+} from '../../modules/notices';
+// type Props = {};
 
 const Notification = () => {
-  const [data, setData] = useState(dummyData);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [data, setData] = useState<Array<notificationProps>>();
+  const { notice } = useSelector((state: RootState) => ({
+    notice: state.notices.notice,
+  }));
+  useEffect(() => {
+    // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
+    dispatch(noticeReadSuccess());
+    if (notice) {
+      setData(notice);
+    }
+  }, [data, notice]);
+
   const handleDelete = (id: number) => {
-    setData(data.filter(item => item.id !== id));
+    data && setData(data.filter(item => item.id !== id));
+
     //삭제 데이터 서버에 전송
+    const log = dispatch(noticeDeleteOne(id));
+    console.log(log);
+    alert(`알림이 삭제되었습니다`);
+  };
+  const handleDeleteAll = () => {
+    dispatch(noticeDelete());
   };
   return (
     <Wrapper>
-      <Title>Notification </Title>
+      <Title>
+        Notification
+        <button onClick={() => handleDeleteAll()}>알림 전체 삭제</button>
+      </Title>
       <Container>
-        {data.map(i => (
-          <NotificationItem key={i.content}>
-            <ContentImg></ContentImg>
-            <div>
-              <Content>{i.content}</Content>
-              <SubContent>
-                <Name>{i.sender.name}</Name> |{' '}
-                <div>{i.date.toLocaleDateString()}</div>
-              </SubContent>
-            </div>
+        {data &&
+          data.map(i => (
+            <NotificationItem key={i.content}>
+              {/* <ContentImg></ContentImg> */}
+              <div>
+                <Content>{i.content}</Content>
+                <SubContent>
+                  <Name>{i.user_id}</Name> |{' '}
+                  <div>
+                    {i.create_date && i.create_date.toLocaleDateString()}
+                  </div>
+                </SubContent>
+              </div>
 
-            <DeleteBtn onClick={() => handleDelete(i.id)}>
-              {/* <MdOutlineCancel /> */}X
-            </DeleteBtn>
-          </NotificationItem>
-        ))}
+              <DeleteBtn onClick={() => handleDelete(i.id)}>
+                {/* <MdOutlineCancel /> */}X
+              </DeleteBtn>
+            </NotificationItem>
+          ))}
       </Container>
     </Wrapper>
   );
@@ -86,9 +86,23 @@ const DeleteBtn = styled.div`
   right: 20px;
 `;
 const Title = styled.h2`
-  font-size: 20px;
+  font-size: 30px;
   margin-bottom: 20px;
+  font-weight: 700;
+  font-family: 'Bazzi';
   color: #454545;
+  position: relative;
+  button {
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: 'Bazzi';
+    font-size: 17px;
+    border: 1px solid #454545;
+    color: #454545;
+  }
 `;
 const NotificationItem = styled.div`
   padding: 20px;
@@ -102,28 +116,45 @@ const NotificationItem = styled.div`
 const SubContent = styled.div`
   display: flex;
   margin-top: 15px;
-  font-size: 14px;
+  margin-left: 3px;
+  font-size: 18px;
   gap: 10px;
   color: #454545;
 `;
 const Name = styled.div``;
 const Content = styled.div`
-  font-size: 18px;
+  font-size: 22px;
+  color: #454545;
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  font-family: 'Bazzi';
   gap: 10px;
 `;
 
 const Wrapper = styled.div`
   width: 100%;
   font-family: SuncheonR;
+  font-family: 'Bazzi';
   min-height: 400px;
   height: calc(100vh - 100px);
-  padding: 20px;
+  padding: 30px;
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
 `;
 export default Notification;
+// function useSelector(
+//   arg0: ({ listPosts, users }: RootState) => {
+//     posts: any;
+//     error: any;
+//     user: any;
+//   },
+// ): {
+//   posts: any;
+//   error: any;
+//   user: any;
+// } {
+//   throw new Error('Function not implemented.');
+// }
