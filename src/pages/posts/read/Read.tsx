@@ -74,8 +74,7 @@ const Read = () => {
         </ListButton>
         <Title title={post.title} />
         <Info
-          // userId={post.userId}
-          userId={14}
+          userId={post.userId}
           viewCnt={post.viewCnt}
           createDate={post.createDate}
           updateDate={post.updateDate}

@@ -13,7 +13,7 @@ const UserInfo = ({ userId }: { userId: number }) => {
   useEffect(() => {
     const loadData = async () => {
       const infoResponse = await read({ data: userId, type: 'id' });
-      setInfo(infoResponse);
+      setInfo(infoResponse.data);
     };
     void loadData();
   }, []);
