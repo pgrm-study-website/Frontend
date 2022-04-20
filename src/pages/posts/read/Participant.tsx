@@ -171,7 +171,7 @@ const Participant = ({
               <UserInfoText>{`${list.length}명이 이 팀에 참가중입니다.`}</UserInfoText>
               <UserInfoWrapper>
                 {list.map((i: any, idx: number) => (
-                  <UserInfo key={idx} userId={i.user.id} />
+                  <UserInfo key={idx} userId={i.id} />
                 ))}
                 {list.length === 0 && (
                   <UserInfoText style={{ color: '#464646' }}>
