@@ -11,6 +11,7 @@ import {
   write as applicationWrite,
   read as applicationRead,
   update as applicationUpdate,
+  remove as applicationRemove,
 } from 'modules/posts/application';
 import styled, { css } from 'styled-components';
 
@@ -65,6 +66,11 @@ const Participant = ({
   const onUpdate = (status: string, nickname: string) => {
     dispatch(applicationUpdate({ postId, status, nickname }));
     setTarget(null);
+  };
+  const onCancle = () => {
+    if (window.confirm('정말 신청을 취소하시겠습니까?')) {
+      dispatch(applicationRemove(postId));
+    }
   };
 
   if (!user) {
@@ -195,6 +201,9 @@ const Participant = ({
                     <BsChatLeftDots style={{ color: '#646464' }} />
                   </ResultIcon>
                   <ResultSmallText>참가 신청 후 대기중입니다.</ResultSmallText>
+                  <SubmitCancleButton onClick={onCancle}>
+                    취소하기
+                  </SubmitCancleButton>
                 </SubmitWrapper>
               ) : read === '거절' ? (
                 <SubmitWrapper>
@@ -211,6 +220,9 @@ const Participant = ({
                     <BsCheckLg style={{ color: 'green' }} />
                   </ResultIcon>
                   <ResultSmallText>참가 신청이 승인되었습니다!</ResultSmallText>
+                  <SubmitCancleButton onClick={onCancle}>
+                    취소하기
+                  </SubmitCancleButton>
                 </SubmitWrapper>
               )}
             </SubmitWrapper>
@@ -352,5 +364,15 @@ const ResultIcon = styled.div`
   svg {
     width: 50px;
     height: 50px;
+  }
+`;
+const SubmitCancleButton = styled.div`
+  font-size: 20px;
+  font-family: NanumSquareR;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: color 0.15s linear;
+  &:hover {
+    color: #ff6565;
   }
 `;

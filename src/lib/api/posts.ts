@@ -10,6 +10,7 @@ export const update = (payload: updateRequestType) =>
   client.patch(`posts/${payload.id}`, payload.data);
 
 export type writeRequestType = {
+  id?: number;
   userId?: number;
   title: string;
   category: string;
@@ -19,14 +20,11 @@ export type writeRequestType = {
   period: number | null;
   status: string;
 };
-
 export type updateRequestType = {
   id: number;
   data: writeRequestType;
 };
-
 export type listResponseType = postListItemType[];
-
 export type postListItemType = {
   id: number;
   title: string;
@@ -37,7 +35,6 @@ export type postListItemType = {
   participantMax: number | null;
   viewCnt: number;
 };
-
 export type readResponseType = {
   id: number;
   userId: number;

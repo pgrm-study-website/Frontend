@@ -6,11 +6,12 @@ import RecommendPostItem from './RecommendPostItem';
 import { LoadingBox } from 'components/common/Loading';
 
 const recommendMessage = [
-  '조회수순',
-  '임시 (그냥 최신순) 2',
-  '임시 (그냥 최신순) 3',
+  '가장 인기있는 상위 조회수 게시글!',
+  '최신 스터디 게시글입니다.',
+  '최신 프로젝트 게시글입니다.',
+  '최신 공모전 게시글입니다.',
 ];
-const MAX_PAGE = 3;
+const MAX_PAGE = 4;
 
 const Recommend = ({ recommend }: { recommend: any }) => {
   const [page, setPage] = useState(0);

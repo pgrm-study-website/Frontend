@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { tagList } from 'lib/utils/tagDatabase';
 import tagsToTagIds from 'lib/utils/tagsToTagIds';
+import autoCompleteTag from 'lib/utils/autoCompleteTag';
 import { changeField } from 'modules/posts/writePosts';
+import styled from 'styled-components';
 
 import PostTagA from 'components/posts/PostTagA';
 import PostTagB from 'components/posts/PostTagB';
-import autoCompleteTag from 'lib/utils/autoCompleteTag';
 
 const Tags = ({ tagIds }: { tagIds: number[] }) => {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const Tags = ({ tagIds }: { tagIds: number[] }) => {
         onChange={e => setInput(e.target.value)}
       />
       <AutoCompleteTagWrapper>
-        {autoCompleteTag(localTags, input).map(i => (
+        {autoCompleteTag(localTags, input, 5).map(i => (
           <TagBItemWrapper key={i} onClick={() => insertTag(i)}>
             <PostTagB tag={i} />
           </TagBItemWrapper>

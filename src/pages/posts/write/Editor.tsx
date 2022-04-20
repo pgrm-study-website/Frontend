@@ -108,5 +108,18 @@ const QuillWrapper = styled.div`
     padding: 20px 15px 20px 15px;
     min-height: 450px;
     max-height: 550px;
+    &::-webkit-scrollbar {
+      width: 15px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #757575;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+      border-radius: 0;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #b6b6b6;
+      border-radius: 0;
+    }
   }
 `;

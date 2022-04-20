@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { BsFillReplyFill } from 'react-icons/bs';
+import { BsFillReplyFill, BsArrowsCollapse } from 'react-icons/bs';
 import dateToString from 'lib/utils/dateToString';
 import { commentType } from 'lib/api/comments';
 import { remove } from 'modules/posts/comments';
@@ -32,6 +32,8 @@ const CommentItem = ({
           index={index}
           onClickReply={onClickReply}
           userId={userId}
+          fold={fold ? -1 : comment.recommentSize}
+          setFold={setFold}
         />
       ) : (
         <DeletedMainComment
@@ -39,12 +41,6 @@ const CommentItem = ({
           index={index}
           onClickReply={onClickReply}
         />
-      )}
-      {!fold && comment.recommentSize > 0 && (
-        <FoldWrapper onClick={() => setFold(true)}>
-          <AiOutlinePlus />
-          <div>{`답글 ${comment.recommentSize}개 더보기`}</div>
-        </FoldWrapper>
       )}
       {fold &&
         reverseArray(comment.recomment).map(i => (
@@ -57,6 +53,8 @@ const CommentItem = ({
                 index={-1}
                 onClickReply={onClickReply}
                 userId={userId}
+                fold={-1}
+                setFold={setFold}
               />
             ) : (
               <DeletedMainComment
@@ -67,6 +65,12 @@ const CommentItem = ({
             )}
           </ReplyWrapper>
         ))}
+      {fold && (
+        <FoldWrapper2 onClick={() => setFold(false)}>
+          <BsArrowsCollapse />
+          <div>답글 접기</div>
+        </FoldWrapper2>
+      )}
     </>
   );
 };
@@ -77,12 +81,16 @@ const MainComment = ({
   index,
   onClickReply,
   userId,
+  fold,
+  setFold,
 }: {
   comment: any;
   isReply: boolean;
   index: number;
   onClickReply: (id: number) => void;
   userId: number;
+  fold: number;
+  setFold: any;
 }) => {
   const dispatch = useDispatch();
 
@@ -100,8 +108,16 @@ const MainComment = ({
       </FirstWrapper>
       <CommentWrapper>{comment.content}</CommentWrapper>
       <ButtonWrapper>
-        {!isReply && <div onClick={() => onClickReply(index)}>답글</div>}
-        {userId && <div onClick={onRemove}>삭제</div>}
+        {fold > 0 && (
+          <FoldWrapper onClick={() => setFold(true)}>
+            <AiOutlinePlus />
+            <div>{`${comment.recommentSize}개의 답글`}</div>
+          </FoldWrapper>
+        )}
+        <EtcWrapper>
+          {!isReply && <div onClick={() => onClickReply(index)}>답글</div>}
+          {userId && <div onClick={onRemove}>삭제</div>}
+        </EtcWrapper>
       </ButtonWrapper>
     </Wrapper>
   );
@@ -131,13 +147,15 @@ const DeletedMainComment = ({
 export default CommentItem;
 
 const FoldWrapper = styled.div`
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: #edffff;
-  margin-top: -5px;
+  width: 200px;
   display: flex;
+  justify-content: center;
   align-items: center;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: #5bdbdb;
+  color: white;
+  margin-top: -5px;
   svg {
     width: 24px;
     height: 24px;
@@ -148,6 +166,9 @@ const FoldWrapper = styled.div`
   &:hover {
     background-color: #d9fdfd;
   }
+`;
+const EtcWrapper = styled.div`
+  display: flex;
 `;
 const Wrapper = styled.div<{ isReply: boolean }>`
   width: 100%;
@@ -182,7 +203,8 @@ const ButtonWrapper = styled.div`
   width: 100%;
   color: #555555;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 5px;
   div {
     margin-left: 5px;
@@ -202,5 +224,24 @@ const ReplyWrapper = styled.div`
   & > div {
     width: calc(100% - 35px);
     margin: 0 0 5px 0;
+  }
+`;
+const FoldWrapper2 = styled.div`
+  width: calc(100% - 35px);
+  margin: 0 0 0 35px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #bfd7d7;
+  display: flex;
+  align-items: center;
+  svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+  cursor: pointer;
+  transition: background-color 0.15s linear;
+  &:hover {
+    background-color: #dbe7e7;
   }
 `;

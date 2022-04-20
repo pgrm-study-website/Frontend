@@ -317,7 +317,7 @@ const Mypage = () => {
                 onChange={e => setTagInput(e.target.value)}
               />
               <AutoCompleteTagWrapper>
-                {autoCompleteTag(edit.value, tagInput).map(i => (
+                {autoCompleteTag(edit.value, tagInput, 10).map(i => (
                   <TagBItemWrapper key={i} onClick={() => insertTag(i)}>
                     <PostTagB tag={i} />
                   </TagBItemWrapper>

@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components';
 
 import Button from 'components/common/Button';
+import Loading from 'components/common/Loading';
 
 type stateType = {
   currentPassword: string;
@@ -53,8 +54,7 @@ const SignOut = () => {
     if (!user || remove) {
       navigate('/');
     }
-  }, [navigate, dispatch, user]);
-
+  }, [navigate, dispatch, user, remove]);
   useEffect(() => {
     const htmlTitle = document.querySelector('title');
     htmlTitle!.innerHTML = 'Plming - Signout';
@@ -83,45 +83,51 @@ const SignOut = () => {
     }
   };
 
-  return (
-    <Wrapper>
-      <TitleText>회원 탈퇴</TitleText>
-
-      {checkPassword ? (
-        <div>
-          회원 탈퇴를 해도 작성한 글과 댓글은 자동으로 삭제되지 않습니다.
+  if (!user) {
+    return (
+      <Wrapper>
+        <Loading />
+      </Wrapper>
+    );
+  } else {
+    return (
+      <Wrapper>
+        <TitleText>회원 탈퇴</TitleText>
+        {checkPassword ? (
+          <div>
+            회원 탈퇴를 해도 작성한 글과 댓글은 자동으로 삭제되지 않습니다.
+          </div>
+        ) : (
+          <InputItem>
+            <Label htmlFor="inputCurrentPassword">현재 비밀번호</Label>
+            <InputText
+              value={state.currentPassword}
+              onChange={e => stateDispatch({ ...e, name: 'currentPassword' })}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  submit();
+                }
+              }}
+              type="password"
+              id="inputCurrentPassword"
+              placeholder="Input Password"
+            />
+          </InputItem>
+        )}
+        <div
+          onClick={checkPassword ? signout : submit}
+          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+        >
+          <Button value="PwdChange" className="btn btn--grey">
+            {checkPassword ? '회원 탈퇴' : '비밀번호 확인'}
+          </Button>
         </div>
-      ) : (
-        <InputItem>
-          <Label htmlFor="inputCurrentPassword">현재 비밀번호</Label>
-          <InputText
-            value={state.currentPassword}
-            onChange={e => stateDispatch({ ...e, name: 'currentPassword' })}
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                submit();
-              }
-            }}
-            type="password"
-            id="inputCurrentPassword"
-            placeholder="Input Password"
-          />
-        </InputItem>
-      )}
-
-      <div
-        onClick={checkPassword ? signout : submit}
-        style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-      >
-        <Button value="PwdChange" className="btn btn--grey">
-          {checkPassword ? '회원 탈퇴' : '비밀번호 확인'}
-        </Button>
-      </div>
-      <MypageText to={`/mypage/${user!.nickname}`}>
-        마이페이지로 돌아가기
-      </MypageText>
-    </Wrapper>
-  );
+        <MypageText to={`/mypage/${user.nickname}`}>
+          마이페이지로 돌아가기
+        </MypageText>
+      </Wrapper>
+    );
+  }
 };
 
 const Wrapper = styled.div`

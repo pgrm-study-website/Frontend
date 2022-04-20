@@ -89,15 +89,6 @@ export type updateRequestType = {
     tagIds: number[];
   };
 };
-export type updateResponseType = {
-  id: number;
-  nickname: string;
-  image: string;
-  email: string;
-  introduce: string;
-  github: string;
-  tagsList: string[];
-};
 export type sendAuthEmailRequestType = {
   email: string;
 };
