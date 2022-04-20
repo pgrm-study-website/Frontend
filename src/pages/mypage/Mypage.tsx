@@ -349,6 +349,18 @@ const Mypage = () => {
                 <NullPosts>작성한 글이 없습니다.</NullPosts>
               )}
             </PostListWrapper>
+            <SmallText>신청한 글</SmallText>
+            <PostListWrapper>
+              {posts &&
+                posts.application.map(
+                  (i: postListItemType, idx: React.Key | null | undefined) => (
+                    <PostItem key={idx} post={i} />
+                  ),
+                )}
+              {posts && posts.write.length === 0 && (
+                <NullPosts>작성한 글이 없습니다.</NullPosts>
+              )}
+            </PostListWrapper>
             <SmallText>댓글 단 글</SmallText>
             <PostListWrapper>
               {posts &&
