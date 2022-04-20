@@ -352,7 +352,7 @@ const Mypage = () => {
             <SmallText>신청한 글</SmallText>
             <PostListWrapper>
               {posts &&
-                posts.application.map(
+                posts.apply.map(
                   (i: postListItemType, idx: React.Key | null | undefined) => (
                     <PostItem key={idx} post={i} />
                   ),
