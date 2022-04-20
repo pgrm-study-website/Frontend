@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { RootState } from 'modules';
 import { changeField, initWrite } from 'modules/posts/writePosts';
+import styled from 'styled-components';
 
 import Banner from './Banner';
 import Title from './Title';
@@ -17,12 +17,12 @@ const Write = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { post, user, result, loading } = useSelector(
+  const { post, result, loading, user } = useSelector(
     ({ writePosts, users, loading }: RootState) => ({
       post: writePosts.post,
-      user: users.user,
       result: writePosts.result,
       loading: loading['writePosts/WRITE'] || loading['writePosts/UPDATE'],
+      user: users.user,
     }),
   );
 
@@ -54,13 +54,13 @@ const Write = () => {
 
   return (
     <Wrapper>
-      <Banner isNewPost={post.id !== null} />
+      <Banner isNewPost={post.id === undefined} />
       <Title title={post.title} />
       <Category category={post.category} />
       <Editor content={post.content} />
       <Tags tagIds={post.tagIds} />
       <MoreInfo participantMax={post.participantMax} period={post.period} />
-      <WriteButton post={post} loading={loading} user={user!} />
+      <WriteButton post={post} loading={loading} />
     </Wrapper>
   );
 };

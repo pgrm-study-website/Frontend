@@ -22,6 +22,7 @@ import PostTagB from 'components/posts/PostTagB';
 import PostItem from 'components/posts/PostItem';
 import Loading from 'components/common/Loading';
 import NotFound from 'components/common/NotFound';
+import cleanApplyList from 'lib/utils/cleanApplyList';
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -135,8 +136,8 @@ const Mypage = () => {
     }
   };
   const insertTag = (i: string) => {
-    if (edit.value.length === 5) {
-      alert('태그는 5개까지 가능합니다.');
+    if (edit.value.length === 10) {
+      alert('태그는 10개까지 가능합니다.');
       return;
     }
     if (edit.value.includes(i)) {
@@ -166,6 +167,7 @@ const Mypage = () => {
             </>
           )}
         </PrivateSettingWrapper>
+
         <ProfileImage
           src={read.data.image || require('assets/images/defaultProfile.png')}
           alt="profile"
@@ -317,7 +319,7 @@ const Mypage = () => {
                 onChange={e => setTagInput(e.target.value)}
               />
               <AutoCompleteTagWrapper>
-                {autoCompleteTag(edit.value, tagInput).map(i => (
+                {autoCompleteTag(edit.value, tagInput, 10).map(i => (
                   <TagBItemWrapper key={i} onClick={() => insertTag(i)}>
                     <PostTagB tag={i} />
                   </TagBItemWrapper>
@@ -349,18 +351,6 @@ const Mypage = () => {
                 <NullPosts>작성한 글이 없습니다.</NullPosts>
               )}
             </PostListWrapper>
-            <SmallText>신청한 글</SmallText>
-            <PostListWrapper>
-              {posts &&
-                posts.apply.map(
-                  (i: postListItemType, idx: React.Key | null | undefined) => (
-                    <PostItem key={idx} post={i} />
-                  ),
-                )}
-              {posts && posts.write.length === 0 && (
-                <NullPosts>작성한 글이 없습니다.</NullPosts>
-              )}
-            </PostListWrapper>
             <SmallText>댓글 단 글</SmallText>
             <PostListWrapper>
               {posts &&
@@ -372,6 +362,19 @@ const Mypage = () => {
               {posts && posts.comment.length === 0 && (
                 <NullPosts>댓글 단 글이 없습니다.</NullPosts>
               )}
+            </PostListWrapper>
+            <SmallText>신청한 글</SmallText>
+            <PostListWrapper>
+              {posts &&
+                cleanApplyList(posts.apply, posts.write).map(
+                  (i: postListItemType, idx: React.Key | null | undefined) => (
+                    <PostItem key={idx} post={i} />
+                  ),
+                )}
+              {posts &&
+                cleanApplyList(posts.apply, posts.write).length === 0 && (
+                  <NullPosts>신청한 글이 없습니다.</NullPosts>
+                )}
             </PostListWrapper>
           </>
         )}

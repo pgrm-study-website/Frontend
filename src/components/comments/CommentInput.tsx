@@ -46,7 +46,7 @@ const Wrapper = styled.div`
   box-shadow: 5px 5px 20px #46464644;
   background-color: #ffffff;
   display: flex;
-  margin: 5px 0;
+  margin: 5px 0 25px 0;
 `;
 const InputWrapper = styled.input`
   width: calc(100% - 45px);

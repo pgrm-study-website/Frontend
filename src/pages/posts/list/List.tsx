@@ -9,8 +9,6 @@ import {
   BsFillCalendarWeekFill,
   BsFillPencilFill,
 } from 'react-icons/bs';
-import { RootState } from 'modules';
-import { list } from 'modules/posts/listPosts';
 import {
   tagList,
   fieldTagList,
@@ -24,6 +22,8 @@ import {
   decodeQs,
   removeSearchOption,
 } from 'lib/utils/postsQueryString';
+import { RootState } from 'modules';
+import { list } from 'modules/posts/listPosts';
 import styled from 'styled-components';
 
 import Error from 'components/common/Error';
@@ -52,7 +52,7 @@ const List = () => {
         ignoreQueryPrefix: true,
       }),
       12,
-      posts ? posts.totalPages + 1 : 0,
+      posts ? posts.totalPages : 0,
     );
   const initialState: stateType = searchState;
   const reducer = (state: stateType, action: any) => {
@@ -443,7 +443,7 @@ const List = () => {
         )}
       </OptionWrapper>
       <ShowOptionWrapper>
-        <ShowOptionText>{showOptionText}</ShowOptionText>
+        {/* <ShowOptionText>{showOptionText}</ShowOptionText> */}
         <ShowOptionList>
           {showOption.map((i, idx) => (
             <div key={idx} onClick={() => onRemoveOption(i)}>

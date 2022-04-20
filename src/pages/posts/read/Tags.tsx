@@ -9,7 +9,7 @@ const Tags = ({ tags }: { tags: string[] }) => {
   return (
     <Wrapper>
       {tags.map(i => (
-        <Link key={i} to={`/posts?tagIds=${tagList.indexOf(i)}`}>
+        <Link key={i} to={`/posts?page=1&tagIds=${tagList.indexOf(i)}`}>
           <PostTagA tag={i} />
         </Link>
       ))}

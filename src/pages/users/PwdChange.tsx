@@ -143,10 +143,10 @@ const PwdChange = () => {
     if (!user) {
       navigate('/');
     } else if (changePassword) {
+      alert('비밀번호가 변경되었습니다.');
       navigate(`/mypage/${user.nickname}`);
     }
   }, [navigate, dispatch, user, changePassword]);
-
   useEffect(() => {
     const htmlTitle = document.querySelector('title');
     htmlTitle!.innerHTML = 'Plming - Pwd Change';

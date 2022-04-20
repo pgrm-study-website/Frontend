@@ -10,6 +10,8 @@ export const update = (payload: updateRequestType) =>
   client.patch(
     `posts/${payload.postId}/application?status=${payload.status}&nickname=${payload.nickname}`,
   );
+export const remove = (payload: number) =>
+  client.delete(`posts/${payload}/application`);
 
 export type updateRequestType = {
   postId: number;

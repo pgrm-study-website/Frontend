@@ -11,6 +11,7 @@ import {
   write as applicationWrite,
   read as applicationRead,
   update as applicationUpdate,
+  remove as applicationRemove,
 } from 'modules/posts/application';
 import styled, { css } from 'styled-components';
 
@@ -21,9 +22,9 @@ import SimpleUserInfo from 'components/common/SimpleUserInfo';
 const SmallIcon: {
   [key: string]: any;
 } = {
-  대기: <BsChatLeftDots />,
-  승인: <BsCheckLg />,
-  거절: <BsExclamationTriangle />,
+  대기: <BsChatLeftDots style={{ color: '#464646' }} />,
+  승인: <BsCheckLg style={{ color: 'green' }} />,
+  거절: <BsExclamationTriangle style={{ color: 'd54c3e' }} />,
 };
 
 const Participant = ({
@@ -65,6 +66,11 @@ const Participant = ({
   const onUpdate = (status: string, nickname: string) => {
     dispatch(applicationUpdate({ postId, status, nickname }));
     setTarget(null);
+  };
+  const onCancle = () => {
+    if (window.confirm('정말 신청을 취소하시겠습니까?')) {
+      dispatch(applicationRemove(postId));
+    }
   };
 
   if (!user) {
@@ -108,7 +114,7 @@ const Participant = ({
                     list,
                   )}명의 신청을 승인했습니다.`}</UserInfoText>
                   <UserInfoText>
-                    좌측의 신청자를 클릭하고 신청 여부를 결정하세요.
+                    신청자를 확인하고 승인 여부를 결정하세요.
                   </UserInfoText>
                 </>
               ) : target.user.id === user.id ? (
@@ -195,6 +201,9 @@ const Participant = ({
                     <BsChatLeftDots style={{ color: '#646464' }} />
                   </ResultIcon>
                   <ResultSmallText>참가 신청 후 대기중입니다.</ResultSmallText>
+                  <SubmitCancleButton onClick={onCancle}>
+                    취소하기
+                  </SubmitCancleButton>
                 </SubmitWrapper>
               ) : read === '거절' ? (
                 <SubmitWrapper>
@@ -211,6 +220,9 @@ const Participant = ({
                     <BsCheckLg style={{ color: 'green' }} />
                   </ResultIcon>
                   <ResultSmallText>참가 신청이 승인되었습니다!</ResultSmallText>
+                  <SubmitCancleButton onClick={onCancle}>
+                    취소하기
+                  </SubmitCancleButton>
                 </SubmitWrapper>
               )}
             </SubmitWrapper>
@@ -352,5 +364,15 @@ const ResultIcon = styled.div`
   svg {
     width: 50px;
     height: 50px;
+  }
+`;
+const SubmitCancleButton = styled.div`
+  font-size: 20px;
+  font-family: NanumSquareR;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: color 0.15s linear;
+  &:hover {
+    color: #ff6565;
   }
 `;

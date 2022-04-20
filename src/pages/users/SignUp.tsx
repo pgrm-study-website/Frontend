@@ -11,8 +11,8 @@ import {
 } from 'modules/users';
 import styled from 'styled-components';
 
-import SignTemplate from 'components/users/SignTemplate';
 import Trapezoid from 'components/users/TrapezoidBox';
+import SignTemplate from 'components/users/SignTemplate';
 import Button from 'components/common/Button';
 import { LoadingBox } from 'components/common/Loading';
 
@@ -382,6 +382,11 @@ function SignUp() {
             <AuthEmailInput
               value={state.authEmailCode}
               onChange={e => stateDispatch({ ...e, name: 'authEmailCode' })}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  checkAuthEmailCode();
+                }
+              }}
             />
             <AuthEmailButtonWrapper>
               <AuthEmailSendAgain onClick={sendAgain}>

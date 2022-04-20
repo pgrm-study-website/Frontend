@@ -17,6 +17,9 @@ const READ_FAILURE = 'application/READ_FAILURE';
 const UPDATE = 'application/UPDATE';
 const UPDATE_SUCCESS = 'application/UPDATE_SUCCESS';
 const UPDATE_FAILURE = 'application/UPDATE_FAILURE';
+const REMOVE = 'application/REMOVE';
+const REMOVE_SUCCESS = 'application/REMOVE_SUCCESS';
+const REMOVE_FAILURE = 'application/REMOVE_FAILURE';
 
 export const initComment = createAction(INIT_COMMENT)();
 export const list = createAction(LIST)<number>();
@@ -31,17 +34,22 @@ export const readFailure = createAction(READ_FAILURE)<AxiosError>();
 export const update = createAction(UPDATE)<applicationAPI.updateRequestType>();
 export const updateSuccess = createAction(UPDATE_SUCCESS)();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
+export const remove = createAction(REMOVE)<number>();
+export const removeSuccess = createAction(REMOVE_SUCCESS)();
+export const removeFailure = createAction(REMOVE_FAILURE)<AxiosError>();
 
 const listSaga = createRequestSaga(LIST, applicationAPI.list);
 const writeSaga = createRequestSaga(WRITE, applicationAPI.write);
 const readSaga = createRequestSaga(READ, applicationAPI.read);
 const updateSaga = createRequestSaga(UPDATE, applicationAPI.update);
+const removeSaga = createRequestSaga(REMOVE, applicationAPI.remove);
 
 export function* applicationSaga() {
   yield takeLatest(LIST, listSaga);
   yield takeLatest(WRITE, writeSaga);
   yield takeLatest(READ, readSaga);
   yield takeLatest(UPDATE, updateSaga);
+  yield takeLatest(REMOVE, removeSaga);
 }
 
 const actions = {
@@ -58,6 +66,9 @@ const actions = {
   update,
   updateSuccess,
   updateFailure,
+  remove,
+  removeSuccess,
+  removeFailure,
 };
 type applicationAction = ActionType<typeof actions>;
 type applicationState = {
@@ -119,6 +130,21 @@ const application = createReducer<applicationState, applicationAction>(
       reload: true,
     }),
     [UPDATE_FAILURE]: (state, { payload: error }) => {
+      alert(error.response?.data.message);
+      return {
+        ...state,
+        reload: false,
+      };
+    },
+    [REMOVE]: state => ({
+      ...state,
+      reload: null,
+    }),
+    [REMOVE_SUCCESS]: state => ({
+      ...state,
+      reload: true,
+    }),
+    [REMOVE_FAILURE]: (state, { payload: error }) => {
       alert(error.response?.data.message);
       return {
         ...state,
