@@ -111,6 +111,14 @@ const Participant = ({
                     좌측의 신청자를 클릭하고 신청 여부를 결정하세요.
                   </UserInfoText>
                 </>
+              ) : target.user.id === user.id ? (
+                <SubmitWrapper>
+                  <ResultLargeText>Accepted!</ResultLargeText>
+                  <ResultIcon>
+                    <BsCheckLg style={{ color: 'green' }} />
+                  </ResultIcon>
+                  <ResultSmallText>작성자 본인입니다.</ResultSmallText>
+                </SubmitWrapper>
               ) : target.status === '대기' ? (
                 <>
                   <MessageInput placeholder="ex) 승인/거절하겠습니다!" />
