@@ -22,9 +22,9 @@ import SimpleUserInfo from 'components/common/SimpleUserInfo';
 const SmallIcon: {
   [key: string]: any;
 } = {
-  대기: <BsChatLeftDots />,
-  승인: <BsCheckLg />,
-  거절: <BsExclamationTriangle />,
+  대기: <BsChatLeftDots style={{ color: '#464646' }} />,
+  승인: <BsCheckLg style={{ color: 'green' }} />,
+  거절: <BsExclamationTriangle style={{ color: 'd54c3e' }} />,
 };
 
 const Participant = ({
@@ -114,7 +114,7 @@ const Participant = ({
                     list,
                   )}명의 신청을 승인했습니다.`}</UserInfoText>
                   <UserInfoText>
-                    좌측의 신청자를 클릭하고 신청 여부를 결정하세요.
+                    신청자를 확인하고 승인 여부를 결정하세요.
                   </UserInfoText>
                 </>
               ) : target.user.id === user.id ? (
