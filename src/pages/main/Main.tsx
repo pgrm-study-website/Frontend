@@ -15,7 +15,7 @@ const Main = () => {
     window.scrollTo(0, 0);
 
     const loadData = async () => {
-      const recommend1 = await list('?page=0&size=4');
+      const recommend1 = await list('?page=0&size=4&searchType=viewCnt');
       const recommend2 = await list('?page=0&size=4');
       const recommend3 = await list('?page=0&size=4');
       const normalList = await list('?page=0&size=6');

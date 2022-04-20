@@ -6,7 +6,7 @@ import RecommendPostItem from './RecommendPostItem';
 import { LoadingBox } from 'components/common/Loading';
 
 const recommendMessage = [
-  '임시 (그냥 최신순) 1',
+  '조회수순',
   '임시 (그냥 최신순) 2',
   '임시 (그냥 최신순) 3',
 ];

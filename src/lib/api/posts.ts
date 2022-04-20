@@ -10,6 +10,7 @@ export const update = (payload: updateRequestType) =>
   client.patch(`posts/${payload.id}`, payload.data);
 
 export type writeRequestType = {
+  userId?: number;
   title: string;
   category: string;
   content: string;
