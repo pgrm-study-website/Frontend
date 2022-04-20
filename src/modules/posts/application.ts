@@ -11,6 +11,9 @@ const LIST_FAILURE = 'application/LIST_FAILURE';
 const WRITE = 'application/WRITE';
 const WRITE_SUCCESS = 'application/WRITE_SUCCESS';
 const WRITE_FAILURE = 'application/WRITE_FAILURE';
+const READ = 'application/READ';
+const READ_SUCCESS = 'application/READ_SUCCESS';
+const READ_FAILURE = 'application/READ_FAILURE';
 const UPDATE = 'application/UPDATE';
 const UPDATE_SUCCESS = 'application/UPDATE_SUCCESS';
 const UPDATE_FAILURE = 'application/UPDATE_FAILURE';
@@ -22,17 +25,22 @@ export const listFailure = createAction(LIST_FAILURE)<AxiosError>();
 export const write = createAction(WRITE)<number>();
 export const writeSuccess = createAction(WRITE_SUCCESS)();
 export const writeFailure = createAction(WRITE_FAILURE)<AxiosError>();
+export const read = createAction(READ)<number>();
+export const readSuccess = createAction(READ_SUCCESS)<any>();
+export const readFailure = createAction(READ_FAILURE)<AxiosError>();
 export const update = createAction(UPDATE)<applicationAPI.updateRequestType>();
 export const updateSuccess = createAction(UPDATE_SUCCESS)();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 
 const listSaga = createRequestSaga(LIST, applicationAPI.list);
 const writeSaga = createRequestSaga(WRITE, applicationAPI.write);
+const readSaga = createRequestSaga(READ, applicationAPI.read);
 const updateSaga = createRequestSaga(UPDATE, applicationAPI.update);
 
 export function* applicationSaga() {
   yield takeLatest(LIST, listSaga);
   yield takeLatest(WRITE, writeSaga);
+  yield takeLatest(READ, readSaga);
   yield takeLatest(UPDATE, updateSaga);
 }
 
@@ -44,17 +52,22 @@ const actions = {
   write,
   writeSuccess,
   writeFailure,
+  read,
+  readSuccess,
+  readFailure,
   update,
   updateSuccess,
   updateFailure,
 };
 type applicationAction = ActionType<typeof actions>;
 type applicationState = {
-  list: applicationAPI.listResponseType | null;
+  list: any | null;
+  read: string | null;
   reload: boolean | null;
 };
 const initialState: applicationState = {
   list: null,
+  read: null,
   reload: null,
 };
 
@@ -84,6 +97,18 @@ const application = createReducer<applicationState, applicationAction>(
         ...state,
         reload: false,
       };
+    },
+    [READ]: state => ({
+      ...state,
+      read: null,
+    }),
+    [READ_SUCCESS]: (state, { payload }) => ({
+      ...state,
+      read: payload.data,
+    }),
+    [READ_FAILURE]: (state, { payload: error }) => {
+      alert(error.response?.data.message);
+      return state;
     },
     [UPDATE]: state => ({
       ...state,
