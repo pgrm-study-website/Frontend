@@ -10,7 +10,7 @@ import {
   messageSend,
 } from 'modules/message';
 import { RootState } from 'modules';
-import { messagesProps } from 'lib/api/message';
+import { messagesProps, sendMessageProps } from 'lib/api/message';
 
 type messageContentProps = {
   id: number;
@@ -50,14 +50,21 @@ function Message() {
   //   console.log(messageDatas);
   // }, [messageDatas]);
   const handleMessage = () => {
-    setMessageContent({
-      ...messageContent,
-      data: [
-        ...messageContent.data,
-        { sendOther: false, content: sendMessageContent },
-      ],
-    });
-
+    // setMessageContent({
+    //   ...messageContent,
+    //   data: [
+    //     ...messageContent.data,
+    //     { sendOther: false, content: sendMessageContent },
+    //   ],
+    // });
+    if (user) {
+      const objtest: sendMessageProps = {
+        userId: user.id.toString(),
+        otherId: '6',
+        content: '테스트 쪽지',
+      };
+      dispatch(messageSend(objtest));
+    }
     //TODO : DB에 있는 값도 변경 필요, 서버에 전송
 
     //초기화
