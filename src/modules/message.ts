@@ -99,6 +99,21 @@ const messageUserListTestData: Array<messageAPI.messagesProps> = [
     createDate: new Date(),
   },
 ];
+const sendTestDataList: Array<messageAPI.messagesDetailProps> = [
+  {
+    messageId: 5,
+    type: 'send',
+    content: '5에게 보내는 메세지',
+    createDate: new Date(),
+  },
+  {
+    messageId: 5,
+    type: 'receive',
+    content: '5가 보내는 메세지',
+    createDate: new Date(),
+  },
+];
+
 const actions = {
   messageRead,
   messageReadSuccess,
@@ -145,8 +160,8 @@ const messages = createReducer<messageState, messagesAction>(initialState, {
   }),
   [MESSAGE_READ_SUCCESS]: (state: any, { payload }: any) => ({
     ...state,
-    messages: payload.data,
-    // messages: messageUserListTestData,
+    // messages: payload.data,
+    messages: messageUserListTestData,
   }),
   [MESSAGE_READ_FAILURE]: (state: any, { payload: error }: any) => {
     alert('message reading error');
@@ -163,13 +178,15 @@ export const messageDetail = createReducer(initialMessageDetailState, {
   }),
   [MESSAGE_DETAIL_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
-    messageDetail: payload.data,
+    // messageDetail: payload.data,
+    messageDetail: sendTestDataList,
   }),
   [MESSAGE_DETAIL_READ_FAILURE]: (state, { payload: error }) => {
-    alert('message reading error');
+    // alert('message reading error');
     return {
       ...state,
       error,
+      messageDetail: sendTestDataList,
     };
   },
   [MESSAGE_DELETE_ALL]: (state, { payload }) => ({
@@ -180,6 +197,7 @@ export const messageDetail = createReducer(initialMessageDetailState, {
     ...state,
     remove: true,
     messageDetail: payload.data,
+    // messageDetail: sendTestDataList,
   }),
   [MESSAGE_DELETE_ALL_FAILURE]: (state, { payload: error }) => {
     alert('message delete error');

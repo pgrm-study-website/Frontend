@@ -12,74 +12,6 @@ import {
 import { RootState } from 'modules';
 import { messagesProps } from 'lib/api/message';
 
-const sendTestDataList = [
-  {
-    id: 33333,
-    name: 'hey',
-    data: [
-      {
-        sendOther: true,
-        content: 'Hello',
-      },
-      {
-        sendOther: false, //false 이면 자신
-        content: 'Hi ',
-      },
-      {
-        sendOther: true,
-        content: 'Hello2',
-      },
-      {
-        sendOther: false, //false이면 자신
-        content: 'Hi 2',
-      },
-    ],
-  },
-  {
-    id: 33313,
-    name: 'hey2312',
-    data: [
-      {
-        sendOther: true,
-        content: 'het hey2312hey2312hey2312',
-      },
-      {
-        sendOther: false, //false 이면 자신
-        content: 'Hi ',
-      },
-      {
-        sendOther: true,
-        content: 'Hello2',
-      },
-      {
-        sendOther: false, //false이면 자신
-        content: 'Hi 2',
-      },
-    ],
-  },
-  {
-    id: 1232132,
-    name: 'heyasdd',
-    data: [
-      {
-        sendOther: true,
-        content: 'this is message',
-      },
-      {
-        sendOther: false, //false 이면 자신
-        content: 'Hi ',
-      },
-      {
-        sendOther: true,
-        content: 'Hello2',
-      },
-      {
-        sendOther: false, //false이면 자신
-        content: 'Hi 2',
-      },
-    ],
-  },
-];
 type messageContentProps = {
   id: number;
   name: string;
@@ -99,10 +31,10 @@ function Message() {
     data: [],
   });
   const { user, messages, detail } = useSelector(
-    ({ users, messages }: RootState) => ({
+    ({ users, messages, messageDetail }: RootState) => ({
       user: users.user,
       messages: messages.messages,
-      detail: messageDetail,
+      detail: messageDetail.messageDetail,
     }),
   );
 
@@ -135,16 +67,16 @@ function Message() {
     // setSelect(idx);
     if (user) {
       const string = `userId=${user.id}&otherId=${id}`;
-      // dispatch(messageDetailRead(string));
-      console.log(string);
+      dispatch(messageDetailRead(string));
+      console.log(detail);
     }
     // setMessageContent(sendTestDataList.filter(item => item.id === id)[0]);
   };
   const handleDummy = () => {
     const obj = {
       userId: '20',
-      otherId: '15',
-      content: '안녕하세요! 반갑습니다',
+      otherId: '6',
+      content: '테스트 쪽지',
     };
     dispatch(messageSend(obj));
     console.log(detail);
@@ -168,31 +100,35 @@ function Message() {
         </MessageList>
       </MessageListContainer>
       <CurrentContent>
-        <MessageOtherName>{messageContent.name}</MessageOtherName>
-        <ContentContainer>
-          <MessageList>
-            {/* 수정 필요 */}
-            {messageContent.data.map((i, idx) => (
-              <MessageItem key={i.content} className="border-bottom">
-                <SendUser sendOther={i.sendOther}>
-                  {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
-                </SendUser>
-                <div> {i.content}</div>s
-              </MessageItem>
-            ))}
-          </MessageList>
-          <SendMessageContainer>
-            <textarea
-              name="sendMessage"
-              id="sendMessage"
-              value={sendMessageContent}
-              onChange={e => setSendMessageContent(e.target.value)}
-            ></textarea>
-            <button onClick={handleMessage}>
-              <FiSend />
-            </button>
-          </SendMessageContainer>
-        </ContentContainer>
+        {detail && (
+          <>
+            <MessageOtherName>{messageContent.name}</MessageOtherName>
+            <ContentContainer>
+              <MessageList>
+                {/* 수정 필요 */}
+                {detail.map((i, idx) => (
+                  <MessageItem key={i.content} className="border-bottom">
+                    <SendUser sendOther={i.type}>
+                      {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
+                    </SendUser>
+                    <div> {i.content}</div>
+                  </MessageItem>
+                ))}
+              </MessageList>
+              <SendMessageContainer>
+                <textarea
+                  name="sendMessage"
+                  id="sendMessage"
+                  value={sendMessageContent}
+                  onChange={e => setSendMessageContent(e.target.value)}
+                ></textarea>
+                <button onClick={handleMessage}>
+                  <FiSend />
+                </button>
+              </SendMessageContainer>
+            </ContentContainer>
+          </>
+        )}
       </CurrentContent>
     </Wrapper>
   );
@@ -232,8 +168,8 @@ const MessageOtherName = styled.div`
   font-weight: 700;
   font-size: 20px;
 `;
-const SendUser = styled.div<{ sendOther: boolean }>`
-  color: ${props => (props.sendOther ? ' #ffc963' : '#4cbbc2')};
+const SendUser = styled.div<{ sendOther: string }>`
+  color: ${props => (props.sendOther === 'send' ? ' #ffc963' : '#4cbbc2')};
   font-weight: 700;
   padding: 10px 0;
 `;
