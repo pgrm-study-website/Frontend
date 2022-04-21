@@ -6,6 +6,7 @@ import {
   BsExclamationTriangle,
 } from 'react-icons/bs';
 import { RootState } from 'modules';
+import { read as readPost } from 'modules/posts/readPosts';
 import {
   list as applicationList,
   write as applicationWrite,
@@ -30,9 +31,13 @@ const SmallIcon: {
 const Participant = ({
   postId,
   postUserId,
+  status,
+  last,
 }: {
   postId: number;
   postUserId: number;
+  status: boolean;
+  last: boolean;
 }) => {
   const dispatch = useDispatch();
 
@@ -51,6 +56,13 @@ const Participant = ({
       dispatch(applicationList(postId));
       dispatch(applicationRead(postId));
     }
+  }, []);
+  useEffect(() => {
+    if (user && reload) {
+      dispatch(applicationList(postId));
+      dispatch(applicationRead(postId));
+      dispatch(readPost(postId));
+    }
   }, [reload]);
 
   const CountApply = (x: any) => {
@@ -64,6 +76,15 @@ const Participant = ({
     dispatch(applicationWrite(postId));
   };
   const onUpdate = (status: string, nickname: string) => {
+    if (last && status === '승인') {
+      if (
+        !window.confirm(
+          '이 신청을 승인하면 게시글이 마감되며, 더이상 수정할 수 없습니다.\n승인하시겠습니까?',
+        )
+      ) {
+        return;
+      }
+    }
     dispatch(applicationUpdate({ postId, status, nickname }));
     setTarget(null);
   };
@@ -82,7 +103,30 @@ const Participant = ({
       </Wrapper>
     );
   } else {
-    if (user.id === postUserId) {
+    if (!status) {
+      return (
+        <Wrapper>
+          <ContentWrapper>
+            <UserWrapper>
+              <UserInfoText>{`${list.length}명이 이 팀에 참가했습니다.`}</UserInfoText>
+              <UserInfoWrapper>
+                {list.map((i: any, idx: number) => (
+                  <UserInfo key={idx} userId={i.user ? i.user.id : i.id} />
+                ))}
+              </UserInfoWrapper>
+            </UserWrapper>
+            <SubmitWrapper>
+              {user.id === postUserId ? (
+                <UserInfoText>{`${list.length}명의 신청을 승인했습니다.`}</UserInfoText>
+              ) : (
+                <UserInfoText>{`${list.length}명의 신청이 승인됐습니다.`}</UserInfoText>
+              )}
+              <UserInfoText>마감된 게시글입니다.</UserInfoText>
+            </SubmitWrapper>
+          </ContentWrapper>
+        </Wrapper>
+      );
+    } else if (user.id === postUserId) {
       return (
         <Wrapper>
           <NameText>참가자 관리</NameText>
@@ -96,7 +140,7 @@ const Participant = ({
                     onClick={() => setTarget(target === i ? null : i)}
                     target={target === i ? 'true' : 'false'}
                   >
-                    <SimpleUserInfo userId={i.user.id} />
+                    <SimpleUserInfo userId={i.user ? i.user.id : i.id} />
                     {SmallIcon[i.status]}
                   </SimpleUserWrapper>
                 ))}
@@ -153,16 +197,18 @@ const Participant = ({
                   </ButtonWrapper>
                 </>
               ) : (
-                <>
-                  <MessageInput placeholder="ex) 다시 거절하겠습니다." />
-                  <ButtonWrapper>
-                    <SubmitButton
-                      onClick={() => onUpdate('거절', target.user.nickname)}
-                    >
-                      거절
-                    </SubmitButton>
-                  </ButtonWrapper>
-                </>
+                target.status === '승인' && (
+                  <>
+                    <MessageInput placeholder="ex) 다시 거절하겠습니다." />
+                    <ButtonWrapper>
+                      <SubmitButton
+                        onClick={() => onUpdate('거절', target.user.nickname)}
+                      >
+                        거절
+                      </SubmitButton>
+                    </ButtonWrapper>
+                  </>
+                )
               )}
             </SubmitWrapper>
           </ContentWrapper>
@@ -176,9 +222,12 @@ const Participant = ({
             <UserWrapper>
               <UserInfoText>{`${list.length}명이 이 팀에 참가중입니다.`}</UserInfoText>
               <UserInfoWrapper>
-                {list.map((i: any, idx: number) => (
-                  <UserInfo key={idx} userId={i.id} />
-                ))}
+                {list.map(
+                  (i: any, idx: number) =>
+                    i.id >= 0 && (
+                      <UserInfo key={idx} userId={i.user ? i.user.id : i.id} />
+                    ),
+                )}
                 {list.length === 0 && (
                   <UserInfoText style={{ color: '#464646' }}>
                     참가자가 아직 없습니다.
@@ -214,16 +263,20 @@ const Participant = ({
                   <ResultSmallText>참가 신청이 거절되었습니다.</ResultSmallText>
                 </SubmitWrapper>
               ) : (
-                <SubmitWrapper>
-                  <ResultLargeText>Accepted!</ResultLargeText>
-                  <ResultIcon>
-                    <BsCheckLg style={{ color: 'green' }} />
-                  </ResultIcon>
-                  <ResultSmallText>참가 신청이 승인되었습니다!</ResultSmallText>
-                  <SubmitCancleButton onClick={onCancle}>
-                    취소하기
-                  </SubmitCancleButton>
-                </SubmitWrapper>
+                read === '승인' && (
+                  <SubmitWrapper>
+                    <ResultLargeText>Accepted!</ResultLargeText>
+                    <ResultIcon>
+                      <BsCheckLg style={{ color: 'green' }} />
+                    </ResultIcon>
+                    <ResultSmallText>
+                      참가 신청이 승인되었습니다!
+                    </ResultSmallText>
+                    <SubmitCancleButton onClick={onCancle}>
+                      취소하기
+                    </SubmitCancleButton>
+                  </SubmitWrapper>
+                )
               )}
             </SubmitWrapper>
           </ContentWrapper>

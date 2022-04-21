@@ -35,7 +35,7 @@ const CommentItem = ({
       />
       {fold &&
         reverseArray(comment.recomment).map(i => (
-          <ReplyWrapper>
+          <ReplyWrapper key={i.id}>
             <BsFillReplyFill />
             <MainComment
               comment={i}

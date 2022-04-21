@@ -46,7 +46,6 @@ const Read = () => {
       dispatch(initComment());
     };
   }, [dispatch]);
-
   useEffect(() => {
     if (remove) {
       navigate(`/posts`);
@@ -88,6 +87,11 @@ const Read = () => {
           postId={post.id}
           postUserId={post.userId}
           status={post.status === '모집 중'}
+          last={
+            post.participantMax
+              ? post.participantMax - post.participantNum === 1
+              : false
+          }
         />
         <Tags tags={post.tags} />
         {user && post.userId === user.id && (

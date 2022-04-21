@@ -16,6 +16,10 @@ const CommentInput = ({
   const [input, setInput] = useState('');
 
   const createComment = () => {
+    if (input === '') {
+      alert('댓글을 입력해 주세요.');
+      return;
+    }
     dispatch(write({ id, data: { parentId, content: input } }));
     setInput('');
   };
