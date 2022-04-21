@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FiSend } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { messageRead, messageReadSuccess } from 'modules/message';
+import {
+  messageDetail,
+  messageDetailRead,
+  messageRead,
+  messageReadSuccess,
+} from 'modules/message';
 import { RootState } from 'modules';
 import { messagesProps } from 'lib/api/message';
 
@@ -92,22 +97,25 @@ function Message() {
     name: '',
     data: [],
   });
-  const { user, messages } = useSelector(({ users, messages }: RootState) => ({
-    user: users.user,
-    messages: messages.messages,
-  }));
+  const { user, messages, detail } = useSelector(
+    ({ users, messages }: RootState) => ({
+      user: users.user,
+      messages: messages.messages,
+      detail: messageDetail,
+    }),
+  );
 
   useEffect(() => {
     //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
     user && dispatch(messageRead({ id: user.id }));
-    if (messages) {
-      setMessageDatas(messages);
-    }
-    console.log(messages, user);
+    // if (messages) {
+    //   setMessageDatas(messages);
+    // }
+    // console.log(messageDatas, user);
   }, []);
-  useEffect(() => {
-    console.log(messageDatas);
-  }, [messageDatas]);
+  // useEffect(() => {
+  //   console.log(messageDatas);
+  // }, [messageDatas]);
   const handleMessage = () => {
     setMessageContent({
       ...messageContent,
@@ -122,20 +130,25 @@ function Message() {
     //초기화
     setSendMessageContent('');
   };
-  const handleSelect = (name: string, idx: number) => {
-    setSelect(idx);
-    setMessageContent(sendTestDataList.filter(item => item.name === name)[0]);
+  const handleSelect = (id: number) => {
+    // setSelect(idx);
+    if (user) {
+      const string = `userId=${user.id}&otherId=${id}`;
+      dispatch(messageDetailRead(string));
+      // console.log(string);
+    }
+    // setMessageContent(sendTestDataList.filter(item => item.id === id)[0]);
   };
   return (
     <Wrapper>
       <MessageListContainer>
         <Title>쪽지함</Title>
         <MessageList>
-          {messageDatas &&
-            messageDatas.map((item, idx) => (
+          {messages &&
+            messages.map((item, idx) => (
               <MessageItem
                 key={idx}
-                onClick={() => handleSelect(item.otherPersionNickname, idx)}
+                onClick={() => handleSelect(item.otherPersonId)}
                 className={idx === select ? 'select' : 'non-select'}
               >
                 {item.otherPersionNickname}
@@ -143,16 +156,17 @@ function Message() {
             ))}
         </MessageList>
       </MessageListContainer>
-      {/* <CurrentContent current={testData[select]}>
+      <CurrentContent>
         <MessageOtherName>{messageContent.name}</MessageOtherName>
         <ContentContainer>
           <MessageList>
+            {/* 수정 필요 */}
             {messageContent.data.map((i, idx) => (
               <MessageItem key={i.content} className="border-bottom">
                 <SendUser sendOther={i.sendOther}>
                   {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
                 </SendUser>
-                <div> {i.content}</div>
+                <div> {i.content}</div>s
               </MessageItem>
             ))}
           </MessageList>
@@ -168,7 +182,7 @@ function Message() {
             </button>
           </SendMessageContainer>
         </ContentContainer>
-      </CurrentContent> */}
+      </CurrentContent>
     </Wrapper>
   );
 }

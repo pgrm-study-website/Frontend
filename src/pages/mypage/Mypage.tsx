@@ -178,6 +178,7 @@ const Mypage = () => {
         <FileInput
           type="file"
           id="FileInput_Mypage"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onChange={onChangeProfileImage}
         />
 

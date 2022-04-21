@@ -55,11 +55,28 @@ export const messageSendFailure =
   createAction(MESSAGE_SEND_FAILURE)<AxiosError>();
 
 //   Redux-Saga
+
 const readSaga = createRequestSaga(MESSAGE_READ, messageAPI.read);
+const readDetailSaga = createRequestSaga(
+  MESSAGE_DETAIL_READ,
+  messageAPI.readDetail,
+);
+const removeAllSaga = createRequestSaga(
+  MESSAGE_DELETE_ALL,
+  messageAPI.removeAll,
+);
+const removeOneSaga = createRequestSaga(
+  MESSAGE_DELETE_ONE,
+  messageAPI.removeOne,
+);
+const sendSaga = createRequestSaga(MESSAGE_SEND, messageAPI.send);
+
 export function* messagesSaga() {
   yield takeLatest(MESSAGE_READ, readSaga);
-  // yield takeLatest(MESSAGE_READ, readSaga);
-  // yield takeLatest(MESSAGE_READ, readSaga);
+  yield takeLatest(MESSAGE_DETAIL_READ, readDetailSaga);
+  yield takeLatest(MESSAGE_DELETE_ALL, removeAllSaga);
+  yield takeLatest(MESSAGE_DELETE_ONE, removeOneSaga);
+  yield takeLatest(MESSAGE_SEND, sendSaga);
 }
 
 const messageUserListTestData: Array<messageAPI.messagesProps> = [
@@ -128,7 +145,8 @@ const messages = createReducer<messageState, messagesAction>(initialState, {
   }),
   [MESSAGE_READ_SUCCESS]: (state: any, { payload }: any) => ({
     ...state,
-    messages: payload.data,
+    // messages: payload.data,
+    messages: messageUserListTestData,
   }),
   [MESSAGE_READ_FAILURE]: (state: any, { payload: error }: any) => {
     alert('message reading error');
