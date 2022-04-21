@@ -92,19 +92,23 @@ function Message() {
     name: '',
     data: [],
   });
-  const { messages } = useSelector((state: RootState) => ({
-    messages: state.messages.messages,
+  const { user, messages } = useSelector(({ users, messages }: RootState) => ({
+    user: users.user,
+    messages: messages.messages,
   }));
+
   useEffect(() => {
     //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
-    dispatch(messageRead());
-    console.log(messages);
+    user && dispatch(messageRead({ id: user.id }));
 
     if (messages) {
-      // setMessageDatas(messages);
-      console.log(messages);
+      setMessageDatas(messages);
     }
-  }, [messages]);
+    // console.log(messages, user);
+  }, [user, messages]);
+  useEffect(() => {
+    console.log(messageDatas);
+  }, [messageDatas]);
   const handleMessage = () => {
     setMessageContent({
       ...messageContent,
