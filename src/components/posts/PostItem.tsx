@@ -10,6 +10,7 @@ import PostTagA from 'components/posts/PostTagA';
 const PostItem = ({ post }: { post: postListItemType }) => {
   return (
     <Wrapper to={`/posts/${post.id}`} status={post.status}>
+      {post.status === '모집 완료' && <FinishText>모집 완료</FinishText>}
       <FirstWrapper>
         <Name>{post.title}</Name>
         <PostCategory category={post.category} />
@@ -42,12 +43,6 @@ const PostItem = ({ post }: { post: postListItemType }) => {
 export default PostItem;
 
 const Wrapper = styled(Link)<{ status: string }>`
-  ${props =>
-    props.status === '모집 완료' &&
-    css`
-      filter: contrast(60%);
-      opacity: 0.8;
-    `}
   width: calc(calc(100% - calc(10px * 3)) / 3);
   min-width: calc(calc(100% - calc(10px * 3)) / 3);
   height: 200px;
@@ -83,6 +78,29 @@ const Wrapper = styled(Link)<{ status: string }>`
     width: calc(100% - 10px);
     min-width: calc(100% - 10px);
   }
+  ${props =>
+    props.status === '모집 완료' &&
+    css`
+      position: relative;
+      background-color: #c4c4c4;
+      color: #3e3e3e;
+      *:not(div:nth-child(1)) {
+        opacity: 0.4;
+      }
+      &:hover {
+        border: 1px solid #323232;
+        background-color: #d1d1d1;
+      }
+    `}
+`;
+const FinishText = styled.div`
+  position: absolute;
+  width: 150px;
+  top: calc(50% - 13px);
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: NanumSquareR;
 `;
 const FirstWrapper = styled.div`
   display: flex;

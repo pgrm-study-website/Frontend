@@ -5,6 +5,7 @@ import { BiArrowBack, BiTrashAlt } from 'react-icons/bi';
 import { RiBallPenLine } from 'react-icons/ri';
 import { RootState } from 'modules';
 import { initRead, read, remove as removePost } from 'modules/posts/readPosts';
+import { setOriginal } from 'modules/posts/writePosts';
 import readToEditPost from 'lib/utils/readToEditPost';
 import styled from 'styled-components';
 
@@ -18,13 +19,13 @@ import MoreInfo from './MoreInfo';
 import Loading from 'components/common/Loading';
 import Error from 'components/common/Error';
 import NotFound from 'components/common/NotFound';
-import { setOriginal } from 'modules/posts/writePosts';
+import { initComment } from 'modules/posts/comments';
 
 const Read = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
 
+  const { id } = useParams();
   const { post, error, remove, user } = useSelector(
     ({ readPosts, loading, users }: RootState) => ({
       post: readPosts.post,
@@ -36,11 +37,13 @@ const Read = () => {
   );
 
   useEffect(() => {
-    dispatch(initRead());
-    dispatch(read(parseInt(id!)));
     window.scrollTo(0, 0);
+    dispatch(initRead());
+    dispatch(initComment());
+    dispatch(read(parseInt(id!)));
     return () => {
       dispatch(initRead());
+      dispatch(initComment());
     };
   }, [dispatch]);
 
@@ -62,43 +65,43 @@ const Read = () => {
 
   if (error) {
     if (error.response!.status === 404) return <NotFound />;
-    return <Error />;
-  }
-  if (!post) {
+    else return <Error />;
+  } else if (!post) {
     return <Loading />;
+  } else {
+    return (
+      <Wrapper>
+        <ListButton to="/posts">
+          <BiArrowBack />
+          List
+        </ListButton>
+        <Title title={post.title} />
+        <Info
+          userId={post.userId}
+          viewCnt={post.viewCnt}
+          createDate={post.createDate}
+          updateDate={post.updateDate}
+        />
+        <Content content={post.content} />
+        <MoreInfo participantMax={post.participantMax} period={post.period} />
+        <Participant postId={post.id} postUserId={post.userId} />
+        <Tags tags={post.tags} />
+        {user && post.userId === user.id && (
+          <UtilButtonWrapper>
+            <UtilButton className="EditButton" onClick={onEdit}>
+              <RiBallPenLine />
+              <UtilButtonText>Edit</UtilButtonText>
+            </UtilButton>
+            <UtilButton className="DeleteButton" onClick={onDelete}>
+              <BiTrashAlt />
+              <UtilButtonText>Delete</UtilButtonText>
+            </UtilButton>
+          </UtilButtonWrapper>
+        )}
+        <Comment id={post.id} />
+      </Wrapper>
+    );
   }
-  return (
-    <Wrapper>
-      <ListButton to="/posts">
-        <BiArrowBack />
-        List
-      </ListButton>
-      <Title title={post.title} />
-      <Info
-        userId={post.userId}
-        viewCnt={post.viewCnt}
-        createDate={post.createDate}
-        updateDate={post.updateDate}
-      />
-      <Content content={post.content} />
-      <MoreInfo participantMax={post.participantMax} period={post.period} />
-      <Participant participantNum={post.participantNum} />
-      <Tags tags={post.tags} />
-      {user && post.userId === user.id && (
-        <UtilButtonWrapper>
-          <UtilButton className="EditButton" onClick={onEdit}>
-            <RiBallPenLine />
-            <UtilButtonText>Edit</UtilButtonText>
-          </UtilButton>
-          <UtilButton className="DeleteButton" onClick={onDelete}>
-            <BiTrashAlt />
-            <UtilButtonText>Delete</UtilButtonText>
-          </UtilButton>
-        </UtilButtonWrapper>
-      )}
-      <Comment />
-    </Wrapper>
-  );
 };
 
 export default Read;

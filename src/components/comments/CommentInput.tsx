@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { BsFillPencilFill } from 'react-icons/bs';
+import { write } from 'modules/posts/comments';
 import styled from 'styled-components';
 
-const CommentInput = ({ parentId }: { parentId: number | null }) => {
+const CommentInput = ({
+  id,
+  parentId,
+}: {
+  id: number;
+  parentId: number | null;
+}) => {
+  const dispatch = useDispatch();
+
   const [input, setInput] = useState('');
 
   const createComment = () => {
-    alert(`댓글 달기: "${input}"\n부모 댓글 Id: ${parentId || 'null'}`);
+    dispatch(write({ id, data: { parentId, content: input } }));
+    setInput('');
   };
 
   return (
@@ -35,7 +46,7 @@ const Wrapper = styled.div`
   box-shadow: 5px 5px 20px #46464644;
   background-color: #ffffff;
   display: flex;
-  margin: 5px 0;
+  margin: 5px 0 25px 0;
 `;
 const InputWrapper = styled.input`
   width: calc(100% - 45px);

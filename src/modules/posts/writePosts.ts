@@ -47,7 +47,7 @@ const actions = {
 };
 type writePostsAction = ActionType<typeof actions>;
 type writePostsState = {
-  post: postsAPI.writeRequestType & { id?: number };
+  post: postsAPI.writeRequestType;
   result: number | null;
 };
 const initialState: writePostsState = {

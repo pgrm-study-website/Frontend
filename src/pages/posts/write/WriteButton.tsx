@@ -1,20 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { BsPencil } from 'react-icons/bs';
-import styled from 'styled-components';
 import { writeRequestType } from 'lib/api/posts';
-import { LoadingComponent } from 'components/common/Loading';
 import { write, update } from 'modules/posts/writePosts';
-import { simpleResponseType } from 'lib/api/users';
+import styled from 'styled-components';
+
+import { LoadingComponent } from 'components/common/Loading';
 
 const WriteButton = ({
   post,
   loading,
-  user,
 }: {
   post: writeRequestType & { id?: number };
   loading: boolean;
-  user: simpleResponseType;
 }) => {
   const dispatch = useDispatch();
 
@@ -30,7 +28,6 @@ const WriteButton = ({
         const id = post.id;
         const data = post;
         data.id = undefined;
-        // data.userId = undefined;
         dispatch(update({ id, data }));
       } else {
         dispatch(write({ ...post }));

@@ -3,11 +3,20 @@ import { Link } from 'react-router-dom';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import styled from 'styled-components';
+import { read } from 'lib/api/users';
 
 const UserInfo = ({ userId }: { userId: number }) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
+  const [info, setInfo] = useState<any>(null);
   const [popUp, setPopUp] = useState(false);
 
+  useEffect(() => {
+    const loadData = async () => {
+      const infoResponse = await read({ data: userId, type: 'id' });
+      setInfo(infoResponse.data);
+    };
+    void loadData();
+  }, []);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -23,33 +32,30 @@ const UserInfo = ({ userId }: { userId: number }) => {
     };
   }, [WrapperRef]);
 
-  if (userId === -1) {
-    return (
-      <Wrapper>
-        <QuestionImage>?</QuestionImage>
-        <Nickname style={{ color: '#363636' }}>??????</Nickname>
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper ref={WrapperRef}>
-        <Wrapper2 onClick={() => setPopUp(!popUp)}>
-          <UserImage src="https://user-images.githubusercontent.com/79067549/161764213-c38b7de0-1662-4e49-a3f2-c2b31741d22e.png" />
-          <Nickname>Nickname</Nickname>
-        </Wrapper2>
-        {popUp && (
-          <PopupWrapper>
-            <Link to={`/mypage/${userId}`}>
-              <AiOutlineHome />
-            </Link>
-            <Link to="/comments">
-              <BiMessageAltDetail />
-            </Link>
-          </PopupWrapper>
-        )}
-      </Wrapper>
-    );
-  }
+  return (
+    <Wrapper ref={WrapperRef}>
+      <Wrapper2 onClick={() => setPopUp(!popUp)}>
+        <UserImage
+          src={
+            info
+              ? info.image || require('assets/images/defaultProfile.png')
+              : require('assets/images/defaultProfile.png')
+          }
+        />
+        <Nickname>{info ? info.nickname || '' : ''}</Nickname>
+      </Wrapper2>
+      {popUp && (
+        <PopupWrapper>
+          <Link to={`/mypage/${info ? (info.nickname as string) : ''}`}>
+            <AiOutlineHome />
+          </Link>
+          <Link to="/message">
+            <BiMessageAltDetail />
+          </Link>
+        </PopupWrapper>
+      )}
+    </Wrapper>
+  );
 };
 
 export default UserInfo;
@@ -76,29 +82,20 @@ const UserImage = styled.img`
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  background-color: white;
+  border-radius: 5px;
 `;
 const Nickname = styled.div`
   font-size: 18px;
   font-family: NanumSquareR;
   margin-top: 1px;
 `;
-const QuestionImage = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  font-size: 20px;
-  background-color: #464646;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  font-weight: 700;
-  margin-right: 10px;
-`;
 const PopupWrapper = styled.div`
   cursor: default;
   width: 90px;
   height: 50px;
-  background-color: #ffffff;
+  background-color: #f1f1f1;
+  box-shadow: 2px 2px 2px black;
   border-radius: 10px;
   z-index: 10;
   position: absolute;
@@ -122,7 +119,7 @@ const PopupWrapper = styled.div`
     border-top: 0px solid transparent;
     border-left: 0px solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 20px solid #ffffff;
+    border-bottom: 20px solid #f1f1f1;
     content: '';
     position: absolute;
     top: -10px;

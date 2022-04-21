@@ -4,6 +4,7 @@ import { tagList } from './tagDatabase';
 const readToEditPost = (post: readResponseType) => {
   const tagIds = post.tags.map(i => tagList.indexOf(i));
   return {
+    id: post.id,
     userId: post.userId,
     title: post.title,
     category: post.category,

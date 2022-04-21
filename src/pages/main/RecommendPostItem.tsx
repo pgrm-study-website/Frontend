@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillPersonFill, BsFillEyeFill } from 'react-icons/bs';
-import styled from 'styled-components';
 import { postListItemType } from 'lib/api/posts';
+import styled, { css } from 'styled-components';
 
 import PostCategory from 'components/posts/PostCategory';
 import PostTagA from 'components/posts/PostTagA';
 
 const RecommendPostItem = ({ post }: { post: postListItemType }) => {
   return (
-    <Wrapper to={`/posts/${post.id}`}>
+    <Wrapper to={`/posts/${post.id}`} status={post.status}>
       <FirstWrapper>
         <Name>{post.title}</Name>
         <PostCategory category={post.category} />
@@ -23,8 +23,12 @@ const RecommendPostItem = ({ post }: { post: postListItemType }) => {
         <PersonWrapper>
           <BsFillPersonFill />
           <div>{post.participantNum}</div>
-          <div>/</div>
-          <div>{post.participantMax}</div>
+          {post.participantMax && (
+            <>
+              <div>/</div>
+              <div>{post.participantMax}</div>
+            </>
+          )}
         </PersonWrapper>
         <EtcWrapper>
           <BsFillEyeFill />
@@ -37,7 +41,13 @@ const RecommendPostItem = ({ post }: { post: postListItemType }) => {
 
 export default RecommendPostItem;
 
-const Wrapper = styled(Link)`
+const Wrapper = styled(Link)<{ status: string }>`
+  ${props =>
+    props.status === '모집 완료' &&
+    css`
+      filter: contrast(60%);
+      opacity: 0.8;
+    `}
   width: calc(calc(100% - calc(25px * 3)) / 4);
   min-width: calc(calc(100% - calc(25px * 3)) / 4);
   height: 100%;
@@ -104,7 +114,7 @@ const TagWrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 10px;
 `;
 const SecondWrapper = styled.div`
   display: flex;
@@ -132,7 +142,7 @@ const EtcWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   svg {
-    margin: 0 3px 0 8px;
+    margin: 0 5px 0 8px;
   }
   svg:nth-child(1) {
     color: #818181;

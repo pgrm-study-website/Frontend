@@ -86,7 +86,7 @@ export type updateRequestType = {
     image: string;
     introduce: string;
     github: string;
-    tags: string[];
+    tagIds: number[];
   };
 };
 export type sendAuthEmailRequestType = {
