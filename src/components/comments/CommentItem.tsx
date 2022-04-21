@@ -67,7 +67,7 @@ const MainComment = ({
 }: {
   comment: any;
   index: number;
-  onClickReply: (id: number) => void;
+  onClickReply: any;
   userId: number;
   fold: number;
   setFold: any;

@@ -105,6 +105,19 @@ const Mypage = () => {
   }, [update]);
 
   const updateUserInfo = (key: string, value: any) => {
+    if (key === 'nickname' && (value.length < 2 || value.length > 8)) {
+      alert('닉네임을 2~8자로 설정해주세요.');
+      return;
+    }
+    if (key === 'introduce' && value.length > 100) {
+      alert('100자 이하로 입력해주세요.');
+      return;
+    }
+    if (key === 'github' && value.length > 16) {
+      alert('16자 이하로 입력해주세요.');
+      return;
+    }
+
     setEdit({ key: null, value: null });
     dispatch(
       userUpdate({
@@ -196,8 +209,10 @@ const Mypage = () => {
             ) : (
               <>
                 <NicknameInput
-                  defaultValue={edit.value}
-                  onChange={e => setEdit({ ...edit, value: e.target.value })}
+                  value={edit.value}
+                  onChange={e =>
+                    setEdit({ ...edit, value: e.target.value.substring(0, 8) })
+                  }
                 />
                 <SmallButtonWrapper>
                   <div onClick={() => updateUserInfo('nickname', edit.value)}>
@@ -212,27 +227,39 @@ const Mypage = () => {
             {read.data.email && <Email>{read.data.email}</Email>}
           </InfoSmallWrapper1>
           <InfoSmallWrapper2>
-            <IntroduceText>Introduce</IntroduceText>
             {edit.key !== 'introduce' ? (
-              <IntroduceEditWrapper>
-                <Introduce>
-                  {!read.data.introduce || read.data.introduce === ''
-                    ? '소개말이 없습니다.'
-                    : read.data.introduce}
-                </Introduce>
-                {user && user.nickname == nickname && (
-                  <PencilIcon
-                    onClick={() =>
-                      setEdit({ key: 'introduce', value: read.data!.introduce })
-                    }
-                  />
-                )}
-              </IntroduceEditWrapper>
+              <>
+                <IntroduceText>
+                  Introduce
+                  {user && user.nickname == nickname && (
+                    <PencilIcon
+                      onClick={() =>
+                        setEdit({
+                          key: 'introduce',
+                          value: read.data!.introduce,
+                        })
+                      }
+                    />
+                  )}
+                </IntroduceText>
+                <IntroduceEditWrapper>
+                  <Introduce>
+                    {!read.data.introduce || read.data.introduce === ''
+                      ? '소개말이 없습니다.'
+                      : read.data.introduce}
+                  </Introduce>
+                </IntroduceEditWrapper>
+              </>
             ) : (
               <>
                 <IntroduceInput
-                  defaultValue={edit.value}
-                  onChange={e => setEdit({ ...edit, value: e.target.value })}
+                  value={edit.value}
+                  onChange={e =>
+                    setEdit({
+                      ...edit,
+                      value: e.target.value.substring(0, 100),
+                    })
+                  }
                 />
                 <SmallButtonWrapper style={{ marginBottom: '15px' }}>
                   <div onClick={() => updateUserInfo('introduce', edit.value)}>
@@ -271,8 +298,10 @@ const Mypage = () => {
             ) : (
               <>
                 <GithubInput
-                  defaultValue={edit.value}
-                  onChange={e => setEdit({ ...edit, value: e.target.value })}
+                  value={edit.value}
+                  onChange={e =>
+                    setEdit({ ...edit, value: e.target.value.substring(0, 12) })
+                  }
                 />
                 <SmallButtonWrapper>
                   <div onClick={() => updateUserInfo('github', edit.value)}>
@@ -310,11 +339,7 @@ const Mypage = () => {
         {edit.key === 'tagIds' && (
           <TagPopUpBackground>
             <TagPopUpWrapper>
-              <CloseIconWrapper>
-                <AiOutlineClose
-                  onClick={() => setEdit({ key: null, value: null })}
-                />
-              </CloseIconWrapper>
+              <TagPopUpHeader>태그 (최대 10개)</TagPopUpHeader>
               <Tags>
                 {edit.value.map((i: string) => (
                   <TagAItemWrapper key={i} onClick={() => removeTag(i)}>
@@ -511,6 +536,11 @@ const Email = styled.div`
 const IntroduceText = styled.div`
   font-size: 30px;
   font-family: NanumSquareR;
+  svg {
+    margin-left: 8px;
+    width: 20px;
+    height: 20px;
+  }
 `;
 const IntroduceEditWrapper = styled.div`
   width: 100%;
@@ -519,10 +549,6 @@ const IntroduceEditWrapper = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
 `;
 const Introduce = styled.div`
   width: 100%;
@@ -535,7 +561,7 @@ const Introduce = styled.div`
 const IntroduceInput = styled.textarea`
   width: 100%;
   max-width: 400px;
-  height: 70px;
+  height: 100px;
   margin-top: 10px;
   padding: 10px;
   font-size: 18px;
@@ -609,16 +635,14 @@ const TagPopUpWrapper = styled.div`
   padding: 10px;
   padding-bottom: 20px;
 `;
-const CloseIconWrapper = styled.div`
+const TagPopUpHeader = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  svg {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-  }
-  margin-bottom: 5px;
+  justify-content: center;
+  font-size: 25px;
+  font-family: NanumSquareR;
+  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 const TagInput = styled.input`
   margin-top: 10px;

@@ -12,7 +12,12 @@ const UserInfo = ({ userId }: { userId: number }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      const infoResponse = await read({ data: userId, type: 'id' });
+      let infoResponse;
+      try {
+        infoResponse = await read({ data: userId, type: 'id' });
+      } catch (e) {
+        infoResponse = { data: { id: -1, nickname: 'error', image: null } };
+      }
       setInfo(infoResponse.data);
     };
     void loadData();

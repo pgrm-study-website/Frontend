@@ -35,11 +35,11 @@ const Write = () => {
       navigate('/posts');
       alert('로그인해야 글을 쓸 수 있습니다.');
     } else {
-      if (post.userId && post.userId !== user.id) {
+      if (post.status === '모집 완료') {
+        navigate(`/posts/${post.id}`);
+      } else if (post.userId && post.userId !== user.id) {
         navigate('/posts');
         alert('잘못된 접근입니다.');
-      } else {
-        dispatch(changeField({ key: 'userId', value: user.id }));
       }
     }
     if (result) {

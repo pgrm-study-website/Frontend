@@ -56,7 +56,7 @@ const readPosts = createReducer<readPostsState, readPostsAction>(initialState, {
     post: payload.data,
   }),
   [READ_FAILURE]: (state, { payload: error }) => {
-    alert('read error');
+    alert(error.response?.data.message);
     return {
       ...state,
       error,
@@ -67,7 +67,7 @@ const readPosts = createReducer<readPostsState, readPostsAction>(initialState, {
     remove: true,
   }),
   [REMOVE_FAILURE]: (state, { payload: error }) => {
-    alert('read error');
+    alert(error.response?.data.message);
     return state;
   },
 });

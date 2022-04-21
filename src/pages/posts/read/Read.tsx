@@ -84,14 +84,20 @@ const Read = () => {
         />
         <Content content={post.content} />
         <MoreInfo participantMax={post.participantMax} period={post.period} />
-        <Participant postId={post.id} postUserId={post.userId} />
+        <Participant
+          postId={post.id}
+          postUserId={post.userId}
+          status={post.status === '모집 중'}
+        />
         <Tags tags={post.tags} />
         {user && post.userId === user.id && (
           <UtilButtonWrapper>
-            <UtilButton className="EditButton" onClick={onEdit}>
-              <RiBallPenLine />
-              <UtilButtonText>Edit</UtilButtonText>
-            </UtilButton>
+            {post.status === '모집 중' && (
+              <UtilButton className="EditButton" onClick={onEdit}>
+                <RiBallPenLine />
+                <UtilButtonText>Edit</UtilButtonText>
+              </UtilButton>
+            )}
             <UtilButton className="DeleteButton" onClick={onDelete}>
               <BiTrashAlt />
               <UtilButtonText>Delete</UtilButtonText>

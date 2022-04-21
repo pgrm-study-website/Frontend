@@ -163,7 +163,7 @@ export const decodeQs = (
         period,
         participantMax,
       },
-      page - 1,
+      page,
     ) + `&size=${size}`;
 
   return {

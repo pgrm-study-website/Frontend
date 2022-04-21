@@ -6,6 +6,7 @@ const readToEditPost = (post: readResponseType) => {
   return {
     id: post.id,
     userId: post.userId,
+    participantNum: post.participantNum,
     title: post.title,
     category: post.category,
     content: post.content,
