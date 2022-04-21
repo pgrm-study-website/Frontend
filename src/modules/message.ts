@@ -25,10 +25,10 @@ export const messageReadSuccess = createAction(MESSAGE_READ_SUCCESS)();
 export const messageReadFailure =
   createAction(MESSAGE_READ_FAILURE)<AxiosError>();
 
-export const messageDetailRead = createAction(MESSAGE_DETAIL_READ)();
+export const messageDetailRead = createAction(MESSAGE_DETAIL_READ)<any>();
 export const messageDetailReadSuccess = createAction(
   MESSAGE_DETAIL_READ_SUCCESS,
-)();
+)<any>();
 export const messageDetailReadFailure = createAction(
   MESSAGE_DETAIL_READ_FAILURE,
 )<AxiosError>();
@@ -36,7 +36,7 @@ export const messageDetailReadFailure = createAction(
 export const messageDeleteAll = createAction(MESSAGE_DELETE_ALL)();
 export const messageDeleteAllSuccess = createAction(
   MESSAGE_DELETE_ALL_SUCCESS,
-)();
+)<any>();
 export const messageDeleteAllFailure = createAction(
   MESSAGE_DELETE_ALL_FAILURE,
 )<AxiosError>();
@@ -44,17 +44,21 @@ export const messageDeleteAllFailure = createAction(
 export const messageDeleteOne = createAction(MESSAGE_DELETE_ONE)();
 export const messageDeleteOneSuccess = createAction(
   MESSAGE_DELETE_ONE_SUCCESS,
-)();
+)<any>();
 export const messageDeleteOneFailure = createAction(
   MESSAGE_DELETE_ONE_FAILURE,
 )<AxiosError>();
 export const messageSend = createAction(MESSAGE_SEND)();
-export const messageSendSuccess = createAction(MESSAGE_SEND_SUCCESS)();
+export const messageSendSuccess = createAction(MESSAGE_SEND_SUCCESS)<any>();
 export const messageSendFailure =
   createAction(MESSAGE_SEND_FAILURE)<AxiosError>();
 
 //   Redux-Saga
-// const signupSaga = createRequestSaga(SIGNUP, usersAPI.signup);
+const readSaga = createRequestSaga(MESSAGE_READ, messageAPI.read);
+export function* messagesSaga() {
+  yield takeLatest(MESSAGE_READ, readSaga);
+}
+
 const messageUserListTestData: Array<messageAPI.messagesProps> = [
   {
     otherPersonId: 3,
@@ -75,6 +79,10 @@ const messageUserListTestData: Array<messageAPI.messagesProps> = [
     createDate: new Date(),
   },
 ];
+const actions = {
+  messageRead,
+};
+type messagesAction = ActionType<typeof actions>;
 
 export type messageState = {
   messages: Array<messageAPI.messagesProps> | null;
@@ -96,18 +104,18 @@ const initialMessageDetailState: messageDetailState = {
   remove: null,
   error: null,
 };
-const messages = createReducer(initialState, {
-  [MESSAGE_READ]: (state, { payload }) => ({
+const messages = createReducer<messageState, messagesAction>(initialState, {
+  [MESSAGE_READ]: state => ({
     ...state,
-    // messages: null,
-    messages: messageUserListTestData,
+    messages: null,
+    // messages: messageUserListTestData,
   }),
-  [MESSAGE_READ_SUCCESS]: (state, { payload }) => ({
+  [MESSAGE_READ_SUCCESS]: (state: any, { payload }: any) => ({
     ...state,
     messages: payload.data,
     // messages: messageUserListTestData,
   }),
-  [MESSAGE_READ_FAILURE]: (state, { payload: error }) => {
+  [MESSAGE_READ_FAILURE]: (state: any, { payload: error }: any) => {
     alert('message reading error');
     return {
       ...state,
