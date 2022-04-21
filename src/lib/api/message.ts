@@ -2,7 +2,7 @@ import { StringLiteralLike } from 'typescript';
 import client from './client';
 
 export const read = (payload: readMessages) =>
-  client.get(`messages/${payload.id}`);
+  client.get(`messages/user/${payload.id}`);
 export const readDetail = (user_id: number, other_id: number) =>
   client.get(`messages?me=${user_id}&other=${other_id}`);
 export const removeAll = (user_id: number) =>
