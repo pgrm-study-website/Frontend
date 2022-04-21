@@ -16,8 +16,8 @@ export type readMessages = {
   id: number;
 };
 export type sendMessageProps = {
-  me: number;
-  other: number;
+  userId: string;
+  otherId: string;
   content: string;
 };
 export type messagesProps = {

@@ -49,7 +49,7 @@ export const messageDeleteOneSuccess = createAction(
 export const messageDeleteOneFailure = createAction(
   MESSAGE_DELETE_ONE_FAILURE,
 )<AxiosError>();
-export const messageSend = createAction(MESSAGE_SEND)();
+export const messageSend = createAction(MESSAGE_SEND)<any>();
 export const messageSendSuccess = createAction(MESSAGE_SEND_SUCCESS)<any>();
 export const messageSendFailure =
   createAction(MESSAGE_SEND_FAILURE)<AxiosError>();
@@ -145,8 +145,8 @@ const messages = createReducer<messageState, messagesAction>(initialState, {
   }),
   [MESSAGE_READ_SUCCESS]: (state: any, { payload }: any) => ({
     ...state,
-    // messages: payload.data,
-    messages: messageUserListTestData,
+    messages: payload.data,
+    // messages: messageUserListTestData,
   }),
   [MESSAGE_READ_FAILURE]: (state: any, { payload: error }: any) => {
     alert('message reading error');

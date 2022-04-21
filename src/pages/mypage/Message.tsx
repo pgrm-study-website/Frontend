@@ -7,6 +7,7 @@ import {
   messageDetailRead,
   messageRead,
   messageReadSuccess,
+  messageSend,
 } from 'modules/message';
 import { RootState } from 'modules';
 import { messagesProps } from 'lib/api/message';
@@ -134,15 +135,25 @@ function Message() {
     // setSelect(idx);
     if (user) {
       const string = `userId=${user.id}&otherId=${id}`;
-      dispatch(messageDetailRead(string));
-      // console.log(string);
+      // dispatch(messageDetailRead(string));
+      console.log(string);
     }
     // setMessageContent(sendTestDataList.filter(item => item.id === id)[0]);
+  };
+  const handleDummy = () => {
+    const obj = {
+      userId: '20',
+      otherId: '15',
+      content: '안녕하세요! 반갑습니다',
+    };
+    dispatch(messageSend(obj));
+    console.log(detail);
   };
   return (
     <Wrapper>
       <MessageListContainer>
         <Title>쪽지함</Title>
+        <button onClick={() => handleDummy()}>test</button>
         <MessageList>
           {messages &&
             messages.map((item, idx) => (
