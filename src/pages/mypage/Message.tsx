@@ -8,7 +8,6 @@ import { messagesProps, sendMessageProps } from 'lib/api/message';
 
 function Message() {
   const dispatch = useDispatch();
-  // const [messageDatas, setMessageDatas] = useState<messagesProps[] | null>([]);
   const [select, setSelect] = useState<messagesProps>();
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
 
@@ -21,8 +20,15 @@ function Message() {
   );
 
   useEffect(() => {
-    //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
-    user && dispatch(messageRead({ id: user.id }));
+    if (user) {
+      user && dispatch(messageRead({ id: user.id }));
+      // if (messages) {
+      //작동이 안되는..?
+      //   const sendPath = `userId=${user.id}&otherId=${messages[0].otherPersonId}`;
+      //   dispatch(messageDetailRead(sendPath));
+      //   setSelect(messages[0]);
+      // }
+    }
   }, []);
 
   const handleMessage = () => {
@@ -36,19 +42,16 @@ function Message() {
     }
     //초기화
     setSendMessageContent('');
-    if (user && select) {
-      const string = `userId=${user.id}&otherId=${select.otherPersonId}`;
-      dispatch(messageDetailRead(string));
-    }
+    // TODO :  조금의 시간 뒤에 리로드가 필요하다.
+    select && handleSelect(select);
   };
   const handleSelect = (item: messagesProps) => {
     setSelect(item);
 
     if (user) {
-      const string = `userId=${user.id}&otherId=${item.otherPersonId}`;
-      dispatch(messageDetailRead(string));
+      const sendParam = `userId=${user.id}&otherId=${item.otherPersonId}`;
+      dispatch(messageDetailRead(sendParam));
     }
-    // setMessageContent(sendTestDataList.filter(item => item.id === id)[0]);
   };
 
   return (
