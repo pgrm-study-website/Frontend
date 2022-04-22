@@ -43,7 +43,7 @@ const Tags = ({ tagIds }: { tagIds: number[] }) => {
 
   return (
     <Wrapper>
-      <NameText>태그</NameText>
+      <NameText>태그 (최대 5개)</NameText>
       {localTags.length > 0 && (
         <TagBox>
           {localTags.map(i => (

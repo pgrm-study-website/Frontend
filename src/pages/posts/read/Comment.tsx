@@ -24,6 +24,7 @@ const Comment = ({ id }: { id: number }) => {
 
   useEffect(() => {
     dispatch(list(id));
+    setReply(-1);
   }, [reload]);
 
   const onClickReply = (id: number) => setReply(reply !== id ? id : -1);

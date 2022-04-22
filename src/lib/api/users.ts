@@ -40,17 +40,11 @@ export const changePassword = (payload: passwordRequsetType) =>
   client.patch(`users/${payload.id}/password`, payload.data);
 
 // 타입 이름은 자유이나 저는 RequestType, ResponseType으로 최대한 통일했습니다.
-export type signupRequestType =
-  | {
-      social: number;
-      email: string;
-      nickname: string;
-      password: string;
-    }
-  | {
-      social: number;
-      code: string;
-    };
+export type signupRequestType = {
+  email: string;
+  nickname: string;
+  password: string;
+};
 export type loginRequestType =
   | {
       social: number;

@@ -88,7 +88,7 @@ const writePosts = createReducer<writePostsState, writePostsAction>(
       result: payload.data,
     }),
     [WRITE_FAILURE]: (state, { payload: error }) => {
-      alert('write error');
+      alert(error.response?.data.message);
       return state;
     },
     [UPDATE]: state => ({
@@ -101,7 +101,7 @@ const writePosts = createReducer<writePostsState, writePostsAction>(
       result: payload.data,
     }),
     [UPDATE_FAILURE]: (state, { payload: error }) => {
-      alert('update error');
+      alert(error.response?.data.message);
       return state;
     },
   },

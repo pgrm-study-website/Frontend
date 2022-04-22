@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiFillSetting } from 'react-icons/ai';
+import axios from 'axios';
+import { AiFillSetting, AiOutlineClose } from 'react-icons/ai';
 import { BsGithub, BsPencil } from 'react-icons/bs';
-import { RootState } from 'modules';
 import { postListItemType } from 'lib/api/posts';
-import { tagList } from 'lib/utils/tagDatabase';
 import tagsToTagIds from 'lib/utils/tagsToTagIds';
 import autoCompleteTag from 'lib/utils/autoCompleteTag';
+import cleanApplyList from 'lib/utils/cleanApplyList';
+import { RootState } from 'modules';
 import {
   changeField,
   read as userRead,
@@ -22,7 +22,6 @@ import PostTagB from 'components/posts/PostTagB';
 import PostItem from 'components/posts/PostItem';
 import Loading from 'components/common/Loading';
 import NotFound from 'components/common/NotFound';
-import cleanApplyList from 'lib/utils/cleanApplyList';
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -106,6 +105,19 @@ const Mypage = () => {
   }, [update]);
 
   const updateUserInfo = (key: string, value: any) => {
+    if (key === 'nickname' && (value.length < 2 || value.length > 8)) {
+      alert('닉네임을 2~8자로 설정해주세요.');
+      return;
+    }
+    if (key === 'introduce' && value.length > 100) {
+      alert('100자 이하로 입력해주세요.');
+      return;
+    }
+    if (key === 'github' && value.length > 16) {
+      alert('16자 이하로 입력해주세요.');
+      return;
+    }
+
     setEdit({ key: null, value: null });
     dispatch(
       userUpdate({
@@ -167,146 +179,167 @@ const Mypage = () => {
             </>
           )}
         </PrivateSettingWrapper>
-
-        <ProfileImage
-          src={read.data.image || require('assets/images/defaultProfile.png')}
-          alt="profile"
-          onClick={() => {
-            document.getElementById('FileInput_Mypage')?.click();
-          }}
-        />
-        <FileInput
-          type="file"
-          id="FileInput_Mypage"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onChange={onChangeProfileImage}
-        />
-
-        {edit.key !== 'nickname' ? (
-          <NicknameEditWrapper>
-            <Nickname>{read.data.nickname}</Nickname>
-            {user && user.nickname == nickname && (
-              <PencilIcon
-                onClick={() =>
-                  setEdit({ key: 'nickname', value: read.data!.nickname })
-                }
-              />
-            )}
-          </NicknameEditWrapper>
-        ) : (
-          <>
-            <NicknameInput
-              defaultValue={edit.value}
-              onChange={e => setEdit({ ...edit, value: e.target.value })}
+        <InfoWrapper>
+          <InfoSmallWrapper1>
+            <ProfileImage
+              src={
+                read.data.image || require('assets/images/defaultProfile.png')
+              }
+              alt="profile"
+              onClick={() => {
+                document.getElementById('FileInput_Mypage')?.click();
+              }}
             />
-            <SmallButtonWrapper>
-              <div onClick={() => updateUserInfo('nickname', edit.value)}>
-                확인
-              </div>
-              <div onClick={() => setEdit({ key: null, value: null })}>
-                취소
-              </div>
-            </SmallButtonWrapper>
-          </>
-        )}
-        {read.data.email && <Email>{read.data.email}</Email>}
-        {edit.key !== 'introduce' ? (
-          <IntroduceEditWrapper>
-            <Introduce>
-              {!read.data.introduce || read.data.introduce === ''
-                ? '소개말이 없습니다.'
-                : read.data.introduce}
-            </Introduce>
-            {user && user.nickname == nickname && (
-              <PencilIcon
-                onClick={() =>
-                  setEdit({ key: 'introduce', value: read.data!.introduce })
-                }
-              />
-            )}
-          </IntroduceEditWrapper>
-        ) : (
-          <>
-            <IntroduceInput
-              defaultValue={edit.value}
-              onChange={e => setEdit({ ...edit, value: e.target.value })}
+            <FileInput
+              type="file"
+              id="FileInput_Mypage"
+              onChange={onChangeProfileImage}
             />
-            <SmallButtonWrapper>
-              <div onClick={() => updateUserInfo('introduce', edit.value)}>
-                확인
-              </div>
-              <div onClick={() => setEdit({ key: null, value: null })}>
-                취소
-              </div>
-            </SmallButtonWrapper>
-          </>
-        )}
-
-        {user && user.nickname !== nickname && (
-          <MessageButton>메시지 보내기(본인은안보임)</MessageButton>
-        )}
-
-        {edit.key !== 'github' ? (
-          <GithubEditWrapper>
-            <a href={`https://github.com/${read.data.github}`} target="_blank">
-              <BsGithub />
-            </a>
-            <Github
-              href={`https://github.com/${read.data.github}`}
-              target="_blank"
-            >
-              {!read.data.github || read.data.github === ''
-                ? 'Github 아이디가 없습니다.'
-                : read.data.github}
-            </Github>
-            {user && user.nickname == nickname && (
-              <PencilIcon
-                onClick={() =>
-                  setEdit({ key: 'github', value: read.data!.github })
-                }
-              />
-            )}
-          </GithubEditWrapper>
-        ) : (
-          <>
-            <GithubInput
-              defaultValue={edit.value}
-              onChange={e => setEdit({ ...edit, value: e.target.value })}
-            />
-            <SmallButtonWrapper>
-              <div onClick={() => updateUserInfo('github', edit.value)}>
-                확인
-              </div>
-              <div onClick={() => setEdit({ key: null, value: null })}>
-                취소
-              </div>
-            </SmallButtonWrapper>
-          </>
-        )}
-
-        {edit.key !== 'tagIds' ? (
-          <TagsEditWrapper>
-            {!read.data.tagsList || read.data.tagsList.length === 0 ? (
-              <Tags>태그가 없습니다.</Tags>
+            {edit.key !== 'nickname' ? (
+              <NicknameEditWrapper>
+                <Nickname>{read.data.nickname}</Nickname>
+                {user && user.nickname == nickname && (
+                  <PencilIcon
+                    onClick={() =>
+                      setEdit({ key: 'nickname', value: read.data!.nickname })
+                    }
+                  />
+                )}
+              </NicknameEditWrapper>
             ) : (
-              <Tags>
-                {read.data.tagsList.map(i => (
-                  <PostTagA key={i} tag={i} />
-                ))}
-              </Tags>
+              <>
+                <NicknameInput
+                  value={edit.value}
+                  onChange={e =>
+                    setEdit({ ...edit, value: e.target.value.substring(0, 8) })
+                  }
+                />
+                <SmallButtonWrapper>
+                  <div onClick={() => updateUserInfo('nickname', edit.value)}>
+                    확인
+                  </div>
+                  <div onClick={() => setEdit({ key: null, value: null })}>
+                    취소
+                  </div>
+                </SmallButtonWrapper>
+              </>
             )}
-            {user && user.nickname == nickname && (
-              <PencilIcon
-                onClick={() => {
-                  setEdit({ key: 'tagIds', value: read.data!.tagsList });
-                  setTagInput('');
-                }}
-              />
+            {read.data.email && <Email>{read.data.email}</Email>}
+          </InfoSmallWrapper1>
+          <InfoSmallWrapper2>
+            {edit.key !== 'introduce' ? (
+              <>
+                <IntroduceText>
+                  Introduce
+                  {user && user.nickname == nickname && (
+                    <PencilIcon
+                      onClick={() =>
+                        setEdit({
+                          key: 'introduce',
+                          value: read.data!.introduce,
+                        })
+                      }
+                    />
+                  )}
+                </IntroduceText>
+                <IntroduceEditWrapper>
+                  <Introduce>
+                    {!read.data.introduce || read.data.introduce === ''
+                      ? '소개말이 없습니다.'
+                      : read.data.introduce}
+                  </Introduce>
+                </IntroduceEditWrapper>
+              </>
+            ) : (
+              <>
+                <IntroduceInput
+                  value={edit.value}
+                  onChange={e =>
+                    setEdit({
+                      ...edit,
+                      value: e.target.value.substring(0, 100),
+                    })
+                  }
+                />
+                <SmallButtonWrapper style={{ marginBottom: '15px' }}>
+                  <div onClick={() => updateUserInfo('introduce', edit.value)}>
+                    확인
+                  </div>
+                  <div onClick={() => setEdit({ key: null, value: null })}>
+                    취소
+                  </div>
+                </SmallButtonWrapper>
+              </>
             )}
-          </TagsEditWrapper>
-        ) : (
-          <>
-            <>
+            {edit.key !== 'github' ? (
+              <GithubEditWrapper>
+                <a
+                  href={`https://github.com/${read.data.github}`}
+                  target="_blank"
+                >
+                  <BsGithub />
+                </a>
+                <Github
+                  href={`https://github.com/${read.data.github}`}
+                  target="_blank"
+                >
+                  {!read.data.github || read.data.github === ''
+                    ? 'Github 아이디가 없습니다.'
+                    : read.data.github}
+                </Github>
+                {user && user.nickname == nickname && (
+                  <PencilIcon
+                    onClick={() =>
+                      setEdit({ key: 'github', value: read.data!.github })
+                    }
+                  />
+                )}
+              </GithubEditWrapper>
+            ) : (
+              <>
+                <GithubInput
+                  value={edit.value}
+                  onChange={e =>
+                    setEdit({ ...edit, value: e.target.value.substring(0, 12) })
+                  }
+                />
+                <SmallButtonWrapper>
+                  <div onClick={() => updateUserInfo('github', edit.value)}>
+                    확인
+                  </div>
+                  <div onClick={() => setEdit({ key: null, value: null })}>
+                    취소
+                  </div>
+                </SmallButtonWrapper>
+              </>
+            )}
+            {edit.key !== 'tagIds' && (
+              <TagsEditWrapper>
+                {!read.data.tagsList || read.data.tagsList.length === 0 ? (
+                  <Tags>태그가 없습니다.</Tags>
+                ) : (
+                  <Tags>
+                    {read.data.tagsList.map(i => (
+                      <PostTagA key={i} tag={i} />
+                    ))}
+                  </Tags>
+                )}
+                {user && user.nickname == nickname && (
+                  <PencilIcon
+                    onClick={() => {
+                      setEdit({ key: 'tagIds', value: read.data!.tagsList });
+                      setTagInput('');
+                    }}
+                  />
+                )}
+              </TagsEditWrapper>
+            )}
+          </InfoSmallWrapper2>
+        </InfoWrapper>
+        {edit.key === 'tagIds' && (
+          <TagPopUpBackground>
+            <TagPopUpWrapper>
+              <TagPopUpHeader>태그 (최대 10개)</TagPopUpHeader>
               <Tags>
                 {edit.value.map((i: string) => (
                   <TagAItemWrapper key={i} onClick={() => removeTag(i)}>
@@ -326,16 +359,20 @@ const Mypage = () => {
                   </TagBItemWrapper>
                 ))}
               </AutoCompleteTagWrapper>
-            </>
-            <SmallButtonWrapper>
-              <div onClick={() => updateUserInfo('tagIds', edit.value)}>
-                확인
-              </div>
-              <div onClick={() => setEdit({ key: null, value: null })}>
-                취소
-              </div>
-            </SmallButtonWrapper>
-          </>
+              <SmallButtonWrapper>
+                <div onClick={() => updateUserInfo('tagIds', edit.value)}>
+                  확인
+                </div>
+                <div onClick={() => setEdit({ key: null, value: null })}>
+                  취소
+                </div>
+              </SmallButtonWrapper>
+            </TagPopUpWrapper>
+          </TagPopUpBackground>
+        )}
+
+        {user && user.nickname !== nickname && (
+          <MessageButton>메시지 보내기(본인은안보임)</MessageButton>
         )}
 
         {user && user.nickname === nickname && (
@@ -388,10 +425,11 @@ export default Mypage;
 
 const Wrapper = styled.div`
   width: 100%;
-  min-height: 400px;
-  padding: 35px 20px 85px 20px;
+  min-height: 100vh;
+  padding: 35px 20px 95px 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
 `;
@@ -413,14 +451,56 @@ const PrivateSettingWrapper = styled.div`
     margin: 0 3px;
   }
 `;
+const InfoWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: center;
+  @media all and (max-width: 670px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+const InfoSmallWrapper1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 410px;
+  width: 30%;
+  max-width: 360px;
+  padding: 0 15px;
+  @media all and (max-width: 670px) {
+    width: 100%;
+    height: 260px;
+  }
+`;
+const InfoSmallWrapper2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 410px;
+  width: 70%;
+  max-width: 500px;
+  padding: 0 15px;
+  @media all and (max-width: 670px) {
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    margin-top: 30px;
+  }
+`;
 const ProfileImage = styled.img`
   width: 160px;
   height: 160px;
   cursor: pointer;
   background-color: white;
+  border: 3px solid #464646;
   &:hover {
     filter: contrast(30%);
   }
+  margin-bottom: 20px;
 `;
 const FileInput = styled.input`
   display: none;
@@ -438,9 +518,10 @@ const Nickname = styled.div`
   margin-top: 15px;
   font-size: 22px;
   font-family: NanumSquareR;
+  margin-bottom: 5px;
 `;
 const NicknameInput = styled.input`
-  margin-top: 15px;
+  margin-top: 0px;
   font-size: 22px;
   font-family: NanumSquareR;
   width: 200px;
@@ -452,19 +533,27 @@ const Email = styled.div`
   font-size: 18px;
   font-family: NanumSquareR;
 `;
+const IntroduceText = styled.div`
+  font-size: 30px;
+  font-family: NanumSquareR;
+  svg {
+    margin-left: 8px;
+    width: 20px;
+    height: 20px;
+  }
+`;
 const IntroduceEditWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  svg {
-    margin-top: 10px;
-    width: 20px;
-    height: 20px;
-    margin-bottom: 40px;
-  }
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 const Introduce = styled.div`
-  margin-top: 50px;
+  width: 100%;
+  word-break: break-all;
+  line-height: 21px;
   font-size: 17px;
   font-family: NanumSquareR;
   text-align: center;
@@ -472,29 +561,13 @@ const Introduce = styled.div`
 const IntroduceInput = styled.textarea`
   width: 100%;
   max-width: 400px;
-  height: 120px;
-  margin-top: 50px;
-  padding: 5px;
+  height: 100px;
+  margin-top: 10px;
+  padding: 10px;
   font-size: 18px;
   font-family: NanumSquareR;
   word-break: break-all;
   resize: none;
-`;
-const MessageButton = styled.div`
-  margin: 50px 0;
-  width: 120px;
-  height: 50px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #00000011;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.15s linear;
-  &:hover {
-    background-color: #00000033;
-  }
 `;
 const GithubEditWrapper = styled.div`
   display: flex;
@@ -517,25 +590,75 @@ const Github = styled.a`
   font-family: NanumSquareR;
 `;
 const GithubInput = styled.input`
-  font-size: 22px;
+  font-size: 20px;
   font-family: NanumSquareR;
   width: 200px;
-  height: 40px;
+  height: 36px;
   text-align: center;
 `;
 const TagsEditWrapper = styled.div`
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-top: 15px;
   svg {
     width: 20px;
     height: 20px;
-    margin: 0 0 -32px 7px;
   }
 `;
 const Tags = styled.div`
-  margin-top: 50px;
-  margin-bottom: 15px;
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+const TagPopUpBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000c1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+const TagPopUpWrapper = styled.div`
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  padding-bottom: 20px;
+`;
+const TagPopUpHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-family: NanumSquareR;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+const TagInput = styled.input`
+  margin-top: 10px;
+  width: 200px;
+  height: 40px;
+  padding: 7px 5px 5px 5px;
+  text-align: center;
+  background-color: #d1d1d1;
+  border: 0;
+  border-bottom: 2px solid gray;
+  border-radius: 3px;
+  font-size: 20px;
+  font-family: Roboto;
+  &::placeholder {
+    font-size: 16px;
+  }
 `;
 const TagAItemWrapper = styled.div`
   cursor: pointer;
@@ -552,27 +675,14 @@ const TagBItemWrapper = styled.div`
     opacity: 1;
   }
 `;
-const TagInput = styled.input`
-  width: 200px;
-  height: 40px;
-  padding: 7px 5px 5px 5px;
-  text-align: center;
-  background-color: #d1d1d1;
-  border: 0;
-  border-bottom: 2px solid gray;
-  border-radius: 3px;
-  font-size: 20px;
-  font-family: Roboto;
-  &::placeholder {
-    font-size: 16px;
-  }
-`;
 const AutoCompleteTagWrapper = styled.div`
   margin-top: 10px;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   overflow: hidden;
   max-height: 142px;
+  margin-bottom: 5px;
 `;
 const PencilIcon = styled(BsPencil)`
   width: 18px;
@@ -607,6 +717,22 @@ const SmallText = styled.div`
   margin-top: 80px;
   font-size: 28px;
   font-family: SuncheonR;
+`;
+const MessageButton = styled.div`
+  margin: 50px 0;
+  width: 120px;
+  height: 50px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000011;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.15s linear;
+  &:hover {
+    background-color: #00000033;
+  }
 `;
 const PostListWrapper = styled.div`
   margin-top: 20px;

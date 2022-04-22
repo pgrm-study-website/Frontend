@@ -11,9 +11,6 @@ const LIST_FAILURE = 'comments/LIST_FAILURE';
 const WRITE = 'comments/WRITE';
 const WRITE_SUCCESS = 'comments/WRITE_SUCCESS';
 const WRITE_FAILURE = 'comments/WRITE_FAILURE';
-const UPDATE = 'comments/UPDATE';
-const UPDATE_SUCCESS = 'comments/UPDATE_SUCCESS';
-const UPDATE_FAILURE = 'comments/UPDATE_FAILURE';
 const REMOVE = 'comments/REMOVE';
 const REMOVE_SUCCESS = 'comments/REMOVE_SUCCESS';
 const REMOVE_FAILURE = 'comments/REMOVE_FAILURE';
@@ -25,22 +22,17 @@ export const listFailure = createAction(LIST_FAILURE)<AxiosError>();
 export const write = createAction(WRITE)<commemtsAPI.writeRequestType>();
 export const writeSuccess = createAction(WRITE_SUCCESS)();
 export const writeFailure = createAction(WRITE_FAILURE)<AxiosError>();
-export const update = createAction(UPDATE)<commemtsAPI.updateRequestType>();
-export const updateSuccess = createAction(UPDATE_SUCCESS)();
-export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 export const remove = createAction(REMOVE)<number>();
 export const removeSuccess = createAction(REMOVE_SUCCESS)();
 export const removeFailure = createAction(REMOVE_FAILURE)<AxiosError>();
 
 const listSaga = createRequestSaga(LIST, commemtsAPI.list);
 const writeSaga = createRequestSaga(WRITE, commemtsAPI.write);
-const updateSaga = createRequestSaga(UPDATE, commemtsAPI.update);
 const removeSaga = createRequestSaga(REMOVE, commemtsAPI.remove);
 
 export function* commentsSaga() {
   yield takeLatest(LIST, listSaga);
   yield takeLatest(WRITE, writeSaga);
-  yield takeLatest(UPDATE, updateSaga);
   yield takeLatest(REMOVE, removeSaga);
 }
 
@@ -52,9 +44,6 @@ const actions = {
   write,
   writeSuccess,
   writeFailure,
-  update,
-  updateSuccess,
-  updateFailure,
   remove,
   removeSuccess,
   removeFailure,
@@ -88,21 +77,6 @@ const comments = createReducer<commentsState, commentsAction>(initialState, {
     reload: true,
   }),
   [WRITE_FAILURE]: (state, { payload: error }) => {
-    alert(error.response?.data.message);
-    return {
-      ...state,
-      reload: false,
-    };
-  },
-  [UPDATE]: state => ({
-    ...state,
-    reload: null,
-  }),
-  [UPDATE_SUCCESS]: state => ({
-    ...state,
-    reload: true,
-  }),
-  [UPDATE_FAILURE]: (state, { payload: error }) => {
     alert(error.response?.data.message);
     return {
       ...state,

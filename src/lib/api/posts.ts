@@ -12,6 +12,7 @@ export const update = (payload: updateRequestType) =>
 export type writeRequestType = {
   id?: number;
   userId?: number;
+  participantNum?: number;
   title: string;
   category: string;
   content: string;
