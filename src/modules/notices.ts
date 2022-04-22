@@ -86,6 +86,18 @@ export const noticeDeleteOneFailure = createAction(
   
 */
 // const noticeCreateSaga = createRequestSaga(NOTICE_CREATE, usersAPI.signup);
+const createSaga = createRequestSaga(NOTICE_CREATE, noticeAPI.create);
+const readSaga = createRequestSaga(NOTICE_READ, noticeAPI.read);
+const readOneSaga = createRequestSaga(NOTICE_READ_ONE, noticeAPI.readOne);
+const removeAllSaga = createRequestSaga(NOTICE_DELETE, noticeAPI.removeAll);
+const removeOneSaga = createRequestSaga(NOTICE_CREATE, noticeAPI.readOne);
+export function* noticesSaga() {
+  yield takeLatest(NOTICE_CREATE, createSaga);
+  yield takeLatest(NOTICE_READ, readSaga);
+  yield takeLatest(NOTICE_READ_ONE, readOneSaga);
+  yield takeLatest(NOTICE_DELETE, removeAllSaga);
+  yield takeLatest(NOTICE_DELETE_ONE, removeOneSaga);
+}
 export type noticesState = {
   notice: Array<noticeAPI.notificationProps> | null;
   remove: boolean | null;
@@ -155,11 +167,13 @@ const notices = createReducer(initialState, {
     ...state,
     notice: null,
   }),
-  [NOTICE_READ_SUCCESS]: (state, { payload }) => ({
-    ...state,
-    // notice: payload.data,
-    notice: dummyData,
-  }),
+  [NOTICE_READ_SUCCESS]: (state, { payload }) => {
+    return {
+      ...state,
+      notice: payload.data,
+      // notice: dummyData,
+    };
+  },
   [NOTICE_READ_FAILURE]: (state, { payload: error }) => {
     alert('notice read error');
     return {

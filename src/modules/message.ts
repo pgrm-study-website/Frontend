@@ -82,19 +82,19 @@ export function* messagesSaga() {
 const messageUserListTestData: Array<messageAPI.messagesProps> = [
   {
     otherPersonId: 3,
-    otherPersionNickname: `other3`,
+    otherPersonNickname: `other3`,
     content: 'this is message',
     createDate: new Date(),
   },
   {
     otherPersonId: 5,
-    otherPersionNickname: 'other555',
+    otherPersonNickname: 'other555',
     content: 'this is new 5  message',
     createDate: new Date(),
   },
   {
     otherPersonId: 6,
-    otherPersionNickname: 'other666',
+    otherPersonNickname: 'other666',
     content: 'this is message new 6',
     createDate: new Date(),
   },
@@ -140,6 +140,7 @@ export type messageState = {
 };
 export type messageDetailState = {
   messageDetail: Array<messageAPI.messagesDetailProps> | null;
+  sendMessage: messageAPI.messagesDetailProps | null;
   remove: boolean | null;
   error: AxiosError | null;
 };
@@ -150,6 +151,7 @@ const initialState: messageState = {
 };
 const initialMessageDetailState: messageDetailState = {
   messageDetail: null,
+  sendMessage: null,
   remove: null,
   error: null,
 };
@@ -160,8 +162,8 @@ const messages = createReducer<messageState, messagesAction>(initialState, {
   }),
   [MESSAGE_READ_SUCCESS]: (state: any, { payload }: any) => ({
     ...state,
-    // messages: payload.data,
-    messages: messageUserListTestData,
+    messages: payload.data,
+    // messages: messageUserListTestData,
   }),
   [MESSAGE_READ_FAILURE]: (state: any, { payload: error }: any) => {
     alert('message reading error');
@@ -178,11 +180,13 @@ export const messageDetail = createReducer(initialMessageDetailState, {
   }),
   [MESSAGE_DETAIL_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
-    // messageDetail: payload.data,
-    messageDetail: sendTestDataList,
+    messageDetail: payload.data,
+    // messageDetail: sendTestDataList,
   }),
   [MESSAGE_DETAIL_READ_FAILURE]: (state, { payload: error }) => {
     // alert('message reading error');
+    alert(error.response?.data.message);
+
     return {
       ...state,
       error,
@@ -228,10 +232,11 @@ export const messageDetail = createReducer(initialMessageDetailState, {
   }),
   [MESSAGE_SEND_SUCCESS]: (state, { payload }) => ({
     ...state,
-    messageDetail: payload.data,
+    sendMessage: payload.data,
   }),
   [MESSAGE_SEND_FAILURE]: (state, { payload: error }) => {
     alert('message send error');
+    alert(error.response?.data.message);
     return {
       ...state,
       error,

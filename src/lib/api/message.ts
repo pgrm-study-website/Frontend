@@ -22,7 +22,7 @@ export type sendMessageProps = {
 };
 export type messagesProps = {
   otherPersonId: number;
-  otherPersionNickname: string;
+  otherPersonNickname: string;
   content: string;
   createDate: Date;
 };

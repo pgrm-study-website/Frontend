@@ -60,7 +60,7 @@ function Message() {
     if (user) {
       const objtest: sendMessageProps = {
         userId: user.id.toString(),
-        otherId: '6',
+        otherId: '15',
         content: '테스트 쪽지',
       };
       dispatch(messageSend(objtest));
@@ -80,9 +80,11 @@ function Message() {
     // setMessageContent(sendTestDataList.filter(item => item.id === id)[0]);
   };
   const handleDummy = () => {
+    console.log(user?.id);
+
     const obj = {
-      userId: '20',
-      otherId: '6',
+      userId: '23',
+      otherId: '20',
       content: '테스트 쪽지',
     };
     dispatch(messageSend(obj));
@@ -101,41 +103,44 @@ function Message() {
                 onClick={() => handleSelect(item.otherPersonId)}
                 className={idx === select ? 'select' : 'non-select'}
               >
-                {item.otherPersionNickname}
+                {item.otherPersonNickname}
+                {item.otherPersonId}
               </MessageItem>
             ))}
         </MessageList>
       </MessageListContainer>
       <CurrentContent>
-        {detail && (
-          <>
-            <MessageOtherName>{messageContent.name}</MessageOtherName>
-            <ContentContainer>
-              <MessageList>
-                {/* 수정 필요 */}
-                {detail.map((i, idx) => (
-                  <MessageItem key={i.content} className="border-bottom">
+        <>
+          <MessageOtherName>{messageContent.name}</MessageOtherName>
+          <ContentContainer>
+            <MessageList>
+              {/* 수정 필요 */}
+              {detail &&
+                detail.map((i, idx) => (
+                  <MessageItem
+                    key={`${idx}${i.content}`}
+                    className="border-bottom"
+                  >
                     <SendUser sendOther={i.type}>
                       {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
                     </SendUser>
                     <div> {i.content}</div>
                   </MessageItem>
                 ))}
-              </MessageList>
-              <SendMessageContainer>
-                <textarea
-                  name="sendMessage"
-                  id="sendMessage"
-                  value={sendMessageContent}
-                  onChange={e => setSendMessageContent(e.target.value)}
-                ></textarea>
-                <button onClick={handleMessage}>
-                  <FiSend />
-                </button>
-              </SendMessageContainer>
-            </ContentContainer>
-          </>
-        )}
+            </MessageList>
+            <SendMessageContainer>
+              <textarea
+                name="sendMessage"
+                id="sendMessage"
+                value={sendMessageContent}
+                onChange={e => setSendMessageContent(e.target.value)}
+              ></textarea>
+              <button onClick={handleMessage}>
+                <FiSend />
+              </button>
+            </SendMessageContainer>
+          </ContentContainer>
+        </>
       </CurrentContent>
     </Wrapper>
   );
