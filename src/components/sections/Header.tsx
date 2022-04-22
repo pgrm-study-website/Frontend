@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotifications } from 'react-icons/io';
 import { RootState } from 'modules';
@@ -27,6 +27,7 @@ const messageDummyData = [
 ];
 
 const Header = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
@@ -95,6 +96,7 @@ const Header = () => {
                     onClick={() => {
                       if (window.confirm('로그아웃 하시겠습니까?')) {
                         dispatch(logout());
+                        navigate('/');
                       }
                     }}
                   >
