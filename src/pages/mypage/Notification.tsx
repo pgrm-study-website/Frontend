@@ -25,7 +25,7 @@ const Notification = () => {
   }));
   useEffect(() => {
     // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
-    dispatch(noticeReadSuccess());
+    dispatch(noticeRead());
     if (notice) {
       setData(notice);
     }

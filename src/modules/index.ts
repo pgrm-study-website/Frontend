@@ -9,6 +9,7 @@ import readPosts, { readPostsSaga } from 'modules/posts/readPosts';
 import comments, { commentsSaga } from 'modules/posts/comments';
 import application, { applicationSaga } from 'modules/posts/application';
 import notices from 'modules/notices';
+import messages, { messageDetail, messagesSaga } from './message';
 
 const rootReducer = combineReducers({
   loading,
@@ -18,6 +19,8 @@ const rootReducer = combineReducers({
   readPosts,
   comments,
   notices,
+  messages,
+  messageDetail,
   application,
 });
 
@@ -29,6 +32,7 @@ export function* rootSaga() {
     usersSaga(),
     commentsSaga(),
     applicationSaga(),
+    messagesSaga(),
   ]);
 }
 
