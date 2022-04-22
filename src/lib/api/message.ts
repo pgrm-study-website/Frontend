@@ -1,4 +1,3 @@
-import { StringLiteralLike } from 'typescript';
 import client from './client';
 
 export const read = (payload: readMessages) =>

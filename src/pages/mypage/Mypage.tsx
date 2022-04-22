@@ -623,6 +623,7 @@ const TagPopUpBackground = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
+  z-index: 60;
 `;
 const TagPopUpWrapper = styled.div`
   width: 100%;
