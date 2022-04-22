@@ -62,8 +62,8 @@ function Message() {
           {messages &&
             messages.map((item, idx) => (
               <MessageItem key={idx} onClick={() => handleSelect(item)}>
-                {item.otherPersonNickname}
-                {item.otherPersonId}
+                <MessageItemName> {item.otherPersonNickname}</MessageItemName>
+                <div> {item.content}</div>
               </MessageItem>
             ))}
         </MessageList>
@@ -166,6 +166,11 @@ const MessageItem = styled.li`
   &.non-select {
     cursor: pointer;
   }
+`;
+const MessageItemName = styled.div`
+  color: #4cbbc2;
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 const MessageListContainer = styled.div`
   border: 1px solid #cecece;
