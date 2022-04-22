@@ -216,7 +216,6 @@ function SignUp() {
       setPopup(false);
       dispatch(
         signup({
-          social: 0,
           email: state.email,
           nickname: state.nickname,
           password: state.password,
