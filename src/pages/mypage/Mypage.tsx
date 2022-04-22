@@ -181,20 +181,32 @@ const Mypage = () => {
         </PrivateSettingWrapper>
         <InfoWrapper>
           <InfoSmallWrapper1>
-            <ProfileImage
-              src={
-                read.data.image || require('assets/images/defaultProfile.png')
-              }
-              alt="profile"
-              onClick={() => {
-                document.getElementById('FileInput_Mypage')?.click();
-              }}
-            />
-            <FileInput
-              type="file"
-              id="FileInput_Mypage"
-              onChange={onChangeProfileImage}
-            />
+            {user && user.nickname == nickname ? (
+              <>
+                <ProfileImage
+                  src={
+                    read.data.image ||
+                    require('assets/images/defaultProfile.png')
+                  }
+                  alt="profile"
+                  onClick={() => {
+                    document.getElementById('FileInput_Mypage')?.click();
+                  }}
+                />
+                <FileInput
+                  type="file"
+                  id="FileInput_Mypage"
+                  onChange={onChangeProfileImage}
+                />
+              </>
+            ) : (
+              <ProfileImage2
+                src={
+                  read.data.image || require('assets/images/defaultProfile.png')
+                }
+                alt="profile"
+              />
+            )}
             {edit.key !== 'nickname' ? (
               <NicknameEditWrapper>
                 <Nickname>{read.data.nickname}</Nickname>
@@ -500,6 +512,13 @@ const ProfileImage = styled.img`
   &:hover {
     filter: contrast(30%);
   }
+  margin-bottom: 20px;
+`;
+const ProfileImage2 = styled.img`
+  width: 160px;
+  height: 160px;
+  background-color: white;
+  border: 3px solid #464646;
   margin-bottom: 20px;
 `;
 const FileInput = styled.input`

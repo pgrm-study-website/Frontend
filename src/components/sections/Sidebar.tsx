@@ -177,7 +177,7 @@ const FakeSidebar = styled.div<{ open: boolean }>`
   transition: max-width 0.2s linear;
 `;
 const FoldIcon = styled.div<{ open: boolean }>`
-  z-index: 200;
+  z-index: 50;
   position: fixed;
   top: calc(0vh);
   left: ${props =>
