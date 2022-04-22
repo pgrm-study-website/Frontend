@@ -2,34 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FiSend } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  messageDetail,
-  messageDetailRead,
-  messageRead,
-  messageReadSuccess,
-  messageSend,
-} from 'modules/message';
+import { messageDetailRead, messageRead, messageSend } from 'modules/message';
 import { RootState } from 'modules';
 import { messagesProps, sendMessageProps } from 'lib/api/message';
 
-type messageContentProps = {
-  id: number;
-  name: string;
-  data: Array<{
-    sendOther: boolean;
-    content: string;
-  }>;
-};
 function Message() {
   const dispatch = useDispatch();
-  const [messageDatas, setMessageDatas] = useState<messagesProps[] | null>([]);
-  const [select, setSelect] = useState<number>(-1);
+  // const [messageDatas, setMessageDatas] = useState<messagesProps[] | null>([]);
+  const [select, setSelect] = useState<messagesProps>();
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
-  const [messageContent, setMessageContent] = useState<messageContentProps>({
-    id: 0,
-    name: '',
-    data: [],
-  });
+
   const { user, messages, detail } = useSelector(
     ({ users, messages, messageDetail }: RootState) => ({
       user: users.user,
@@ -41,68 +23,42 @@ function Message() {
   useEffect(() => {
     //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
     user && dispatch(messageRead({ id: user.id }));
-    // if (messages) {
-    //   setMessageDatas(messages);
-    // }
-    // console.log(messageDatas, user);
   }, []);
-  // useEffect(() => {
-  //   console.log(messageDatas);
-  // }, [messageDatas]);
+
   const handleMessage = () => {
-    // setMessageContent({
-    //   ...messageContent,
-    //   data: [
-    //     ...messageContent.data,
-    //     { sendOther: false, content: sendMessageContent },
-    //   ],
-    // });
-    if (user) {
+    if (user && select) {
       const objtest: sendMessageProps = {
         userId: user.id.toString(),
-        otherId: '15',
-        content: '테스트 쪽지',
+        otherId: select.otherPersonId.toString(),
+        content: sendMessageContent,
       };
       dispatch(messageSend(objtest));
     }
-    //TODO : DB에 있는 값도 변경 필요, 서버에 전송
-
     //초기화
     setSendMessageContent('');
-  };
-  const handleSelect = (id: number) => {
-    // setSelect(idx);
-    if (user) {
-      const string = `userId=${user.id}&otherId=${id}`;
+    if (user && select) {
+      const string = `userId=${user.id}&otherId=${select.otherPersonId}`;
       dispatch(messageDetailRead(string));
-      console.log(detail);
+    }
+  };
+  const handleSelect = (item: messagesProps) => {
+    setSelect(item);
+
+    if (user) {
+      const string = `userId=${user.id}&otherId=${item.otherPersonId}`;
+      dispatch(messageDetailRead(string));
     }
     // setMessageContent(sendTestDataList.filter(item => item.id === id)[0]);
   };
-  const handleDummy = () => {
-    console.log(user?.id);
 
-    const obj = {
-      userId: '23',
-      otherId: '20',
-      content: '테스트 쪽지',
-    };
-    dispatch(messageSend(obj));
-    console.log(detail);
-  };
   return (
     <Wrapper>
       <MessageListContainer>
         <Title>쪽지함</Title>
-        <button onClick={() => handleDummy()}>test</button>
         <MessageList>
           {messages &&
             messages.map((item, idx) => (
-              <MessageItem
-                key={idx}
-                onClick={() => handleSelect(item.otherPersonId)}
-                className={idx === select ? 'select' : 'non-select'}
-              >
+              <MessageItem key={idx} onClick={() => handleSelect(item)}>
                 {item.otherPersonNickname}
                 {item.otherPersonId}
               </MessageItem>
@@ -110,13 +66,12 @@ function Message() {
         </MessageList>
       </MessageListContainer>
       <CurrentContent>
-        <>
-          <MessageOtherName>{messageContent.name}</MessageOtherName>
-          <ContentContainer>
-            <MessageList>
-              {/* 수정 필요 */}
-              {detail &&
-                detail.map((i, idx) => (
+        {detail && (
+          <>
+            <MessageOtherName>{}</MessageOtherName>
+            <ContentContainer>
+              <MessageList>
+                {detail.map((i, idx) => (
                   <MessageItem
                     key={`${idx}${i.content}`}
                     className="border-bottom"
@@ -127,20 +82,21 @@ function Message() {
                     <div> {i.content}</div>
                   </MessageItem>
                 ))}
-            </MessageList>
-            <SendMessageContainer>
-              <textarea
-                name="sendMessage"
-                id="sendMessage"
-                value={sendMessageContent}
-                onChange={e => setSendMessageContent(e.target.value)}
-              ></textarea>
-              <button onClick={handleMessage}>
-                <FiSend />
-              </button>
-            </SendMessageContainer>
-          </ContentContainer>
-        </>
+              </MessageList>
+              <SendMessageContainer>
+                <textarea
+                  name="sendMessage"
+                  id="sendMessage"
+                  value={sendMessageContent}
+                  onChange={e => setSendMessageContent(e.target.value)}
+                ></textarea>
+                <button onClick={handleMessage}>
+                  <FiSend />
+                </button>
+              </SendMessageContainer>
+            </ContentContainer>
+          </>
+        )}
       </CurrentContent>
     </Wrapper>
   );
