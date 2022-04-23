@@ -33,6 +33,7 @@ const Notification = () => {
   };
   const handleDeleteAll = () => {
     dispatch(noticeDelete());
+    alert(`알림이 전체 삭제되었습니다`);
   };
   return (
     <Wrapper>
@@ -42,12 +43,10 @@ const Notification = () => {
       </Title>
       <Container>
         {notice &&
-          notice.data.map((item: any) => {
-            console.log(item);
-            return (
-              <NotificationItem key={item.id}>
-                <Content>{item.content}</Content>
-                {/* 
+          notice.data.map((item: any) => (
+            <NotificationItem key={item.id}>
+              <Content>{item.content}</Content>
+              {/* 
                   // 지금은 데이터가 없으므로 미구현
                 <SubContent>
                   <Name>{i.user_id}</Name> |{' '}
@@ -55,12 +54,11 @@ const Notification = () => {
                     {i.create_date && i.create_date.toLocaleDateString()}
                   </div>
                 </SubContent> */}
-                <DeleteBtn onClick={() => handleDelete(item.id)}>
-                  <MdOutlineCancel />
-                </DeleteBtn>
-              </NotificationItem>
-            );
-          })}
+              <DeleteBtn onClick={() => handleDelete(item.id)}>
+                <MdOutlineCancel />
+              </DeleteBtn>
+            </NotificationItem>
+          ))}
       </Container>
     </Wrapper>
   );
