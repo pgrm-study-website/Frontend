@@ -5,7 +5,7 @@ import { IoIosNotifications } from 'react-icons/io';
 import { RootState } from 'modules';
 import { logout } from 'modules/users';
 import styled from 'styled-components';
-
+import { AiOutlineMessage } from 'react-icons/ai';
 import NotificationModal from './notification/NotificationModal';
 
 const messageDummyData = [
@@ -82,6 +82,7 @@ const Header = () => {
               )}
             </Notification>
           </NotificationWrapper>
+          <AiOutlineMessage />
           <MyInfoWrapper ref={MyInfoWrapperRef}>
             <img
               src={user.image || require('assets/images/defaultProfile.png')}

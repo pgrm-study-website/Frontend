@@ -9,9 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   noticeDelete,
   noticeDeleteOne,
-  noticeDeleteOneSuccess,
   noticeRead,
-  noticeReadSuccess,
   noticesState,
 } from '../../modules/notices';
 // type Props = {};
@@ -24,12 +22,12 @@ const Notification = () => {
     notice: state.notices.notice,
   }));
   useEffect(() => {
-    // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
     dispatch(noticeRead());
+    console.log(notice);
     if (notice) {
       setData(notice);
     }
-  }, [data, notice]);
+  }, []);
 
   const handleDelete = (id: number) => {
     data && setData(data.filter(item => item.id !== id));

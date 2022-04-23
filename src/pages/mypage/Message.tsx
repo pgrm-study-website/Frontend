@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { messageDetailRead, messageRead, messageSend } from 'modules/message';
 import { RootState } from 'modules';
 import { messagesProps, sendMessageProps } from 'lib/api/message';
+import { useNavigate } from 'react-router-dom';
 
 function Message() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [select, setSelect] = useState<messagesProps>();
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
@@ -21,13 +23,14 @@ function Message() {
 
   useEffect(() => {
     if (user) {
-      user && dispatch(messageRead({ id: user.id }));
+      dispatch(messageRead({ id: user.id }));
       // if (messages) {
-      //작동이 안되는..?
       //   const sendPath = `userId=${user.id}&otherId=${messages[0].otherPersonId}`;
       //   dispatch(messageDetailRead(sendPath));
       //   setSelect(messages[0]);
       // }
+    } else {
+      navigate(`/`);
     }
   }, []);
 
