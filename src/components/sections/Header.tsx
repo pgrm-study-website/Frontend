@@ -82,7 +82,13 @@ const Header = () => {
               )}
             </Notification>
           </NotificationWrapper>
-          <AiOutlineMessage />
+          <MessageWrapper>
+            <AiOutlineMessage
+              onClick={() => {
+                navigate(`/notification`);
+              }}
+            />
+          </MessageWrapper>
           <MyInfoWrapper ref={MyInfoWrapperRef}>
             <img
               src={user.image || require('assets/images/defaultProfile.png')}
@@ -128,7 +134,7 @@ const Header = () => {
 };
 
 export default Header;
-
+const MessageWrapper = styled.div``;
 const Wrapper = styled.div`
   background-color: #4cbbc2;
   width: 100%;
