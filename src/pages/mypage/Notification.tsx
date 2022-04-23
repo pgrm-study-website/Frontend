@@ -11,7 +11,6 @@ import {
   noticeDeleteOne,
   noticeRead,
 } from '../../modules/notices';
-// type Props = {};
 
 const Notification = () => {
   const navigate = useNavigate();
@@ -25,14 +24,11 @@ const Notification = () => {
       navigate(`/`);
     }
     dispatch(noticeRead());
-    console.log(notice);
   }, []);
   const handleDelete = (id: number) => {
-    // data && setData(data.filter(item => item.id !== id));
     //삭제 데이터 서버에 전송
     dispatch(noticeDeleteOne(id));
     // dispatch(noticeRead());
-
     alert(`알림이 삭제되었습니다`);
   };
   const handleDeleteAll = () => {

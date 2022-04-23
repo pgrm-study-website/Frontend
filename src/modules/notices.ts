@@ -23,7 +23,7 @@ const NOTICE_READ_ONE_FAILURE = 'notices/NOTICE_READ_ONE_FAILURE';
 const NOTICE_DELETE = 'notices/NOTICE_DELETE';
 const NOTICE_DELETE_SUCCESS = 'notices/NOTICE_DELETE_SUCCESS';
 const NOTICE_DELETE_FAILURE = 'notices/NOTICE_DELETE_FAILURE';
-const NOTICE_DELETE_ONE = 'notices/NOTICE_DELETE';
+const NOTICE_DELETE_ONE = 'notices/NOTICE_DELETE_ONE';
 const NOTICE_DELETE_ONE_SUCCESS = 'notices/NOTICE_DELETE_ONE_SUCCESS';
 const NOTICE_DELETE_ONE_FAILURE = 'notices/NOTICE_DELETE_ONE_FAILURE';
 
@@ -200,7 +200,7 @@ const notices = createReducer(initialState, {
   [NOTICE_DELETE_ONE_SUCCESS]: (state, { payload }) => ({
     ...state,
     remove: true,
-    // notice: payload.data,
+    notice: payload.data,
   }),
   [NOTICE_DELETE_ONE_FAILURE]: (state, { payload: error }) => {
     alert('notice delete one error');
