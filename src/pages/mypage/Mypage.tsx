@@ -81,6 +81,7 @@ const Mypage = () => {
               id: read.data.id,
               nickname: read.data.nickname,
               image: read.data.image,
+              social: read.data.social,
             }),
           );
         } catch (e) {

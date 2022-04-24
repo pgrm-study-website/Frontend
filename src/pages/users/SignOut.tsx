@@ -93,7 +93,7 @@ const SignOut = () => {
     return (
       <Wrapper>
         <TitleText>회원 탈퇴</TitleText>
-        {checkPassword ? (
+        {checkPassword || user.social > 0 ? (
           <div>
             회원 탈퇴를 해도 작성한 글과 댓글은 자동으로 삭제되지 않습니다.
           </div>
@@ -115,11 +115,11 @@ const SignOut = () => {
           </InputItem>
         )}
         <div
-          onClick={checkPassword ? signout : submit}
+          onClick={checkPassword || user.social > 0 ? signout : submit}
           style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
         >
           <Button value="PwdChange" className="btn btn--grey">
-            {checkPassword ? '회원 탈퇴' : '비밀번호 확인'}
+            {checkPassword || user.social > 0 ? '회원 탈퇴' : '비밀번호 확인'}
           </Button>
         </div>
         <MypageText to={`/mypage/${user.nickname}`}>
