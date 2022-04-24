@@ -35,6 +35,7 @@ const Editor = ({ content }: { content: string }) => {
             const result = await axios.post(
               process.env.REACT_APP_API_IMAGE!,
               formData,
+              { withCredentials: true },
             );
             return result.data;
           } catch (error) {

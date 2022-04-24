@@ -81,6 +81,7 @@ const Mypage = () => {
               id: read.data.id,
               nickname: read.data.nickname,
               image: read.data.image,
+              social: read.data.social,
             }),
           );
         } catch (e) {
@@ -141,6 +142,7 @@ const Mypage = () => {
       const result = await axios.post(
         process.env.REACT_APP_API_IMAGE!,
         formData,
+        { withCredentials: true },
       );
       updateUserInfo('image', result.data);
     } catch (error) {

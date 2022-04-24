@@ -4,7 +4,7 @@ import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga from 'lib/createRequestSaga';
 import * as applicationAPI from 'lib/api/application';
 
-const INIT_COMMENT = 'application/INIT_COMMENT';
+const INIT_APPLICATION = 'application/INIT_APPLICATION';
 const LIST = 'application/LIST';
 const LIST_SUCCESS = 'application/LIST_SUCCESS';
 const LIST_FAILURE = 'application/LIST_FAILURE';
@@ -21,7 +21,7 @@ const REMOVE = 'application/REMOVE';
 const REMOVE_SUCCESS = 'application/REMOVE_SUCCESS';
 const REMOVE_FAILURE = 'application/REMOVE_FAILURE';
 
-export const initComment = createAction(INIT_COMMENT)();
+export const initApplication = createAction(INIT_APPLICATION)();
 export const list = createAction(LIST)<number>();
 export const listSuccess = createAction(LIST_SUCCESS)<any>();
 export const listFailure = createAction(LIST_FAILURE)<AxiosError>();
@@ -53,7 +53,7 @@ export function* applicationSaga() {
 }
 
 const actions = {
-  initComment,
+  initApplication,
   list,
   listSuccess,
   listFailure,
@@ -85,7 +85,7 @@ const initialState: applicationState = {
 const application = createReducer<applicationState, applicationAction>(
   initialState,
   {
-    [INIT_COMMENT]: () => initialState,
+    [INIT_APPLICATION]: () => initialState,
     [LIST_SUCCESS]: (state, { payload }) => ({
       ...state,
       list: payload.data,

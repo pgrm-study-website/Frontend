@@ -20,6 +20,7 @@ import Loading from 'components/common/Loading';
 import Error from 'components/common/Error';
 import NotFound from 'components/common/NotFound';
 import { initComment } from 'modules/posts/comments';
+import { initApplication } from 'modules/posts/application';
 
 const Read = () => {
   const navigate = useNavigate();
@@ -39,11 +40,13 @@ const Read = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(initRead());
+    dispatch(initApplication());
     dispatch(initComment());
     dispatch(read(parseInt(id!)));
     return () => {
       dispatch(initRead());
       dispatch(initComment());
+      dispatch(initApplication());
     };
   }, [dispatch]);
   useEffect(() => {
