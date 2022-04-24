@@ -1,24 +1,27 @@
+import { notificationProps } from 'lib/api/notice';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-type messageProps = {
-  id: number;
-  content: string;
-  date: string | Date;
-};
-
 export default function NotificationModal({
   data,
 }: {
-  data: Array<messageProps>;
+  data: Array<notificationProps>;
 }) {
+  console.log(data);
+
   return (
     <NotificationList>
       <Title>알림</Title>
-      {data.map(item => (
-        <NotificationItem key={item.id} item={item}></NotificationItem>
-      ))}
+      {data.length <= 3
+        ? data.map(item => (
+            <NotificationItem key={item.id} item={item}></NotificationItem>
+          ))
+        : data
+            .slice(0, 3)
+            .map(item => (
+              <NotificationItem key={item.id} item={item}></NotificationItem>
+            ))}
       <li>
         <Link to="/notification">
           <More>more</More>
@@ -27,11 +30,11 @@ export default function NotificationModal({
     </NotificationList>
   );
 }
-const NotificationItem = ({ item }: { item: messageProps }) => {
+const NotificationItem = ({ item }: { item: notificationProps }) => {
   return (
     <Item>
       <Content>{item.content}</Content>
-      <Date>{item.date}</Date>
+      {/* <Date>{item.date}</Date> */}
     </Item>
   );
 };

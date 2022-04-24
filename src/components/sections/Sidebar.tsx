@@ -17,6 +17,7 @@ import { logout } from 'modules/users';
 import styled, { css } from 'styled-components';
 
 import NotificationModal from './notification/NotificationModal';
+import { noticeRead } from 'modules/notices';
 
 const messageDummyData = [
   {
@@ -41,10 +42,18 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
-  const user = useSelector((state: RootState) => state.users.user);
   const [open, setOpen] = useState(true);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
+  const { notice, user } = useSelector((state: RootState) => ({
+    notice: state.notices.notice,
+    user: state.users.user,
+  }));
+  useEffect(() => {
+    if (user) {
+      dispatch(noticeRead());
+    }
+  }, []);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -55,6 +64,7 @@ const Sidebar = () => {
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -104,8 +114,8 @@ const Sidebar = () => {
                   notification
                 </LinkText>
                 <Notification open={notificationOpen}>
-                  {notificationOpen && (
-                    <NotificationModal data={messageDummyData} />
+                  {notificationOpen && notice && (
+                    <NotificationModal data={notice.data} />
                   )}
                 </Notification>
               </Item>
@@ -336,7 +346,7 @@ const Notification = styled.div<{ open: boolean }>`
   transition: opacity 0.15s, height 0.15s, padding 0.15s;
   opacity: ${props => (props.open ? '1' : '0')};
   width: 320px;
-  height: ${props => (props.open ? '300px' : '0')};
+  height: ${props => (props.open ? 'fit-content' : '0')};
   padding: ${props => (props.open ? '15px' : '0')};
   box-shadow: 2px 2px 2px black;
 `;

@@ -7,24 +7,7 @@ import { logout } from 'modules/users';
 import styled from 'styled-components';
 import { AiOutlineMessage } from 'react-icons/ai';
 import NotificationModal from './notification/NotificationModal';
-
-const messageDummyData = [
-  {
-    id: 10,
-    content: '000에 댓글이 달렸습니다',
-    date: '2022.03.30',
-  },
-  {
-    id: 11,
-    date: '2022.03.30',
-    content: '000 스터디에 가입이 되었습니다',
-  },
-  {
-    id: 12,
-    date: '2022.03.30',
-    content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
-  },
-];
+import { noticeRead } from 'modules/notices';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -32,10 +15,17 @@ const Header = () => {
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
   const MyInfoWrapperRef = useRef<HTMLDivElement>(null);
-  const user = useSelector((state: RootState) => state.users.user);
+  const { notice, user } = useSelector((state: RootState) => ({
+    notice: state.notices.notice,
+    user: state.users.user,
+  }));
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [myInfoOpen, setMyInfoOpen] = useState(false);
-
+  useEffect(() => {
+    if (user) {
+      dispatch(noticeRead());
+    }
+  }, []);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -77,8 +67,8 @@ const Header = () => {
               onClick={() => setNotificationOpen(!notificationOpen)}
             />
             <Notification open={notificationOpen}>
-              {notificationOpen && (
-                <NotificationModal data={messageDummyData} />
+              {notificationOpen && notice && (
+                <NotificationModal data={notice.data} />
               )}
             </Notification>
           </NotificationWrapper>
@@ -190,11 +180,11 @@ const Notification = styled.div<{ open: boolean }>`
   right: -50px;
   height: fit-content;
   color: #242424;
-  font-size: 18px;
+  font-size: 15px;
   transition: opacity 0.15s, height 0.15s, padding 0.15s;
   opacity: ${props => (props.open ? '1' : '0')};
   width: 300px;
-  height: ${props => (props.open ? '300px' : '0')};
+  height: ${props => (props.open ? 'fit-content' : '0')};
   padding: ${props => (props.open ? '15px' : '0')};
   box-shadow: 2px 2px 2px black;
 `;
