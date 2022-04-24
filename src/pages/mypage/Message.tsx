@@ -65,7 +65,10 @@ function Message() {
           {messages &&
             messages.map((item, idx) => (
               <MessageItem key={idx} onClick={() => handleSelect(item)}>
-                <MessageItemName> {item.otherPersonNickname}</MessageItemName>
+                <MessageItemName>
+                  {/* id는 테스트를 위해 넣어두었습니다.  */}
+                  {item.otherPersonNickname} / {item.otherPersonId}
+                </MessageItemName>
                 <div> {item.content}</div>
               </MessageItem>
             ))}
