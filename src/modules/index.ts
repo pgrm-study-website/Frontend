@@ -8,7 +8,7 @@ import writePosts, { writePostsSaga } from 'modules/posts/writePosts';
 import readPosts, { readPostsSaga } from 'modules/posts/readPosts';
 import comments, { commentsSaga } from 'modules/posts/comments';
 import application, { applicationSaga } from 'modules/posts/application';
-import notices from 'modules/notices';
+import notices, { noticesSaga } from 'modules/notices';
 import messages, { messageDetail, messagesSaga } from './message';
 
 const rootReducer = combineReducers({
@@ -33,6 +33,7 @@ export function* rootSaga() {
     commentsSaga(),
     applicationSaga(),
     messagesSaga(),
+    noticesSaga(),
   ]);
 }
 

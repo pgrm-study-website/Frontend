@@ -9,38 +9,31 @@ import { useNavigate } from 'react-router-dom';
 import {
   noticeDelete,
   noticeDeleteOne,
-  noticeDeleteOneSuccess,
   noticeRead,
-  noticeReadSuccess,
-  noticesState,
 } from '../../modules/notices';
-// type Props = {};
 
 const Notification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [data, setData] = useState<Array<notificationProps>>();
-  const { notice } = useSelector((state: RootState) => ({
+  const { notice, user } = useSelector((state: RootState) => ({
     notice: state.notices.notice,
+    user: state.users.user,
   }));
   useEffect(() => {
-    // dispatch(noticeRead()); //이걸 쓰고 성공하면 밑의 것이 자동으로 실행 되는 것인가?  reduc saga?
-    dispatch(noticeRead());
-    if (notice) {
-      setData(notice);
+    if (!user) {
+      navigate(`/`);
     }
-  }, [data, notice]);
-
+    dispatch(noticeRead());
+  }, []);
   const handleDelete = (id: number) => {
-    data && setData(data.filter(item => item.id !== id));
-
     //삭제 데이터 서버에 전송
-    const log = dispatch(noticeDeleteOne(id));
-    console.log(log);
+    dispatch(noticeDeleteOne(id));
+    // dispatch(noticeRead());
     alert(`알림이 삭제되었습니다`);
   };
   const handleDeleteAll = () => {
     dispatch(noticeDelete());
+    alert(`알림이 전체 삭제되었습니다`);
   };
   return (
     <Wrapper>
@@ -49,22 +42,20 @@ const Notification = () => {
         <button onClick={() => handleDeleteAll()}>알림 전체 삭제</button>
       </Title>
       <Container>
-        {data &&
-          data.map(i => (
-            <NotificationItem key={i.content}>
-              {/* <ContentImg></ContentImg> */}
-              <div>
-                <Content>{i.content}</Content>
+        {notice &&
+          notice.data.map((item: any) => (
+            <NotificationItem key={item.id}>
+              <Content>{item.content}</Content>
+              {/* 
+                  // 지금은 데이터가 없으므로 미구현
                 <SubContent>
                   <Name>{i.user_id}</Name> |{' '}
                   <div>
                     {i.create_date && i.create_date.toLocaleDateString()}
                   </div>
-                </SubContent>
-              </div>
-
-              <DeleteBtn onClick={() => handleDelete(i.id)}>
-                {/* <MdOutlineCancel /> */}X
+                </SubContent> */}
+              <DeleteBtn onClick={() => handleDelete(item.id)}>
+                <MdOutlineCancel />
               </DeleteBtn>
             </NotificationItem>
           ))}
@@ -81,8 +72,8 @@ const ContentImg = styled.div`
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
-  font-size: 15px;
-  top: 15px;
+  font-size: 25px;
+  top: 20px;
   right: 20px;
 `;
 const Title = styled.h2`
