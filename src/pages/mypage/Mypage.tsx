@@ -177,7 +177,6 @@ const Mypage = () => {
 
   const handleMessageSend = () => {
     if (user && read && read.data) {
-      console.log(user, read.data.id, sendMessageContent);
       const obj: sendMessageProps = {
         userId: user.id.toString(),
         otherId: read.data.id.toString(),
@@ -185,7 +184,7 @@ const Mypage = () => {
       };
       dispatch(messageSend(obj));
     }
-    // setSendMessageContent('');
+    setSendMessageContent('');
   };
 
   if (!read.data && !read.error) {

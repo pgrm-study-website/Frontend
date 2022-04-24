@@ -24,11 +24,6 @@ function Message() {
   useEffect(() => {
     if (user) {
       dispatch(messageRead({ id: user.id }));
-      // if (messages) {
-      //   const sendPath = `userId=${user.id}&otherId=${messages[0].otherPersonId}`;
-      //   dispatch(messageDetailRead(sendPath));
-      //   setSelect(messages[0]);
-      // }
     } else {
       navigate(`/`);
     }

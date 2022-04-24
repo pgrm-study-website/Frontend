@@ -10,8 +10,6 @@ export default function NotificationModal({
   data: Array<notificationProps>;
   close: (arg: boolean) => void;
 }) {
-  console.log(data);
-
   return (
     <NotificationList>
       {data.length === 0 ? <Title>알림이 없습니다</Title> : <Title>알림</Title>}
@@ -35,8 +33,6 @@ export default function NotificationModal({
   );
 }
 const NotificationItem = ({ item }: { item: notificationProps }) => {
-  console.log(item);
-
   return (
     <Item>
       <Content>{item.content}</Content>
