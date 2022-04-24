@@ -1,37 +1,44 @@
+import { notificationProps } from 'lib/api/notice';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-type messageProps = {
-  id: number;
-  content: string;
-  date: string | Date;
-};
 
 export default function NotificationModal({
   data,
+  close,
 }: {
-  data: Array<messageProps>;
+  data: Array<notificationProps>;
+  close: (arg: boolean) => void;
 }) {
   return (
     <NotificationList>
-      <Title>알림</Title>
-      {data.map(item => (
-        <NotificationItem key={item.id} item={item}></NotificationItem>
-      ))}
-      <li>
-        <Link to="/notification">
-          <More>more</More>
-        </Link>
-      </li>
+      {data.length === 0 ? <Title>알림이 없습니다</Title> : <Title>알림</Title>}
+      {data.length <= 3
+        ? data.map(item => (
+            <NotificationItem key={item.id} item={item}></NotificationItem>
+          ))
+        : data
+            .slice(0, 3)
+            .map(item => (
+              <NotificationItem key={item.id} item={item}></NotificationItem>
+            ))}
+      {data.length !== 0 && (
+        <li>
+          <Link to="/notification">
+            <More onClick={() => close(false)}>more</More>
+          </Link>
+        </li>
+      )}
     </NotificationList>
   );
 }
-const NotificationItem = ({ item }: { item: messageProps }) => {
+const NotificationItem = ({ item }: { item: notificationProps }) => {
+  const navigate = useNavigate();
+
   return (
     <Item>
-      <Content>{item.content}</Content>
-      <Date>{item.date}</Date>
+      <Content onClick={() => navigate(item.url)}>{item.content}</Content>
+      <Date>{item.createDate.split('T')[0]}</Date>
     </Item>
   );
 };
@@ -50,7 +57,6 @@ const Item = styled.li`
   padding: 15px 0;
   text-align: left;
   border-bottom: 0.5px solid #ababab;
-
   &:last-child {
     border: none;
   }
@@ -64,6 +70,7 @@ const Content = styled.div`
 `;
 const Date = styled.div`
   margin-top: 10px;
+  margin-left: 5px;
   color: #505050;
-  font-size: 12px;
+  font-size: 15px;
 `;

@@ -12,16 +12,10 @@ export type notificationProps = {
   id: number;
   content: string;
   url: string;
+  createDate: string;
+  type: 'apply' | 'accept' | 'reject' | 'comment' | 'recomment' | 'message';
   user_id?: number;
-  notification_type?:
-    | 'apply'
-    | 'accept'
-    | 'reject'
-    | 'comment'
-    | 'recomment'
-    | 'message';
   is_read?: boolean;
-  create_date?: Date;
   update_date?: Date;
   image?: string;
 };

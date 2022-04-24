@@ -4,12 +4,23 @@ import { AiOutlineHome } from 'react-icons/ai';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import styled from 'styled-components';
 import { read } from 'lib/api/users';
+import MessageModal from './MessageModal';
+import { sendMessageProps } from 'lib/api/message';
+import { RootState } from 'modules';
+import { useDispatch, useSelector } from 'react-redux';
+import { messageSend } from 'modules/message';
 
 const UserInfo = ({ userId }: { userId: number }) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+
   const [info, setInfo] = useState<any>(null);
   const [popUp, setPopUp] = useState(false);
-
+  const [sendMessageContent, setSendMessageContent] = useState<string>('');
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { user } = useSelector(({ users }: RootState) => ({
+    user: users.user,
+  }));
   useEffect(() => {
     const loadData = async () => {
       let infoResponse;
@@ -36,6 +47,25 @@ const UserInfo = ({ userId }: { userId: number }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [WrapperRef]);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const handleMessageSend = () => {
+    if (user && info) {
+      const obj: sendMessageProps = {
+        userId: user.id.toString(),
+        otherId: info.id.toString(),
+        content: sendMessageContent,
+      };
+      dispatch(messageSend(obj));
+      setSendMessageContent('');
+      closeModal();
+      alert(`${info.nickname as string}님에게 메시지를 보냈습니다. `);
+    }
+  };
 
   return (
     <Wrapper ref={WrapperRef}>
@@ -54,10 +84,22 @@ const UserInfo = ({ userId }: { userId: number }) => {
           <Link to={`/mypage/${info ? (info.nickname as string) : ''}`}>
             <AiOutlineHome />
           </Link>
-          <Link to="/message">
-            <BiMessageAltDetail />
-          </Link>
+          {user && user.id !== userId && (
+            <div onClick={openModal}>
+              <BiMessageAltDetail />
+            </div>
+          )}
         </PopupWrapper>
+      )}
+      {info && modalOpen && (
+        <MessageModal
+          open={modalOpen}
+          close={closeModal}
+          nickname={info.nickname}
+          handleMessageSend={handleMessageSend}
+          sendMessageContent={sendMessageContent}
+          setSendMessageContent={setSendMessageContent}
+        ></MessageModal>
       )}
     </Wrapper>
   );

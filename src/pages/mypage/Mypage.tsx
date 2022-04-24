@@ -22,6 +22,9 @@ import PostTagB from 'components/posts/PostTagB';
 import PostItem from 'components/posts/PostItem';
 import Loading from 'components/common/Loading';
 import NotFound from 'components/common/NotFound';
+import MessageModal from '../../components/common/MessageModal';
+import { sendMessageProps } from 'lib/api/message';
+import { messageSend } from 'modules/message';
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -38,6 +41,8 @@ const Mypage = () => {
   const { nickname } = useParams();
   const [edit, setEdit] = useState<any>({ key: null, value: null });
   const [tagInput, setTagInput] = useState('');
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [sendMessageContent, setSendMessageContent] = useState<string>('');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -104,7 +109,12 @@ const Mypage = () => {
       );
     }
   }, [update]);
-
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const updateUserInfo = (key: string, value: any) => {
     if (key === 'nickname' && (value.length < 2 || value.length > 8)) {
       alert('닉네임을 2~8자로 설정해주세요.');
@@ -162,6 +172,21 @@ const Mypage = () => {
   };
   const removeTag = (i: string) => {
     setEdit({ ...edit, value: edit.value.filter((j: string) => i !== j) });
+  };
+  //메시지 보내기
+
+  const handleMessageSend = () => {
+    if (user && read && read.data) {
+      const obj: sendMessageProps = {
+        userId: user.id.toString(),
+        otherId: read.data.id.toString(),
+        content: sendMessageContent,
+      };
+      dispatch(messageSend(obj));
+      setSendMessageContent('');
+      closeModal();
+      alert(`${read.data.nickname}님에게 메시지를 보냈습니다. `);
+    }
   };
 
   if (!read.data && !read.error) {
@@ -386,7 +411,21 @@ const Mypage = () => {
         )}
 
         {user && user.nickname !== nickname && (
-          <MessageButton>메시지 보내기(본인은안보임)</MessageButton>
+          <>
+            <MessageButton onClick={openModal}>
+              메시지 보내기(본인은안보임)
+            </MessageButton>
+            {nickname && (
+              <MessageModal
+                open={modalOpen}
+                close={closeModal}
+                nickname={nickname}
+                handleMessageSend={handleMessageSend}
+                sendMessageContent={sendMessageContent}
+                setSendMessageContent={setSendMessageContent}
+              ></MessageModal>
+            )}
+          </>
         )}
 
         {user && user.nickname === nickname && (

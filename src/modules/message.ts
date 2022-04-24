@@ -34,7 +34,7 @@ export const messageDetailReadFailure = createAction(
   MESSAGE_DETAIL_READ_FAILURE,
 )<AxiosError>();
 
-export const messageDeleteAll = createAction(MESSAGE_DELETE_ALL)();
+export const messageDeleteAll = createAction(MESSAGE_DELETE_ALL)<string>();
 export const messageDeleteAllSuccess = createAction(
   MESSAGE_DELETE_ALL_SUCCESS,
 )<any>();
@@ -78,41 +78,6 @@ export function* messagesSaga() {
   yield takeLatest(MESSAGE_DELETE_ONE, removeOneSaga);
   yield takeLatest(MESSAGE_SEND, sendSaga);
 }
-
-const messageUserListTestData: Array<messageAPI.messagesProps> = [
-  {
-    otherPersonId: 3,
-    otherPersonNickname: `other3`,
-    content: 'this is message',
-    createDate: new Date(),
-  },
-  {
-    otherPersonId: 5,
-    otherPersonNickname: 'other555',
-    content: 'this is new 5  message',
-    createDate: new Date(),
-  },
-  {
-    otherPersonId: 6,
-    otherPersonNickname: 'other666',
-    content: 'this is message new 6',
-    createDate: new Date(),
-  },
-];
-const sendTestDataList: Array<messageAPI.messagesDetailProps> = [
-  {
-    messageId: 5,
-    type: 'send',
-    content: '5에게 보내는 메세지',
-    createDate: new Date(),
-  },
-  {
-    messageId: 5,
-    type: 'receive',
-    content: '5가 보내는 메세지',
-    createDate: new Date(),
-  },
-];
 
 const actions = {
   messageRead,
@@ -181,7 +146,6 @@ export const messageDetail = createReducer(initialMessageDetailState, {
   [MESSAGE_DETAIL_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     messageDetail: payload.data,
-    // messageDetail: sendTestDataList,
   }),
   [MESSAGE_DETAIL_READ_FAILURE]: (state, { payload: error }) => {
     // alert('message reading error');
@@ -190,7 +154,6 @@ export const messageDetail = createReducer(initialMessageDetailState, {
     return {
       ...state,
       error,
-      messageDetail: sendTestDataList,
     };
   },
   [MESSAGE_DELETE_ALL]: (state, { payload }) => ({
@@ -201,7 +164,6 @@ export const messageDetail = createReducer(initialMessageDetailState, {
     ...state,
     remove: true,
     messageDetail: payload.data,
-    // messageDetail: sendTestDataList,
   }),
   [MESSAGE_DELETE_ALL_FAILURE]: (state, { payload: error }) => {
     alert('message delete error');
