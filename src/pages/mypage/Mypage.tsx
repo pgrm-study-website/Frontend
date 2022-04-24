@@ -183,8 +183,10 @@ const Mypage = () => {
         content: sendMessageContent,
       };
       dispatch(messageSend(obj));
+      setSendMessageContent('');
+      closeModal();
+      alert(`${read.data.nickname}님에게 메시지를 보냈습니다. `);
     }
-    setSendMessageContent('');
   };
 
   if (!read.data && !read.error) {
