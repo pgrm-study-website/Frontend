@@ -59,6 +59,7 @@ export type simpleResponseType = {
   id: number;
   nickname: string;
   image: string;
+  social: number;
 };
 export type readRequestType = {
   data: number | string;
@@ -72,6 +73,7 @@ export type readResponseType = {
   introduce: string;
   github: string;
   tagsList: string[];
+  social: number;
 };
 export type updateRequestType = {
   id: number;
