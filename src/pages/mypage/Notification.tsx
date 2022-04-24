@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { MdOutlineCancel } from 'react-icons/md';
+import { BsX } from 'react-icons/bs';
+import { AiOutlineArrowRight } from 'react-icons/ai';
 import { RootState } from 'modules';
 import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,9 +36,7 @@ const Notification = () => {
     dispatch(noticeDelete());
     alert(`알림이 전체 삭제되었습니다`);
   };
-  const handleClick = (url: string) => {
-    navigate(url);
-  };
+
   return (
     <Wrapper>
       <Title>
@@ -47,16 +46,16 @@ const Notification = () => {
       <Container>
         {notice &&
           notice.data.map((item: any) => (
-            <NotificationItem key={item.id} onClick={() => navigate(item.url)}>
+            <NotificationItem key={item.id}>
               <Content>{item.content}</Content>
-
-              {/* // 지금은 데이터가 없으므로 미구현 */}
               <SubContent>
-                {/* <Name>{i.user_id}</Name> |{' '} */}
                 <div>{item.createDate.split('T')[0]}</div>
               </SubContent>
+              <NavigateBtn onClick={() => navigate(item.url)}>
+                <AiOutlineArrowRight />
+              </NavigateBtn>
               <DeleteBtn onClick={() => handleDelete(item.id)}>
-                <MdOutlineCancel />
+                <BsX />
               </DeleteBtn>
             </NotificationItem>
           ))}
@@ -76,6 +75,15 @@ const DeleteBtn = styled.div`
   font-size: 25px;
   top: 20px;
   right: 20px;
+  cursor: pointer;
+`;
+const NavigateBtn = styled.div`
+  position: absolute;
+  color: #454545;
+  font-size: 19px;
+  top: 23px;
+  cursor: pointer;
+  right: 48px;
 `;
 const Title = styled.h2`
   font-size: 30px;

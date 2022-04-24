@@ -64,6 +64,7 @@ const Header = () => {
         <IconContainer>
           <NotificationWrapper ref={NotificationWrapperRef}>
             <IoIosNotifications
+              className="navigationItem"
               onClick={() => setNotificationOpen(!notificationOpen)}
             />
             <Notification open={notificationOpen}>
@@ -77,12 +78,13 @@ const Header = () => {
           </NotificationWrapper>
           <MessageWrapper>
             <AiOutlineMessage
+              className="navigationItem"
               onClick={() => {
                 navigate(`/notification`);
               }}
             />
           </MessageWrapper>
-          <MyInfoWrapper ref={MyInfoWrapperRef}>
+          <MyInfoWrapper ref={MyInfoWrapperRef} className="navigationItem">
             <img
               src={user.image || require('assets/images/defaultProfile.png')}
               alt="profile"
@@ -137,7 +139,9 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 0 20px;
   justify-content: space-between;
-
+  .navigationItem {
+    cursor: pointer;
+  }
   @media all and (max-width: 900px) {
     display: flex;
     position: fixed;

@@ -53,7 +53,7 @@ const Sidebar = () => {
     if (user) {
       dispatch(noticeRead());
     }
-  }, []);
+  }, [notificationOpen]);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
