@@ -23,7 +23,7 @@ const MessageModal = ({
       {open ? (
         <section>
           <header>
-            {`${nickname}님 에게 메시지 보내기`}
+            {`${nickname}님에게 메시지 보내기`}
             <button className="close" onClick={close}>
               &times;
             </button>
@@ -34,17 +34,36 @@ const MessageModal = ({
               onChange={e => setSendMessageContent(e.target.value)}
             ></SendArea>
           </main>
-          <footer>
+          <ModalFooter>
             <button onClick={handleMessageSend}>send</button>
             <button onClick={close}>close</button>
-          </footer>
+          </ModalFooter>
         </section>
       ) : null}
     </Wrapper>
   );
 };
 export default MessageModal;
-const SendArea = styled.textarea``;
+const ModalFooter = styled.footer`
+  padding: 12px 16px;
+  text-align: right;
+
+  button {
+    padding: 6px 12px;
+    margin-left: 10px;
+    color: #fff;
+    background-color: #6c757d;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+`;
+
+const SendArea = styled.textarea`
+  width: 100%;
+  border: 1px solid #a4a4a4;
+  border-radius: 5px;
+  min-height: 80px;
+`;
 const Wrapper = styled.div`
   display: none;
   position: fixed;
@@ -91,17 +110,9 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #dee2e6;
     border-top: 1px solid #dee2e6;
   }
-  & > section > footer {
-    padding: 12px 16px;
-    text-align: right;
-  }
-  & > section > footer button {
-    padding: 6px 12px;
-    color: #fff;
-    background-color: #6c757d;
-    border-radius: 5px;
-    font-size: 13px;
-  }
+  /* & > section > footer {
+  
+  } */
   &.openModal {
     display: flex;
     align-items: center;
@@ -127,6 +138,3 @@ const Wrapper = styled.div`
     }
   }
 `;
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}
