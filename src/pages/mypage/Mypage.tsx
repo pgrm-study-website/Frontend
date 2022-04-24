@@ -142,6 +142,7 @@ const Mypage = () => {
       const result = await axios.post(
         process.env.REACT_APP_API_IMAGE!,
         formData,
+        { withCredentials: true },
       );
       updateUserInfo('image', result.data);
     } catch (error) {
