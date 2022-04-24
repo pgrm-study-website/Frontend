@@ -72,9 +72,10 @@ function Message() {
     <Wrapper>
       <MessageListContainer>
         <Title>쪽지함</Title>
-        <MessageList>
-          {messages &&
-            messages.map((item, idx) => (
+
+        {messages && messages.length !== 0 ? (
+          <MessageList>
+            {messages.map((item, idx) => (
               <MessageItem key={idx} onClick={() => handleSelect(item)}>
                 <MessageItemName>
                   {/* id는 테스트를 위해 넣어두었습니다.  */}
@@ -83,7 +84,10 @@ function Message() {
                 <div> {item.content}</div>
               </MessageItem>
             ))}
-        </MessageList>
+          </MessageList>
+        ) : (
+          <NonMessage>메시지가 없습니다. </NonMessage>
+        )}
       </MessageListContainer>
       <CurrentContent>
         {detail && select && (
@@ -126,6 +130,9 @@ function Message() {
     </Wrapper>
   );
 }
+const NonMessage = styled.div`
+  margin: 20px 0;
+`;
 const MessageDeleteBtn = styled(AiOutlineDelete)`
   position: absolute;
   right: 0;
