@@ -43,6 +43,8 @@ function Message() {
         content: sendMessageContent,
       };
       dispatch(messageSend(objtest));
+      alert(`메시지를 전송하였습니다.  `);
+      dispatch(messageRead({ id: user.id }));
     }
     //초기화
     setSendMessageContent('');
@@ -76,7 +78,11 @@ function Message() {
         {messages && messages.length !== 0 ? (
           <MessageList>
             {messages.map((item, idx) => (
-              <MessageItem key={idx} onClick={() => handleSelect(item)}>
+              <MessageItem
+                key={idx}
+                onClick={() => handleSelect(item)}
+                className="pointer"
+              >
                 <MessageItemName>{item.otherPersonNickname}</MessageItemName>
                 <div> {item.content}</div>
               </MessageItem>
@@ -184,10 +190,11 @@ const MessageList = styled.ul`
 `;
 const MessageItem = styled.li`
   width: 100%;
-  /* height: 60px; */
   padding: 10px;
   box-sizing: border-box;
-  cursor: pointer;
+  &.pointer {
+    cursor: pointer;
+  }
   &.select {
     background-color: #4cbbc2;
     color: #fff;
