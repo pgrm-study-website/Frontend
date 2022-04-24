@@ -84,9 +84,11 @@ const UserInfo = ({ userId }: { userId: number }) => {
           <Link to={`/mypage/${info ? (info.nickname as string) : ''}`}>
             <AiOutlineHome />
           </Link>
-          <div onClick={openModal}>
-            <BiMessageAltDetail />
-          </div>
+          {user && user.id !== userId && (
+            <div onClick={openModal}>
+              <BiMessageAltDetail />
+            </div>
+          )}
         </PopupWrapper>
       )}
       {info && modalOpen && (
