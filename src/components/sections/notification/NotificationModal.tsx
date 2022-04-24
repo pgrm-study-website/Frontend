@@ -1,6 +1,6 @@
 import { notificationProps } from 'lib/api/notice';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default function NotificationModal({
@@ -33,9 +33,11 @@ export default function NotificationModal({
   );
 }
 const NotificationItem = ({ item }: { item: notificationProps }) => {
+  const navigate = useNavigate();
+
   return (
     <Item>
-      <Content>{item.content}</Content>
+      <Content onClick={() => navigate(item.url)}>{item.content}</Content>
       <Date>{item.createDate.split('T')[0]}</Date>
     </Item>
   );
