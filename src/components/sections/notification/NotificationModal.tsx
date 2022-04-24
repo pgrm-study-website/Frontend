@@ -35,10 +35,12 @@ export default function NotificationModal({
   );
 }
 const NotificationItem = ({ item }: { item: notificationProps }) => {
+  console.log(item);
+
   return (
     <Item>
       <Content>{item.content}</Content>
-      {/* <Date>{item.date}</Date> */}
+      <Date>{item.createDate.split('T')[0]}</Date>
     </Item>
   );
 };
@@ -57,7 +59,6 @@ const Item = styled.li`
   padding: 15px 0;
   text-align: left;
   border-bottom: 0.5px solid #ababab;
-
   &:last-child {
     border: none;
   }
@@ -71,6 +72,7 @@ const Content = styled.div`
 `;
 const Date = styled.div`
   margin-top: 10px;
+  margin-left: 5px;
   color: #505050;
-  font-size: 12px;
+  font-size: 15px;
 `;

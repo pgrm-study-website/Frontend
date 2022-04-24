@@ -35,6 +35,9 @@ const Notification = () => {
     dispatch(noticeDelete());
     alert(`알림이 전체 삭제되었습니다`);
   };
+  const handleClick = (url: string) => {
+    navigate(url);
+  };
   return (
     <Wrapper>
       <Title>
@@ -44,16 +47,14 @@ const Notification = () => {
       <Container>
         {notice &&
           notice.data.map((item: any) => (
-            <NotificationItem key={item.id}>
+            <NotificationItem key={item.id} onClick={() => navigate(item.url)}>
               <Content>{item.content}</Content>
-              {/* 
-                  // 지금은 데이터가 없으므로 미구현
-                <SubContent>
-                  <Name>{i.user_id}</Name> |{' '}
-                  <div>
-                    {i.create_date && i.create_date.toLocaleDateString()}
-                  </div>
-                </SubContent> */}
+
+              {/* // 지금은 데이터가 없으므로 미구현 */}
+              <SubContent>
+                {/* <Name>{i.user_id}</Name> |{' '} */}
+                <div>{item.createDate.split('T')[0]}</div>
+              </SubContent>
               <DeleteBtn onClick={() => handleDelete(item.id)}>
                 <MdOutlineCancel />
               </DeleteBtn>
@@ -102,7 +103,8 @@ const NotificationItem = styled.div`
   background-color: #fff;
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
 `;
 const SubContent = styled.div`
   display: flex;
