@@ -77,10 +77,7 @@ function Message() {
           <MessageList>
             {messages.map((item, idx) => (
               <MessageItem key={idx} onClick={() => handleSelect(item)}>
-                <MessageItemName>
-                  {/* id는 테스트를 위해 넣어두었습니다.  */}
-                  {item.otherPersonNickname} / {item.otherPersonId}
-                </MessageItemName>
+                <MessageItemName>{item.otherPersonNickname}</MessageItemName>
                 <div> {item.content}</div>
               </MessageItem>
             ))}
@@ -182,15 +179,15 @@ const SendUser = styled.div<{ sendOther: string }>`
 `;
 const MessageList = styled.ul`
   overflow-y: scroll;
-  /* margin-top: 20px; */
   margin: 20px 0;
   height: fit-content;
 `;
 const MessageItem = styled.li`
   width: 100%;
-  height: 60px;
+  /* height: 60px; */
   padding: 10px;
   box-sizing: border-box;
+  cursor: pointer;
   &.select {
     background-color: #4cbbc2;
     color: #fff;
