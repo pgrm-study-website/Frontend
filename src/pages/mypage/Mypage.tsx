@@ -22,7 +22,7 @@ import PostTagB from 'components/posts/PostTagB';
 import PostItem from 'components/posts/PostItem';
 import Loading from 'components/common/Loading';
 import NotFound from 'components/common/NotFound';
-import MessageModal from './MessageModal';
+import MessageModal from '../../components/common/MessageModal';
 import { sendMessageProps } from 'lib/api/message';
 import { messageSend } from 'modules/message';
 
