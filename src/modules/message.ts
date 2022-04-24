@@ -34,7 +34,7 @@ export const messageDetailReadFailure = createAction(
   MESSAGE_DETAIL_READ_FAILURE,
 )<AxiosError>();
 
-export const messageDeleteAll = createAction(MESSAGE_DELETE_ALL)();
+export const messageDeleteAll = createAction(MESSAGE_DELETE_ALL)<string>();
 export const messageDeleteAllSuccess = createAction(
   MESSAGE_DELETE_ALL_SUCCESS,
 )<any>();

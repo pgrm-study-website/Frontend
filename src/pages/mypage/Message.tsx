@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FiSend } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { messageDetailRead, messageRead, messageSend } from 'modules/message';
+import {
+  messageDeleteAll,
+  messageDetailRead,
+  messageRead,
+  messageSend,
+} from 'modules/message';
 import { RootState } from 'modules';
 import { messagesProps, sendMessageProps } from 'lib/api/message';
 import { useNavigate } from 'react-router-dom';
-
+import { FiSend } from 'react-icons/fi';
+import { AiOutlineDelete } from 'react-icons/ai';
 function Message() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,6 +25,7 @@ function Message() {
       detail: messageDetail.messageDetail,
     }),
   );
+  console.log('select', select);
 
   useEffect(() => {
     if (user) {
@@ -51,7 +57,17 @@ function Message() {
       dispatch(messageDetailRead(sendParam));
     }
   };
+  const handleMessageDelete = (id: number) => {
+    if (user) {
+      const param = `userId=${user.id}&otherId=${id}`;
+      console.log(param);
 
+      dispatch(messageDeleteAll(param));
+      alert(`전체 메시지를 삭제하였습니다. `);
+      navigate('/message');
+      dispatch(messageRead({ id: user.id }));
+    }
+  };
   return (
     <Wrapper>
       <MessageListContainer>
@@ -70,9 +86,14 @@ function Message() {
         </MessageList>
       </MessageListContainer>
       <CurrentContent>
-        {detail && (
+        {detail && select && (
           <>
-            <MessageOtherName>{}</MessageOtherName>
+            <MessageOtherName>
+              <div> {select.otherPersonNickname}</div>
+              <MessageDeleteBtn
+                onClick={() => handleMessageDelete(select.otherPersonId)}
+              ></MessageDeleteBtn>
+            </MessageOtherName>
             <ContentContainer>
               <MessageList>
                 {detail.map((i, idx) => (
@@ -105,6 +126,12 @@ function Message() {
     </Wrapper>
   );
 }
+const MessageDeleteBtn = styled(AiOutlineDelete)`
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+`;
 const Title = styled.div`
   font-size: 20px;
   font-weight: 700;
@@ -139,6 +166,7 @@ const SendMessageContainer = styled.div`
 const MessageOtherName = styled.div`
   font-weight: 700;
   font-size: 20px;
+  position: relative;
 `;
 const SendUser = styled.div<{ sendOther: string }>`
   color: ${props => (props.sendOther === 'send' ? ' #ffc963' : '#4cbbc2')};
@@ -147,7 +175,8 @@ const SendUser = styled.div<{ sendOther: string }>`
 `;
 const MessageList = styled.ul`
   overflow-y: scroll;
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  margin: 20px 0;
   height: fit-content;
 `;
 const MessageItem = styled.li`
