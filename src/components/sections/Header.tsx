@@ -68,7 +68,10 @@ const Header = () => {
             />
             <Notification open={notificationOpen}>
               {notificationOpen && notice && (
-                <NotificationModal data={notice.data} />
+                <NotificationModal
+                  data={notice.data}
+                  close={setNotificationOpen}
+                />
               )}
             </Notification>
           </NotificationWrapper>

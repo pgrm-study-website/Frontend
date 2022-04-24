@@ -115,7 +115,10 @@ const Sidebar = () => {
                 </LinkText>
                 <Notification open={notificationOpen}>
                   {notificationOpen && notice && (
-                    <NotificationModal data={notice.data} />
+                    <NotificationModal
+                      data={notice.data}
+                      close={setNotificationOpen}
+                    />
                   )}
                 </Notification>
               </Item>

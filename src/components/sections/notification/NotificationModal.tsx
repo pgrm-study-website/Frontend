@@ -5,14 +5,16 @@ import styled from 'styled-components';
 
 export default function NotificationModal({
   data,
+  close,
 }: {
   data: Array<notificationProps>;
+  close: (arg: boolean) => void;
 }) {
   console.log(data);
 
   return (
     <NotificationList>
-      <Title>알림</Title>
+      {data.length === 0 ? <Title>알림이 없습니다</Title> : <Title>알림</Title>}
       {data.length <= 3
         ? data.map(item => (
             <NotificationItem key={item.id} item={item}></NotificationItem>
@@ -22,11 +24,13 @@ export default function NotificationModal({
             .map(item => (
               <NotificationItem key={item.id} item={item}></NotificationItem>
             ))}
-      <li>
-        <Link to="/notification">
-          <More>more</More>
-        </Link>
-      </li>
+      {data.length !== 0 && (
+        <li>
+          <Link to="/notification">
+            <More onClick={() => close(false)}>more</More>
+          </Link>
+        </li>
+      )}
     </NotificationList>
   );
 }
