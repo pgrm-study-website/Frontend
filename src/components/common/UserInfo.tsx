@@ -7,10 +7,13 @@ import { read } from 'lib/api/users';
 import MessageModal from './MessageModal';
 import { sendMessageProps } from 'lib/api/message';
 import { RootState } from 'modules';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { messageSend } from 'modules/message';
 
 const UserInfo = ({ userId }: { userId: number }) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+
   const [info, setInfo] = useState<any>(null);
   const [popUp, setPopUp] = useState(false);
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
@@ -44,10 +47,13 @@ const UserInfo = ({ userId }: { userId: number }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [WrapperRef]);
-
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const handleMessageSend = () => {
-    console.log(user, info);
-
     if (user && info) {
       const obj: sendMessageProps = {
         userId: user.id.toString(),
@@ -78,22 +84,20 @@ const UserInfo = ({ userId }: { userId: number }) => {
           <Link to={`/mypage/${info ? (info.nickname as string) : ''}`}>
             <AiOutlineHome />
           </Link>
-          <div onClick={() => setModalOpen(true)}>
+          <div onClick={openModal}>
             <BiMessageAltDetail />
-            {info && (
-              <MessageModal
-                open={modalOpen}
-                close={() => {
-                  setModalOpen(false);
-                }}
-                nickname={info.nickname}
-                handleMessageSend={handleMessageSend}
-                sendMessageContent={sendMessageContent}
-                setSendMessageContent={setSendMessageContent}
-              ></MessageModal>
-            )}
           </div>
         </PopupWrapper>
+      )}
+      {info && modalOpen && (
+        <MessageModal
+          open={modalOpen}
+          close={closeModal}
+          nickname={info.nickname}
+          handleMessageSend={handleMessageSend}
+          sendMessageContent={sendMessageContent}
+          setSendMessageContent={setSendMessageContent}
+        ></MessageModal>
       )}
     </Wrapper>
   );
@@ -167,14 +171,3 @@ const PopupWrapper = styled.div`
     left: 0px;
   }
 `;
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}
-
-function messageSend(obj: sendMessageProps): any {
-  throw new Error('Function not implemented.');
-}
-
-function closeModal() {
-  throw new Error('Function not implemented.');
-}
