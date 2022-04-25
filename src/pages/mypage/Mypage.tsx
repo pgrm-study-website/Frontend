@@ -313,20 +313,26 @@ const Mypage = () => {
             )}
             {edit.key !== 'github' ? (
               <GithubEditWrapper>
-                <a
-                  href={`https://github.com/${read.data.github}`}
-                  target="_blank"
-                >
+                {!read.data.github || read.data.github === '' ? (
                   <BsGithub />
-                </a>
-                <Github
-                  href={`https://github.com/${read.data.github}`}
-                  target="_blank"
-                >
-                  {!read.data.github || read.data.github === ''
-                    ? 'Github 아이디가 없습니다.'
-                    : read.data.github}
-                </Github>
+                ) : (
+                  <a
+                    href={`https://github.com/${read.data.github}`}
+                    target="_blank"
+                  >
+                    <BsGithub />
+                  </a>
+                )}
+                {!read.data.github || read.data.github === '' ? (
+                  <Github2>Github 아이디가 없습니다.</Github2>
+                ) : (
+                  <Github
+                    href={`https://github.com/${read.data.github}`}
+                    target="_blank"
+                  >
+                    {read.data.github}
+                  </Github>
+                )}
                 {user && user.nickname == nickname && (
                   <PencilIcon
                     onClick={() =>
@@ -645,6 +651,12 @@ const GithubEditWrapper = styled.div`
   }
 `;
 const Github = styled.a`
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-family: NanumSquareR;
+`;
+const Github2 = styled.div`
   display: flex;
   align-items: center;
   font-size: 18px;
