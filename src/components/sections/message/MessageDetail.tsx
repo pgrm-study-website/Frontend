@@ -17,7 +17,6 @@ const MessageDetail = ({
   handleMessage,
   setSendMessageContent,
 }: Props) => {
-  console.log(select);
   return (
     <ContentContainer>
       <MessageList>
