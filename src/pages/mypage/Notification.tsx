@@ -47,16 +47,16 @@ const Notification = () => {
         {notice &&
           notice.data.map((item: any) => (
             <NotificationItem key={item.id}>
-              <Content>{item.content}</Content>
-              <SubContent>
-                <div>{item.createDate.split('T')[0]}</div>
-              </SubContent>
               <NavigateBtn onClick={() => navigate(item.url)}>
                 <AiOutlineArrowRight />
               </NavigateBtn>
               <DeleteBtn onClick={() => handleDelete(item.id)}>
                 <BsX />
               </DeleteBtn>
+              <Content>{item.content}</Content>
+              <SubContent>
+                <div>{item.createDate.split('T')[0]}</div>
+              </SubContent>
             </NotificationItem>
           ))}{' '}
       </Container>
@@ -76,6 +76,10 @@ const DeleteBtn = styled.div`
   top: 20px;
   right: 20px;
   cursor: pointer;
+  @media all and (max-width: 900px) {
+    top: auto;
+    bottom: 10px;
+  }
 `;
 const NavigateBtn = styled.div`
   position: absolute;
@@ -84,6 +88,10 @@ const NavigateBtn = styled.div`
   top: 23px;
   cursor: pointer;
   right: 48px;
+  @media all and (max-width: 900px) {
+    top: auto;
+    bottom: 13px;
+  }
 `;
 const Title = styled.h2`
   font-size: 30px;
@@ -121,7 +129,6 @@ const SubContent = styled.div`
   gap: 10px;
   color: #454545;
 `;
-const Name = styled.div``;
 const Content = styled.div`
   font-size: 22px;
   color: #454545;
@@ -137,6 +144,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: 100%;
+  min-width: 350px;
   font-family: SuncheonR;
   font-family: 'Bazzi';
   min-height: 400px;
@@ -145,6 +153,9 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
+  @media all and (max-width: 900px) {
+    height: auto;
+  }
 `;
 export default Notification;
 // function useSelector(
