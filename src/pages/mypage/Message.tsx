@@ -82,7 +82,7 @@ function Message() {
               <MessageItem
                 key={idx}
                 onClick={() => handleSelect(item)}
-                className={`pointer ${
+                className={` ${
                   select?.otherPersonId === item.otherPersonId && 'select'
                 }`}
               >
@@ -103,11 +103,10 @@ function Message() {
               <MessageDeleteBtn
                 onClick={() => handleMessageDelete(select.otherPersonId)}
               ></MessageDeleteBtn>
-            </MessageOtherName>{' '}
+            </MessageOtherName>
             <MessageDetail
               select={select}
               detail={detail}
-              handleMessageDelete={handleMessageDelete}
               sendMessageContent={sendMessageContent}
               handleMessage={handleMessage}
               setSendMessageContent={setSendMessageContent}
@@ -118,17 +117,12 @@ function Message() {
       {detail && select && (
         <MessageDetailM
           select={select}
-          detail={detail}
           closeModal={() => setSelect(null)}
           handleMessageDelete={handleMessageDelete}
-          sendMessageContent={sendMessageContent}
-          handleMessage={handleMessage}
-          setSendMessageContent={setSendMessageContent}
         >
           <MessageDetail
             select={select}
             detail={detail}
-            handleMessageDelete={handleMessageDelete}
             sendMessageContent={sendMessageContent}
             handleMessage={handleMessage}
             setSendMessageContent={setSendMessageContent}
@@ -157,7 +151,6 @@ const Title = styled.div`
   font-size: 20px;
   font-weight: 700;
 `;
-
 const MessageList = styled.ul`
   overflow-y: auto;
   margin: 20px 0;
@@ -167,9 +160,7 @@ const MessageItem = styled.li`
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  &.pointer {
-    cursor: pointer;
-  }
+  cursor: pointer;
   &.select {
     background-color: #75cbd1;
     color: #fff;
@@ -180,10 +171,6 @@ const MessageItem = styled.li`
   &.border-bottom {
     height: fit-content;
     border-bottom: 1px solid #cecece;
-  }
-  &.select,
-  &.non-select {
-    cursor: pointer;
   }
 `;
 const MessageItemName = styled.div`
@@ -215,24 +202,6 @@ const CurrentContent = styled.div<{ current?: any }>`
     display: none;
   }
 `;
-const CurrentContentMobile = styled.div`
-  display: none;
-  position: absolute;
-  box-sizing: border-box;
-  width: calc(100% - 80px);
-  height: calc(100% - 300px);
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  border-radius: 15px;
-  background-color: #fff;
-  @media all and (max-width: 900px) {
-    display: block;
-  }
-`;
-
 const Wrapper = styled.div`
   width: 100%;
   font-family: SuncheonR;

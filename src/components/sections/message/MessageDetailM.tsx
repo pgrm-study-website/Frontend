@@ -1,34 +1,21 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { RootState } from 'modules';
 import { messagesProps, messagesDetailProps } from 'lib/api/message';
-import { useNavigate } from 'react-router-dom';
-import { FiSend } from 'react-icons/fi';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsXLg } from 'react-icons/bs';
 
 type Props = {
   select: messagesProps;
-  detail: Array<messagesDetailProps>;
   handleMessageDelete: (arg0: number) => void;
-  sendMessageContent: string;
   closeModal: () => void;
-  setSendMessageContent: (arg0: string) => void;
-  handleMessage: () => void;
   children: ReactNode;
 };
 const MessageDetailM = ({
   select,
-  detail,
-  handleMessageDelete,
-  sendMessageContent,
-  handleMessage,
-  setSendMessageContent,
   closeModal,
   children,
+  handleMessageDelete,
 }: Props) => {
-  console.log(select);
-
   return (
     <WrapperBG>
       <WrapperM>

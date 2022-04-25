@@ -1,53 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { RootState } from 'modules';
 import { messagesProps, messagesDetailProps } from 'lib/api/message';
-import { useNavigate } from 'react-router-dom';
 import { FiSend } from 'react-icons/fi';
-import { AiOutlineDelete } from 'react-icons/ai';
 
 type Props = {
   select: messagesProps;
   detail: Array<messagesDetailProps>;
-  handleMessageDelete: (arg0: number) => void;
   sendMessageContent: string;
-  setSendMessageContent: (arg0: string) => void;
   handleMessage: () => void;
+  setSendMessageContent: (arg0: string) => void;
 };
 const MessageDetail = ({
   select,
   detail,
-  handleMessageDelete,
   sendMessageContent,
   handleMessage,
   setSendMessageContent,
 }: Props) => {
+  console.log(select);
   return (
-    <>
-      <ContentContainer>
-        <MessageList>
-          {detail.map((i, idx) => (
-            <MessageItem key={`${idx}${i.content}`} className="border-bottom">
-              <SendUser sendOther={i.type}>
-                {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
-              </SendUser>
-              <div> {i.content}</div>
-            </MessageItem>
-          ))}
-        </MessageList>
-        <SendMessageContainer>
-          <textarea
-            name="sendMessage"
-            id="sendMessage"
-            value={sendMessageContent}
-            onChange={e => setSendMessageContent(e.target.value)}
-          ></textarea>
-          <button onClick={handleMessage}>
-            <FiSend />
-          </button>
-        </SendMessageContainer>
-      </ContentContainer>
-    </>
+    <ContentContainer>
+      <MessageList>
+        {detail.map((i, idx) => (
+          <MessageItem key={`${idx}${i.content}`} className="border-bottom">
+            <SendUser sendOther={i.type}>
+              {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
+            </SendUser>
+            <div> {i.content}</div>
+          </MessageItem>
+        ))}
+      </MessageList>
+      <SendMessageContainer>
+        <textarea
+          name="sendMessage"
+          id="sendMessage"
+          value={sendMessageContent}
+          onChange={e => setSendMessageContent(e.target.value)}
+        ></textarea>
+        <button onClick={handleMessage}>
+          <FiSend />
+        </button>
+      </SendMessageContainer>
+    </ContentContainer>
   );
 };
 const ContentContainer = styled.div`
