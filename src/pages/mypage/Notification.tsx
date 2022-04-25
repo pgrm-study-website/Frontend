@@ -58,7 +58,7 @@ const Notification = () => {
                 <BsX />
               </DeleteBtn>
             </NotificationItem>
-          ))}
+          ))}{' '}
       </Container>
     </Wrapper>
   );
@@ -107,7 +107,6 @@ const Title = styled.h2`
 const NotificationItem = styled.div`
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 2px 1px 10px 2px rgb(0 0 0 / 9%);
   background-color: #fff;
   position: relative;
   display: flex;
@@ -132,6 +131,8 @@ const Container = styled.div`
   flex-direction: column;
   font-family: 'Bazzi';
   gap: 10px;
+  overflow-y: auto;
+  height: calc(100% - 40px);
 `;
 
 const Wrapper = styled.div`

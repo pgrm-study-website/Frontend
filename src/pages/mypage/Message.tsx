@@ -81,7 +81,9 @@ function Message() {
               <MessageItem
                 key={idx}
                 onClick={() => handleSelect(item)}
-                className="pointer"
+                className={`pointer ${
+                  select?.otherPersonId === item.otherPersonId && 'select'
+                }`}
               >
                 <MessageItemName>{item.otherPersonNickname}</MessageItemName>
                 <div> {item.content}</div>
@@ -184,9 +186,9 @@ const SendUser = styled.div<{ sendOther: string }>`
   padding: 10px 0;
 `;
 const MessageList = styled.ul`
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 20px 0;
-  height: fit-content;
+  height: calc(100% - 60px);
 `;
 const MessageItem = styled.li`
   width: 100%;
@@ -196,8 +198,11 @@ const MessageItem = styled.li`
     cursor: pointer;
   }
   &.select {
-    background-color: #4cbbc2;
+    background-color: #75cbd1;
     color: #fff;
+    div {
+      color: #fff;
+    }
   }
   &.border-bottom {
     height: fit-content;
