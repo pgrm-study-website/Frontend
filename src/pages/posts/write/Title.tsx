@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { changeField } from 'modules/posts/writePosts';
+import styled from 'styled-components';
 
 const Title = ({ title }: { title: string }) => {
   const dispatch = useDispatch();

@@ -5,27 +5,27 @@ import UserInfo from 'components/common/UserInfo';
 
 const Info = ({
   userId,
-  viewCount,
+  viewCnt,
   createDate,
   updateDate,
 }: {
   userId: number;
   createDate: Date;
-  updateDate: Date;
-  viewCount: number;
+  updateDate: Date | null;
+  viewCnt: number;
 }) => {
   return (
     <Wrapper>
       <UserInfo userId={userId} />
       <DateWrapper>
         <CreateDateText>{`작성일: ${dateToString(createDate)}`}</CreateDateText>
-        {createDate !== updateDate && (
+        {updateDate && (
           <UpdateDateText>{`(${dateToString(
             updateDate,
           )}에 수정됨)`}</UpdateDateText>
         )}
       </DateWrapper>
-      <ViewCountText>{`${viewCount} Views`}</ViewCountText>
+      <ViewCountText>{`${viewCnt} Views`}</ViewCountText>
     </Wrapper>
   );
 };
@@ -60,5 +60,6 @@ const UpdateDateText = styled.div`
 const ViewCountText = styled.div`
   width: 90px;
   text-align: start;
-  margin: 7px 0;
+  font-size: 14px;
+  margin-top: 2px;
 `;

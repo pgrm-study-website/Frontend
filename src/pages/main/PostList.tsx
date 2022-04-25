@@ -3,77 +3,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PostItem from 'components/posts/PostItem';
+import { postListItemType } from 'lib/api/posts';
+import { LoadingBox } from 'components/common/Loading';
 
-const testDataList = [
-  {
-    postId: 1,
-    title: '포폴용 프로젝트 디자이너 구합니다.',
-    category: 2,
-    tags: ['Designer', 'UI/UX'],
-    status: 1,
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    postId: 1,
-    title: '공모전 앱 만드실 분??',
-    category: 0,
-    tags: ['FrontEnd', 'BackEnd'],
-    status: 1,
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    postId: 1,
-    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-    category: 1,
-    tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-    status: 1,
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    postId: 1,
-    title: '포폴용 프로젝트 디자이너 구합니다.',
-    category: 2,
-    tags: ['Designer', 'UI/UX'],
-    status: 1,
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    postId: 1,
-    title: '공모전 앱 만드실 분??',
-    category: 0,
-    tags: ['FrontEnd', 'BackEnd'],
-    status: 1,
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-  {
-    postId: 1,
-    title: '웹프로젝트 처음부터 같이 만드실 분 모집중입니다!',
-    category: 1,
-    tags: ['FrontEnd', 'BackEnd', 'Designer', 'React', 'Spring'],
-    status: 1,
-    participantNum: 4,
-    participantMax: 5,
-    period: 4,
-    viewCount: 126,
-  },
-];
-
-const PostList = () => {
+const PostList = ({ normalList }: { normalList: any }) => {
   return (
     <Wrapper>
       <HeaderWrapper>
@@ -81,9 +14,17 @@ const PostList = () => {
         <MoreWrapper to="/posts">더보기</MoreWrapper>
       </HeaderWrapper>
       <PostListWrapper>
-        {testDataList.map((i, idx) => (
-          <PostItem key={idx} post={i} />
-        ))}
+        {normalList ? (
+          normalList.map(
+            (i: postListItemType, idx: React.Key | null | undefined) => (
+              <PostItem key={idx} post={i} />
+            ),
+          )
+        ) : (
+          <div style={{ width: '100%', height: '420px' }}>
+            <LoadingBox r="100px" />
+          </div>
+        )}
       </PostListWrapper>
     </Wrapper>
   );

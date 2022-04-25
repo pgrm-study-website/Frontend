@@ -3,17 +3,36 @@ import { Link } from 'react-router-dom';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import styled from 'styled-components';
-
-const testUserData = {
-  nickname: 'seuha516',
-  image:
-    'https://w.namu.la/s/a50a10b0fc00aaa6d9c384e5bdcdc8b791978a45d5864752cb3131e9d6a40dda44b9102f2223390959c5c5ae20523b8512f04d824dbf2e3e3e395f3fcf26010be6b74a1920b61278bb5631862db12c3ab49042b801f4c06d6d2ed31b76003374',
-};
+import { read } from 'lib/api/users';
+import MessageModal from './MessageModal';
+import { sendMessageProps } from 'lib/api/message';
+import { RootState } from 'modules';
+import { useDispatch, useSelector } from 'react-redux';
+import { messageSend } from 'modules/message';
 
 const UserInfo = ({ userId }: { userId: number }) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
-  const [popUp, setPopUp] = useState(false);
+  const dispatch = useDispatch();
 
+  const [info, setInfo] = useState<any>(null);
+  const [popUp, setPopUp] = useState(false);
+  const [sendMessageContent, setSendMessageContent] = useState<string>('');
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { user } = useSelector(({ users }: RootState) => ({
+    user: users.user,
+  }));
+  useEffect(() => {
+    const loadData = async () => {
+      let infoResponse;
+      try {
+        infoResponse = await read({ data: userId, type: 'id' });
+      } catch (e) {
+        infoResponse = { data: { id: -1, nickname: 'error', image: null } };
+      }
+      setInfo(infoResponse.data);
+    };
+    void loadData();
+  }, []);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -28,34 +47,62 @@ const UserInfo = ({ userId }: { userId: number }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [WrapperRef]);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const handleMessageSend = () => {
+    if (user && info) {
+      const obj: sendMessageProps = {
+        userId: user.id.toString(),
+        otherId: info.id.toString(),
+        content: sendMessageContent,
+      };
+      dispatch(messageSend(obj));
+      setSendMessageContent('');
+      closeModal();
+      alert(`${info.nickname as string}님에게 메시지를 보냈습니다. `);
+    }
+  };
 
-  if (userId === -1) {
-    return (
-      <Wrapper>
-        <QuestionImage>?</QuestionImage>
-        <Nickname style={{ color: '#363636' }}>??????</Nickname>
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper ref={WrapperRef}>
-        <Wrapper2 onClick={() => setPopUp(!popUp)}>
-          <UserImage src={testUserData.image} />
-          <Nickname>{testUserData.nickname}</Nickname>
-        </Wrapper2>
-        {popUp && (
-          <PopupWrapper>
-            <Link to={`/mypage/${userId}`}>
-              <AiOutlineHome />
-            </Link>
-            <Link to="/comments">
+  return (
+    <Wrapper ref={WrapperRef}>
+      <Wrapper2 onClick={() => setPopUp(!popUp)}>
+        <UserImage
+          src={
+            info
+              ? info.image || require('assets/images/defaultProfile.png')
+              : require('assets/images/defaultProfile.png')
+          }
+        />
+        <Nickname>{info ? info.nickname || '' : ''}</Nickname>
+      </Wrapper2>
+      {popUp && (
+        <PopupWrapper>
+          <Link to={`/mypage/${info ? (info.nickname as string) : ''}`}>
+            <AiOutlineHome />
+          </Link>
+          {user && user.id !== userId && (
+            <div onClick={openModal}>
               <BiMessageAltDetail />
-            </Link>
-          </PopupWrapper>
-        )}
-      </Wrapper>
-    );
-  }
+            </div>
+          )}
+        </PopupWrapper>
+      )}
+      {info && modalOpen && (
+        <MessageModal
+          open={modalOpen}
+          close={closeModal}
+          nickname={info.nickname}
+          handleMessageSend={handleMessageSend}
+          sendMessageContent={sendMessageContent}
+          setSendMessageContent={setSendMessageContent}
+        ></MessageModal>
+      )}
+    </Wrapper>
+  );
 };
 
 export default UserInfo;
@@ -82,29 +129,20 @@ const UserImage = styled.img`
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  background-color: white;
+  border-radius: 5px;
 `;
 const Nickname = styled.div`
   font-size: 18px;
   font-family: NanumSquareR;
   margin-top: 1px;
 `;
-const QuestionImage = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  font-size: 20px;
-  background-color: #464646;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  font-weight: 700;
-  margin-right: 10px;
-`;
 const PopupWrapper = styled.div`
   cursor: default;
   width: 90px;
   height: 50px;
-  background-color: #ffffff;
+  background-color: #f1f1f1;
+  box-shadow: 2px 2px 2px black;
   border-radius: 10px;
   z-index: 10;
   position: absolute;
@@ -128,7 +166,7 @@ const PopupWrapper = styled.div`
     border-top: 0px solid transparent;
     border-left: 0px solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 20px solid #ffffff;
+    border-bottom: 20px solid #f1f1f1;
     content: '';
     position: absolute;
     top: -10px;

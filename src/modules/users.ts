@@ -81,20 +81,18 @@ export const checkAuthEmailSuccess = createAction(CHECK_AUTH_EMAIL_SUCCESS)();
 export const checkAuthEmailFailure = createAction(
   CHECK_AUTH_EMAIL_FAILURE,
 )<AxiosError>();
-export const read = createAction(READ)<number>();
+export const read = createAction(READ)<usersAPI.readRequestType>();
 export const readSuccess = createAction(READ_SUCCESS)<any>();
 export const readFailure = createAction(READ_FAILURE)<AxiosError>();
 export const update = createAction(UPDATE)<usersAPI.updateRequestType>();
-export const updateSuccess = createAction(UPDATE_SUCCESS)();
+export const updateSuccess = createAction(UPDATE_SUCCESS)<any>();
 export const updateFailure = createAction(UPDATE_FAILURE)<AxiosError>();
 export const remove = createAction(REMOVE)<number>();
 export const removeSuccess = createAction(REMOVE_SUCCESS)();
 export const removeFailure = createAction(REMOVE_FAILURE)<AxiosError>();
 export const checkPassword =
   createAction(CHECK_PASSWORD)<usersAPI.passwordRequsetType>();
-export const checkPasswordSuccess = createAction(
-  CHECK_PASSWORD_SUCCESS,
-)<boolean>();
+export const checkPasswordSuccess = createAction(CHECK_PASSWORD_SUCCESS)();
 export const checkPasswordFailure = createAction(
   CHECK_PASSWORD_FAILURE,
 )<AxiosError>();
@@ -217,7 +215,7 @@ type usersState = {
     data: usersAPI.readResponseType | null;
     error: AxiosError | null;
   };
-  update: boolean | null;
+  update: usersAPI.updateRequestType | null;
   remove: boolean | null;
   checkPassword: boolean | null;
   changePassword: boolean | null;
@@ -304,24 +302,14 @@ const users = createReducer<usersState, usersAction>(initialState, {
       authEmail: false,
     };
   },
-
-  // 아래부턴 테스트되지 않았음
-  [READ]: state => ({
-    ...state,
-    read: {
-      data: null,
-      error: null,
-    },
-  }),
   [READ_SUCCESS]: (state, { payload }) => ({
     ...state,
     read: {
-      data: payload,
+      data: payload.data,
       error: null,
     },
   }),
   [READ_FAILURE]: (state, { payload }) => {
-    alert(payload.response?.data.message);
     return {
       ...state,
       read: {
@@ -334,16 +322,13 @@ const users = createReducer<usersState, usersAction>(initialState, {
     ...state,
     update: null,
   }),
-  [UPDATE_SUCCESS]: state => ({
+  [UPDATE_SUCCESS]: (state, { payload }) => ({
     ...state,
-    update: true,
+    update: payload.data,
   }),
   [UPDATE_FAILURE]: (state, { payload }) => {
     alert(payload.response?.data.message);
-    return {
-      ...state,
-      update: false,
-    };
+    return state;
   },
   [REMOVE]: state => ({
     ...state,
@@ -364,9 +349,9 @@ const users = createReducer<usersState, usersAction>(initialState, {
     ...state,
     checkPassword: null,
   }),
-  [CHECK_PASSWORD_SUCCESS]: (state, { payload }) => ({
+  [CHECK_PASSWORD_SUCCESS]: state => ({
     ...state,
-    checkPassword: payload,
+    checkPassword: true,
   }),
   [CHECK_PASSWORD_FAILURE]: (state, { payload }) => {
     alert(payload.response?.data.message);

@@ -43,4 +43,8 @@ const ContentWrapper = styled.div`
     padding: 0;
     margin-right: 8px;
   }
+  overflow: hidden;
+  img {
+    max-width: 100%;
+  }
 `;

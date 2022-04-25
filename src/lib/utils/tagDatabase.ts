@@ -291,3 +291,16 @@ export const styleList: {
     color1: '#b33838',
   },
 };
+
+export const fieldTagList = [3, 5, 13, 14, 15, 18, 19, 26, 27, 31, 47, 49, 67];
+
+export const techTagList = [
+  4, 20, 21, 22, 23, 24, 25, 28, 29, 34, 39, 41, 42, 43, 44, 45, 48, 50, 53, 54,
+  55, 56, 59, 60, 61, 63, 64, 69,
+];
+
+export const languageTagList = [
+  9, 10, 11, 12, 16, 30, 32, 33, 35, 37, 46, 51, 52, 57, 58, 65, 66,
+];
+
+export const etcTagList = [0, 1, 2, 6, 7, 8, 17, 36, 38, 40, 62, 68, 70];

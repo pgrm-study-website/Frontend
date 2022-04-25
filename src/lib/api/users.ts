@@ -21,10 +21,18 @@ export const sendAuthEmail = (payload: sendAuthEmailRequestType) =>
 export const checkAuthEmail = (payload: checkAuthEmailRequestType) =>
   client.post('users/email/verify-code', payload);
 
-export const read = (payload: number) => client.get(`users/${payload}`);
+export const read = (payload: readRequestType) => {
+  if (payload.type === 'id') {
+    return client.get(`users/id/${payload.data}`);
+  } else if (payload.type === 'nickname') {
+    return client.get(`users/nickname/${payload.data}`);
+  } else {
+    return client.get(`users/email/${payload.data}`);
+  }
+};
 export const update = (payload: updateRequestType) =>
   client.patch(`users/${payload.id}`, payload.data);
-export const remove = (payload: number) => client.get(`users/${payload}`);
+export const remove = (payload: number) => client.delete(`users/${payload}`);
 
 export const checkPassword = (payload: passwordRequsetType) =>
   client.post(`users/${payload.id}/password-check`, payload.data);
@@ -32,17 +40,11 @@ export const changePassword = (payload: passwordRequsetType) =>
   client.patch(`users/${payload.id}/password`, payload.data);
 
 // 타입 이름은 자유이나 저는 RequestType, ResponseType으로 최대한 통일했습니다.
-export type signupRequestType =
-  | {
-      social: number;
-      email: string;
-      nickname: string;
-      password: string;
-    }
-  | {
-      social: number;
-      code: string;
-    };
+export type signupRequestType = {
+  email: string;
+  nickname: string;
+  password: string;
+};
 export type loginRequestType =
   | {
       social: number;
@@ -57,23 +59,30 @@ export type simpleResponseType = {
   id: number;
   nickname: string;
   image: string;
+  social: number;
+};
+export type readRequestType = {
+  data: number | string;
+  type: string;
 };
 export type readResponseType = {
+  id: number;
   email: string | null;
   nickname: string;
   image: string;
   introduce: string;
   github: string;
-  tags: string[];
+  tagsList: string[];
+  social: number;
 };
 export type updateRequestType = {
   id: number;
   data: {
-    nickname?: string;
-    image?: string;
-    introduce?: string;
-    github?: string;
-    tags?: string[];
+    nickname: string;
+    image: string;
+    introduce: string;
+    github: string;
+    tagIds: number[];
   };
 };
 export type sendAuthEmailRequestType = {

@@ -1,15 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillPersonFill, BsFillEyeFill } from 'react-icons/bs';
-import styled, { css } from 'styled-components';
 import { postListItemType } from 'lib/api/posts';
+import styled, { css } from 'styled-components';
 
 import PostCategory from 'components/posts/PostCategory';
 import PostTagA from 'components/posts/PostTagA';
 
 const PostItem = ({ post }: { post: postListItemType }) => {
   return (
-    <Wrapper to={`/posts/${post.postId}`} status={post.status}>
+    <Wrapper to={`/posts/${post.id}`} status={post.status}>
+      {post.status === '모집 완료' && <FinishText>모집 완료</FinishText>}
       <FirstWrapper>
         <Name>{post.title}</Name>
         <PostCategory category={post.category} />
@@ -23,12 +24,16 @@ const PostItem = ({ post }: { post: postListItemType }) => {
         <PersonWrapper>
           <BsFillPersonFill />
           <div>{post.participantNum}</div>
-          <div>/</div>
-          <div>{post.participantMax}</div>
+          {post.participantMax && (
+            <>
+              <div>/</div>
+              <div>{post.participantMax}</div>
+            </>
+          )}
         </PersonWrapper>
         <EtcWrapper>
           <BsFillEyeFill />
-          <div>{post.viewCount}</div>
+          <div>{post.viewCnt}</div>
         </EtcWrapper>
       </SecondWrapper>
     </Wrapper>
@@ -37,12 +42,7 @@ const PostItem = ({ post }: { post: postListItemType }) => {
 
 export default PostItem;
 
-const Wrapper = styled(Link)<{ status: number }>`
-  ${props =>
-    props.status === 0 &&
-    css`
-      filter: contrast(20%);
-    `}
+const Wrapper = styled(Link)<{ status: string }>`
   width: calc(calc(100% - calc(10px * 3)) / 3);
   min-width: calc(calc(100% - calc(10px * 3)) / 3);
   height: 200px;
@@ -59,7 +59,7 @@ const Wrapper = styled(Link)<{ status: number }>`
   cursor: pointer;
   transition: border 0.15s linear;
   &:hover {
-    border: 1px solid #686868;
+    border: 1px solid #323232;
     background-color: #ffffff;
   }
   @media all and (max-width: 930px) {
@@ -78,6 +78,29 @@ const Wrapper = styled(Link)<{ status: number }>`
     width: calc(100% - 10px);
     min-width: calc(100% - 10px);
   }
+  ${props =>
+    props.status === '모집 완료' &&
+    css`
+      position: relative;
+      background-color: #c4c4c4;
+      color: #3e3e3e;
+      *:not(div:nth-child(1)) {
+        opacity: 0.4;
+      }
+      &:hover {
+        border: 1px solid #323232;
+        background-color: #d1d1d1;
+      }
+    `}
+`;
+const FinishText = styled.div`
+  position: absolute;
+  width: 150px;
+  top: calc(50% - 13px);
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: NanumSquareR;
 `;
 const FirstWrapper = styled.div`
   display: flex;
@@ -105,7 +128,7 @@ const TagWrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 10px;
 `;
 const SecondWrapper = styled.div`
   display: flex;
@@ -133,7 +156,7 @@ const EtcWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   svg {
-    margin: 0 3px 0 8px;
+    margin: 0 5px 0 8px;
   }
   svg:nth-child(1) {
     color: #818181;

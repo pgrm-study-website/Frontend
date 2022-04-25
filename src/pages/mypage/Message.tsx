@@ -1,206 +1,147 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  messageDeleteAll,
+  messageDetailRead,
+  messageRead,
+  messageSend,
+} from 'modules/message';
+import { RootState } from 'modules';
+import { messagesProps, sendMessageProps } from 'lib/api/message';
+import { useNavigate } from 'react-router-dom';
 import { FiSend } from 'react-icons/fi';
-
-// type Props = {};
-const testData = [
-  {
-    id: 1,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 33333,
-    otherName: 'hey',
-    content: 'this is message',
-  },
-  {
-    id: 2,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 33313,
-    content: 'this is message',
-    otherName: 'hey2312',
-  },
-  {
-    id: 3,
-    userId: 123,
-    userName: 'sumi',
-    otherId: 1232132,
-    content: 'this is message',
-    otherName: 'heyasdd',
-  },
-  // {
-  //   id: 4,
-  //   userId: 123,
-  //   userName: 'sumi',
-  //   otherId: 335734633,
-  //   content: 'this is message',
-  //   otherName: 'heasdy',
-  // },
-  // {
-  //   id: 5,
-  //   userId: 123,
-  //   userName: 'sumi',
-  //   otherId: 333368543,
-  //   content: 'this is message',
-  //   otherName: 'heasddddddy',
-  // },
-  // {
-  //   id: 6,
-  //   userId: 123,
-  //   userName: 'sumi',
-  //   content: 'this is message',
-  //   otherId: 3377733,
-  //   otherName: 'hey name',
-  // },
-];
-
-const sendTestDataList = [
-  {
-    id: 33333,
-    name: 'hey',
-    data: [
-      {
-        sendOther: true,
-        content: 'Hello',
-      },
-      {
-        sendOther: false, //false 이면 자신
-        content: 'Hi ',
-      },
-      {
-        sendOther: true,
-        content: 'Hello2',
-      },
-      {
-        sendOther: false, //false이면 자신
-        content: 'Hi 2',
-      },
-    ],
-  },
-  {
-    id: 33313,
-    name: 'hey2312',
-    data: [
-      {
-        sendOther: true,
-        content: 'het hey2312hey2312hey2312',
-      },
-      {
-        sendOther: false, //false 이면 자신
-        content: 'Hi ',
-      },
-      {
-        sendOther: true,
-        content: 'Hello2',
-      },
-      {
-        sendOther: false, //false이면 자신
-        content: 'Hi 2',
-      },
-    ],
-  },
-  {
-    id: 1232132,
-    name: 'heyasdd',
-    data: [
-      {
-        sendOther: true,
-        content: 'this is message',
-      },
-      {
-        sendOther: false, //false 이면 자신
-        content: 'Hi ',
-      },
-      {
-        sendOther: true,
-        content: 'Hello2',
-      },
-      {
-        sendOther: false, //false이면 자신
-        content: 'Hi 2',
-      },
-    ],
-  },
-];
-type messageContentProps = {
-  id: number;
-  name: string;
-  data: Array<{
-    sendOther: boolean;
-    content: string;
-  }>;
-};
+import { AiOutlineDelete } from 'react-icons/ai';
 function Message() {
-  const [select, setSelect] = useState<number>(-1);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [select, setSelect] = useState<messagesProps>();
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
-  const [messageContent, setMessageContent] = useState<messageContentProps>({
-    id: 0,
-    name: '',
-    data: [],
-  });
+
+  const { user, messages, detail } = useSelector(
+    ({ users, messages, messageDetail }: RootState) => ({
+      user: users.user,
+      messages: messages.messages,
+      detail: messageDetail.messageDetail,
+    }),
+  );
+  console.log('select', select);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(messageRead({ id: user.id }));
+    } else {
+      navigate(`/`);
+    }
+  }, []);
+
   const handleMessage = () => {
-    setMessageContent({
-      ...messageContent,
-      data: [
-        ...messageContent.data,
-        { sendOther: false, content: sendMessageContent },
-      ],
-    });
-
-    //TODO : DB에 있는 값도 변경 필요, 서버에 전송
-
+    if (user && select) {
+      const objtest: sendMessageProps = {
+        userId: user.id.toString(),
+        otherId: select.otherPersonId.toString(),
+        content: sendMessageContent,
+      };
+      dispatch(messageSend(objtest));
+      alert(`메시지를 전송하였습니다.  `);
+      dispatch(messageRead({ id: user.id }));
+    }
     //초기화
     setSendMessageContent('');
+    // TODO :  조금의 시간 뒤에 리로드가 필요하다.
+    select && handleSelect(select);
   };
-  const handleSelect = (name: string, idx: number) => {
-    setSelect(idx);
-    setMessageContent(sendTestDataList.filter(item => item.name === name)[0]);
+  const handleSelect = (item: messagesProps) => {
+    setSelect(item);
+
+    if (user) {
+      const sendParam = `userId=${user.id}&otherId=${item.otherPersonId}`;
+      dispatch(messageDetailRead(sendParam));
+    }
+  };
+  const handleMessageDelete = (id: number) => {
+    if (user) {
+      const param = `userId=${user.id}&otherId=${id}`;
+      console.log(param);
+
+      dispatch(messageDeleteAll(param));
+      alert(`전체 메시지를 삭제하였습니다. `);
+      navigate('/message');
+      dispatch(messageRead({ id: user.id }));
+    }
   };
   return (
     <Wrapper>
       <MessageListContainer>
         <Title>쪽지함</Title>
-        <MessageList>
-          {testData.map((item, idx) => (
-            <MessageItem
-              key={idx}
-              onClick={() => handleSelect(item.otherName, idx)}
-              className={idx === select ? 'select' : 'non-select'}
-            >
-              {item.otherName}
-            </MessageItem>
-          ))}
-        </MessageList>
-      </MessageListContainer>
-      <CurrentContent current={testData[select]}>
-        <MessageOtherName>{messageContent.name}</MessageOtherName>
-        <ContentContainer>
+
+        {messages && messages.length !== 0 ? (
           <MessageList>
-            {messageContent.data.map((i, idx) => (
-              <MessageItem key={i.content} className="border-bottom">
-                <SendUser sendOther={i.sendOther}>
-                  {i.sendOther ? '받은 쪽지' : '보낸 쪽지'}
-                </SendUser>
-                <div> {i.content}</div>
+            {messages.map((item, idx) => (
+              <MessageItem
+                key={idx}
+                onClick={() => handleSelect(item)}
+                className="pointer"
+              >
+                <MessageItemName>{item.otherPersonNickname}</MessageItemName>
+                <div> {item.content}</div>
               </MessageItem>
             ))}
           </MessageList>
-          <SendMessageContainer>
-            <textarea
-              name="sendMessage"
-              id="sendMessage"
-              value={sendMessageContent}
-              onChange={e => setSendMessageContent(e.target.value)}
-            ></textarea>
-            <button onClick={handleMessage}>
-              <FiSend />
-            </button>
-          </SendMessageContainer>
-        </ContentContainer>
+        ) : (
+          <NonMessage>메시지가 없습니다. </NonMessage>
+        )}
+      </MessageListContainer>
+      <CurrentContent>
+        {detail && select && (
+          <>
+            <MessageOtherName>
+              <div> {select.otherPersonNickname}</div>
+              <MessageDeleteBtn
+                onClick={() => handleMessageDelete(select.otherPersonId)}
+              ></MessageDeleteBtn>
+            </MessageOtherName>
+            <ContentContainer>
+              <MessageList>
+                {detail.map((i, idx) => (
+                  <MessageItem
+                    key={`${idx}${i.content}`}
+                    className="border-bottom"
+                  >
+                    <SendUser sendOther={i.type}>
+                      {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
+                    </SendUser>
+                    <div> {i.content}</div>
+                  </MessageItem>
+                ))}
+              </MessageList>
+              <SendMessageContainer>
+                <textarea
+                  name="sendMessage"
+                  id="sendMessage"
+                  value={sendMessageContent}
+                  onChange={e => setSendMessageContent(e.target.value)}
+                ></textarea>
+                <button onClick={handleMessage}>
+                  <FiSend />
+                </button>
+              </SendMessageContainer>
+            </ContentContainer>
+          </>
+        )}
       </CurrentContent>
     </Wrapper>
   );
 }
+const NonMessage = styled.div`
+  margin: 20px 0;
+`;
+const MessageDeleteBtn = styled(AiOutlineDelete)`
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+`;
 const Title = styled.div`
   font-size: 20px;
   font-weight: 700;
@@ -235,22 +176,25 @@ const SendMessageContainer = styled.div`
 const MessageOtherName = styled.div`
   font-weight: 700;
   font-size: 20px;
+  position: relative;
 `;
-const SendUser = styled.div<{ sendOther: boolean }>`
-  color: ${props => (props.sendOther ? ' #ffc963' : '#4cbbc2')};
+const SendUser = styled.div<{ sendOther: string }>`
+  color: ${props => (props.sendOther === 'send' ? ' #ffc963' : '#4cbbc2')};
   font-weight: 700;
   padding: 10px 0;
 `;
 const MessageList = styled.ul`
   overflow-y: scroll;
-  margin-top: 20px;
+  margin: 20px 0;
   height: fit-content;
 `;
 const MessageItem = styled.li`
   width: 100%;
-  height: 60px;
   padding: 10px;
   box-sizing: border-box;
+  &.pointer {
+    cursor: pointer;
+  }
   &.select {
     background-color: #4cbbc2;
     color: #fff;
@@ -263,6 +207,11 @@ const MessageItem = styled.li`
   &.non-select {
     cursor: pointer;
   }
+`;
+const MessageItemName = styled.div`
+  color: #4cbbc2;
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 const MessageListContainer = styled.div`
   border: 1px solid #cecece;

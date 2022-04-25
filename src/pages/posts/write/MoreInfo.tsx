@@ -5,8 +5,8 @@ import {
   BsQuestionLg,
   BsFillCalendarWeekFill,
 } from 'react-icons/bs';
-import styled from 'styled-components';
 import { changeField } from 'modules/posts/writePosts';
+import styled from 'styled-components';
 
 const MoreInfo = ({
   participantMax,
