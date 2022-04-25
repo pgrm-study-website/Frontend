@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { BsX } from 'react-icons/bs';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { RootState } from 'modules';
-import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -29,8 +28,8 @@ const Notification = () => {
   const handleDelete = (id: number) => {
     //삭제 데이터 서버에 전송
     dispatch(noticeDeleteOne(id));
-    // dispatch(noticeRead());
     alert(`알림이 삭제되었습니다`);
+    dispatch(noticeRead());
   };
   const handleDeleteAll = () => {
     dispatch(noticeDelete());
@@ -63,12 +62,7 @@ const Notification = () => {
     </Wrapper>
   );
 };
-const ContentImg = styled.div`
-  width: 55px;
-  background-color: #b8b8b8;
-  height: 55px;
-  margin-right: 10px;
-`;
+
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
