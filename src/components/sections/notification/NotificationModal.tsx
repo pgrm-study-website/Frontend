@@ -22,13 +22,12 @@ export default function NotificationModal({
             .map(item => (
               <NotificationItem key={item.id} item={item}></NotificationItem>
             ))}
-      {data.length !== 0 && (
-        <li>
-          <Link to="/notification">
-            <More onClick={() => close(false)}>more</More>
-          </Link>
-        </li>
-      )}
+
+      <li>
+        <Link to="/notification">
+          <More onClick={() => close(false)}>more</More>
+        </Link>
+      </li>
     </NotificationList>
   );
 }
