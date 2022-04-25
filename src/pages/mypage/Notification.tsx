@@ -158,16 +158,3 @@ const Wrapper = styled.div`
   }
 `;
 export default Notification;
-// function useSelector(
-//   arg0: ({ listPosts, users }: RootState) => {
-//     posts: any;
-//     error: any;
-//     user: any;
-//   },
-// ): {
-//   posts: any;
-//   error: any;
-//   user: any;
-// } {
-//   throw new Error('Function not implemented.');
-// }

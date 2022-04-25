@@ -10,12 +10,15 @@ import {
 import { RootState } from 'modules';
 import { messagesProps, sendMessageProps } from 'lib/api/message';
 import { useNavigate } from 'react-router-dom';
-import { FiSend } from 'react-icons/fi';
+import MessageDetail from 'components/sections/message/MessageDetail';
+import MessageDetailM from 'components/sections/message/MessageDetailM';
+import { BsXLg } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
+
 function Message() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [select, setSelect] = useState<messagesProps>();
+  const [select, setSelect] = useState<messagesProps | null>();
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
 
   const { user, messages, detail } = useSelector(
@@ -25,7 +28,6 @@ function Message() {
       detail: messageDetail.messageDetail,
     }),
   );
-  console.log('select', select);
 
   useEffect(() => {
     if (user) {
@@ -62,7 +64,6 @@ function Message() {
   const handleMessageDelete = (id: number) => {
     if (user) {
       const param = `userId=${user.id}&otherId=${id}`;
-      console.log(param);
 
       dispatch(messageDeleteAll(param));
       alert(`전체 메시지를 삭제하였습니다. `);
@@ -102,89 +103,61 @@ function Message() {
               <MessageDeleteBtn
                 onClick={() => handleMessageDelete(select.otherPersonId)}
               ></MessageDeleteBtn>
-            </MessageOtherName>
-            <ContentContainer>
-              <MessageList>
-                {detail.map((i, idx) => (
-                  <MessageItem
-                    key={`${idx}${i.content}`}
-                    className="border-bottom"
-                  >
-                    <SendUser sendOther={i.type}>
-                      {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
-                    </SendUser>
-                    <div> {i.content}</div>
-                  </MessageItem>
-                ))}
-              </MessageList>
-              <SendMessageContainer>
-                <textarea
-                  name="sendMessage"
-                  id="sendMessage"
-                  value={sendMessageContent}
-                  onChange={e => setSendMessageContent(e.target.value)}
-                ></textarea>
-                <button onClick={handleMessage}>
-                  <FiSend />
-                </button>
-              </SendMessageContainer>
-            </ContentContainer>
+            </MessageOtherName>{' '}
+            <MessageDetail
+              select={select}
+              detail={detail}
+              handleMessageDelete={handleMessageDelete}
+              sendMessageContent={sendMessageContent}
+              handleMessage={handleMessage}
+              setSendMessageContent={setSendMessageContent}
+            />
           </>
         )}
       </CurrentContent>
+      {detail && select && (
+        <MessageDetailM
+          select={select}
+          detail={detail}
+          closeModal={() => setSelect(null)}
+          handleMessageDelete={handleMessageDelete}
+          sendMessageContent={sendMessageContent}
+          handleMessage={handleMessage}
+          setSendMessageContent={setSendMessageContent}
+        >
+          <MessageDetail
+            select={select}
+            detail={detail}
+            handleMessageDelete={handleMessageDelete}
+            sendMessageContent={sendMessageContent}
+            handleMessage={handleMessage}
+            setSendMessageContent={setSendMessageContent}
+          />
+        </MessageDetailM>
+      )}
     </Wrapper>
   );
 }
-const NonMessage = styled.div`
-  margin: 20px 0;
-`;
+
 const MessageDeleteBtn = styled(AiOutlineDelete)`
   position: absolute;
   right: 0;
   top: 0;
   cursor: pointer;
 `;
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-`;
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% - 20px);
-`;
-const SendMessageContainer = styled.div`
-  min-height: 100px;
-  display: flex;
-  justify-content: space-between;
-  textarea {
-    height: 100%;
-    border: 1px solid #cecece;
-    padding: 20px;
-    border-radius: 10px;
-    width: calc(100% - 50px);
-  }
-  button {
-    height: 100%;
-    border-radius: 10px;
-    background-color: #4cbbc2;
-    border: 1px solid #4cbbc2;
-    width: 40px;
-    color: #fff;
-    cursor: pointer;
-  }
+const NonMessage = styled.div`
+  margin: 20px 0;
 `;
 const MessageOtherName = styled.div`
   font-weight: 700;
   font-size: 20px;
   position: relative;
 `;
-const SendUser = styled.div<{ sendOther: string }>`
-  color: ${props => (props.sendOther === 'send' ? ' #ffc963' : '#4cbbc2')};
+const Title = styled.div`
+  font-size: 20px;
   font-weight: 700;
-  padding: 10px 0;
 `;
+
 const MessageList = styled.ul`
   overflow-y: auto;
   margin: 20px 0;
@@ -226,6 +199,9 @@ const MessageListContainer = styled.div`
   padding: 20px;
   background-color: #fff;
   overflow-y: hidden;
+  @media all and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 const CurrentContent = styled.div<{ current?: any }>`
   background-color: #fff;
@@ -235,7 +211,28 @@ const CurrentContent = styled.div<{ current?: any }>`
   height: 100%;
   padding: 20px;
   border-radius: 15px;
+  @media all and (max-width: 900px) {
+    display: none;
+  }
 `;
+const CurrentContentMobile = styled.div`
+  display: none;
+  position: absolute;
+  box-sizing: border-box;
+  width: calc(100% - 80px);
+  height: calc(100% - 300px);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border-radius: 15px;
+  background-color: #fff;
+  @media all and (max-width: 900px) {
+    display: block;
+  }
+`;
+
 const Wrapper = styled.div`
   width: 100%;
   font-family: SuncheonR;
@@ -246,5 +243,9 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
+  position: relative;
+  @media all and (max-width: 900px) {
+    height: calc(100% - 160px);
+  }
 `;
 export default Message;
