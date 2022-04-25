@@ -24,7 +24,7 @@ import {
 } from 'lib/utils/postsQueryString';
 import { RootState } from 'modules';
 import { list } from 'modules/posts/listPosts';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Error from 'components/common/Error';
 import Loading from 'components/common/Loading';
@@ -465,7 +465,11 @@ const List = () => {
       </PostListWrapperWrapper>
       <PageMoveWrapper>
         {pageArray.map(i => (
-          <PageLargeNumber to={`/posts${encodeQs(state, i)}`} key={i}>
+          <PageLargeNumber
+            to={`/posts${encodeQs(state, i)}`}
+            key={i}
+            now={i === page ? 'now' : ''}
+          >
             {i}
           </PageLargeNumber>
         ))}
@@ -789,9 +793,14 @@ const PageMoveWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const PageLargeNumber = styled(Link)`
+const PageLargeNumber = styled(Link)<{ now: string }>`
   font-size: 30px;
   margin: 0 10px;
-  color: black;
+  color: #787878;
   cursor: pointer;
+  ${props =>
+    props.now === 'now' &&
+    css`
+      color: black;
+    `}
 `;
