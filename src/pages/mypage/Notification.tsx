@@ -6,37 +6,24 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 import { RootState } from 'modules';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  noticeDelete,
-  noticeDeleteOne,
-  noticeRead,
-} from '../../modules/notices';
+import { noticeDelete, noticeDeleteOne } from '../../modules/notices';
 
 const Notification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { notice, user } = useSelector((state: RootState) => ({
     notice: state.notices.notice,
     user: state.users.user,
   }));
+
   useEffect(() => {
-    if (!user) {
-      navigate(`/`);
-    }
-    dispatch(noticeRead());
+    if (!user) navigate(`/`);
   }, []);
-  const handleDelete = (id: number) => {
-    const deleteFlag = window.confirm('알림를 삭제하시겠습니까?');
-    if (deleteFlag) {
-      dispatch(noticeDeleteOne(id));
-      alert(`알림이 삭제되었습니다`);
-    }
-    dispatch(noticeRead());
-  };
-  const handleDeleteAll = () => {
-    const deleteFlag = window.confirm('전체 알림를 삭제하시겠습니까?');
-    deleteFlag && dispatch(noticeDelete());
-  };
+
+  const handleDelete = (id: number) => dispatch(noticeDeleteOne(id));
+  const handleDeleteAll = () =>
+    window.confirm('전체 알림을 삭제하시겠습니까?') && dispatch(noticeDelete());
 
   return (
     <Wrapper>
@@ -46,7 +33,7 @@ const Notification = () => {
       </Title>
       <Container>
         {notice &&
-          notice.data.map((item: any) => (
+          notice.map((item: any) => (
             <NotificationItem key={item.id}>
               <NavigateBtn onClick={() => navigate(item.url)}>
                 <AiOutlineArrowRight />
@@ -59,7 +46,7 @@ const Notification = () => {
                 <div>{item.createDate.split('T')[0]}</div>
               </SubContent>
             </NotificationItem>
-          ))}{' '}
+          ))}
       </Container>
     </Wrapper>
   );
@@ -106,6 +93,7 @@ const Title = styled.h2`
     font-size: 17px;
     border: 1px solid #454545;
     color: #454545;
+    cursor: pointer;
   }
 `;
 const NotificationItem = styled.div`
@@ -149,6 +137,7 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
+  min-height: calc(100vh - 100px);
   @media all and (max-width: 900px) {
     height: auto;
   }
