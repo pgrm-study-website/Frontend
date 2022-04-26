@@ -49,6 +49,7 @@ const UserInfo = ({ userId }: { userId: number }) => {
   }, [WrapperRef]);
   const closeModal = () => {
     setModalOpen(false);
+    setSendMessageContent('');
   };
   const handleMessageSend = () => {
     if (user && info) {
