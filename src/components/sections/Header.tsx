@@ -7,7 +7,6 @@ import { logout } from 'modules/users';
 import styled from 'styled-components';
 import { AiOutlineMessage } from 'react-icons/ai';
 import NotificationModal from './notification/NotificationModal';
-import { noticeRead } from 'modules/notices';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -21,11 +20,7 @@ const Header = () => {
   }));
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [myInfoOpen, setMyInfoOpen] = useState(false);
-  useEffect(() => {
-    if (user) {
-      dispatch(noticeRead());
-    }
-  }, []);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -63,7 +58,7 @@ const Header = () => {
         </Title>
         <IconContainer>
           <NotificationWrapper ref={NotificationWrapperRef}>
-            {notice ? (
+            {notice && notice.length > 0 ? (
               <IoIosNotifications
                 className="navigationItem"
                 onClick={() => setNotificationOpen(!notificationOpen)}
@@ -76,10 +71,7 @@ const Header = () => {
             )}
             <Notification open={notificationOpen}>
               {notificationOpen && notice && (
-                <NotificationModal
-                  data={notice.data}
-                  close={setNotificationOpen}
-                />
+                <NotificationModal data={notice} close={setNotificationOpen} />
               )}
             </Notification>
           </NotificationWrapper>
@@ -191,7 +183,7 @@ const Notification = styled.div<{ open: boolean }>`
   background-color: #fff;
   width: 300px;
   border-radius: 5px;
-  right: -50px;
+  right: -100px;
   height: fit-content;
   color: #242424;
   font-size: 15px;
