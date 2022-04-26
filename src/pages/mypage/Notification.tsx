@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { BsX } from 'react-icons/bs';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { RootState } from 'modules';
-import { notificationProps } from 'lib/api/notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -29,8 +28,8 @@ const Notification = () => {
   const handleDelete = (id: number) => {
     //삭제 데이터 서버에 전송
     dispatch(noticeDeleteOne(id));
-    // dispatch(noticeRead());
     alert(`알림이 삭제되었습니다`);
+    dispatch(noticeRead());
   };
   const handleDeleteAll = () => {
     dispatch(noticeDelete());
@@ -47,28 +46,23 @@ const Notification = () => {
         {notice &&
           notice.data.map((item: any) => (
             <NotificationItem key={item.id}>
-              <Content>{item.content}</Content>
-              <SubContent>
-                <div>{item.createDate.split('T')[0]}</div>
-              </SubContent>
               <NavigateBtn onClick={() => navigate(item.url)}>
                 <AiOutlineArrowRight />
               </NavigateBtn>
               <DeleteBtn onClick={() => handleDelete(item.id)}>
                 <BsX />
               </DeleteBtn>
+              <Content>{item.content}</Content>
+              <SubContent>
+                <div>{item.createDate.split('T')[0]}</div>
+              </SubContent>
             </NotificationItem>
-          ))}
+          ))}{' '}
       </Container>
     </Wrapper>
   );
 };
-const ContentImg = styled.div`
-  width: 55px;
-  background-color: #b8b8b8;
-  height: 55px;
-  margin-right: 10px;
-`;
+
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
@@ -76,6 +70,10 @@ const DeleteBtn = styled.div`
   top: 20px;
   right: 20px;
   cursor: pointer;
+  @media all and (max-width: 900px) {
+    top: auto;
+    bottom: 10px;
+  }
 `;
 const NavigateBtn = styled.div`
   position: absolute;
@@ -84,6 +82,10 @@ const NavigateBtn = styled.div`
   top: 23px;
   cursor: pointer;
   right: 48px;
+  @media all and (max-width: 900px) {
+    top: auto;
+    bottom: 13px;
+  }
 `;
 const Title = styled.h2`
   font-size: 30px;
@@ -107,7 +109,6 @@ const Title = styled.h2`
 const NotificationItem = styled.div`
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 2px 1px 10px 2px rgb(0 0 0 / 9%);
   background-color: #fff;
   position: relative;
   display: flex;
@@ -122,7 +123,6 @@ const SubContent = styled.div`
   gap: 10px;
   color: #454545;
 `;
-const Name = styled.div``;
 const Content = styled.div`
   font-size: 22px;
   color: #454545;
@@ -132,10 +132,13 @@ const Container = styled.div`
   flex-direction: column;
   font-family: 'Bazzi';
   gap: 10px;
+  overflow-y: auto;
+  height: calc(100% - 40px);
 `;
 
 const Wrapper = styled.div`
   width: 100%;
+  min-width: 350px;
   font-family: SuncheonR;
   font-family: 'Bazzi';
   min-height: 400px;
@@ -144,18 +147,8 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
+  @media all and (max-width: 900px) {
+    height: auto;
+  }
 `;
 export default Notification;
-// function useSelector(
-//   arg0: ({ listPosts, users }: RootState) => {
-//     posts: any;
-//     error: any;
-//     user: any;
-//   },
-// ): {
-//   posts: any;
-//   error: any;
-//   user: any;
-// } {
-//   throw new Error('Function not implemented.');
-// }

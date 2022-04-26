@@ -9,14 +9,18 @@ import {
 } from 'modules/message';
 import { RootState } from 'modules';
 import { messagesProps, sendMessageProps } from 'lib/api/message';
-import { useNavigate } from 'react-router-dom';
-import { FiSend } from 'react-icons/fi';
+import { useNavigate, useParams } from 'react-router-dom';
+import MessageDetail from 'components/sections/message/MessageDetail';
+import MessageDetailM from 'components/sections/message/MessageDetailM';
+import { BsXLg } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
+
 function Message() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [select, setSelect] = useState<messagesProps>();
+  const [select, setSelect] = useState<messagesProps | null>();
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
+  const param = useParams()['*'];
 
   const { user, messages, detail } = useSelector(
     ({ users, messages, messageDetail }: RootState) => ({
@@ -25,7 +29,6 @@ function Message() {
       detail: messageDetail.messageDetail,
     }),
   );
-  console.log('select', select);
 
   useEffect(() => {
     if (user) {
@@ -34,7 +37,14 @@ function Message() {
       navigate(`/`);
     }
   }, []);
-
+  useEffect(() => {
+    if (param && messages) {
+      const selected = messages.filter(
+        i => i.otherPersonId == parseInt(param),
+      )[0];
+      handleSelect(selected);
+    }
+  }, [messages]);
   const handleMessage = () => {
     if (user && select) {
       const objtest: sendMessageProps = {
@@ -49,11 +59,10 @@ function Message() {
     //초기화
     setSendMessageContent('');
     // TODO :  조금의 시간 뒤에 리로드가 필요하다.
-    select && handleSelect(select);
+    // select && handleSelect(select);
   };
   const handleSelect = (item: messagesProps) => {
     setSelect(item);
-
     if (user) {
       const sendParam = `userId=${user.id}&otherId=${item.otherPersonId}`;
       dispatch(messageDetailRead(sendParam));
@@ -62,7 +71,6 @@ function Message() {
   const handleMessageDelete = (id: number) => {
     if (user) {
       const param = `userId=${user.id}&otherId=${id}`;
-      console.log(param);
 
       dispatch(messageDeleteAll(param));
       alert(`전체 메시지를 삭제하였습니다. `);
@@ -77,16 +85,20 @@ function Message() {
 
         {messages && messages.length !== 0 ? (
           <MessageList>
-            {messages.map((item, idx) => (
-              <MessageItem
-                key={idx}
-                onClick={() => handleSelect(item)}
-                className="pointer"
-              >
-                <MessageItemName>{item.otherPersonNickname}</MessageItemName>
-                <div> {item.content}</div>
-              </MessageItem>
-            ))}
+            {messages.map((item, idx) => {
+              return (
+                <MessageItem
+                  key={idx}
+                  onClick={() => handleSelect(item)}
+                  className={` ${
+                    select?.otherPersonId === item.otherPersonId && 'select'
+                  }`}
+                >
+                  <MessageItemName>{item.otherPersonNickname}</MessageItemName>
+                  <div> {item.content}</div>
+                </MessageItem>
+              );
+            })}
           </MessageList>
         ) : (
           <NonMessage>메시지가 없습니다. </NonMessage>
@@ -101,111 +113,73 @@ function Message() {
                 onClick={() => handleMessageDelete(select.otherPersonId)}
               ></MessageDeleteBtn>
             </MessageOtherName>
-            <ContentContainer>
-              <MessageList>
-                {detail.map((i, idx) => (
-                  <MessageItem
-                    key={`${idx}${i.content}`}
-                    className="border-bottom"
-                  >
-                    <SendUser sendOther={i.type}>
-                      {i.type == 'receive' ? '받은 쪽지' : '보낸 쪽지'}
-                    </SendUser>
-                    <div> {i.content}</div>
-                  </MessageItem>
-                ))}
-              </MessageList>
-              <SendMessageContainer>
-                <textarea
-                  name="sendMessage"
-                  id="sendMessage"
-                  value={sendMessageContent}
-                  onChange={e => setSendMessageContent(e.target.value)}
-                ></textarea>
-                <button onClick={handleMessage}>
-                  <FiSend />
-                </button>
-              </SendMessageContainer>
-            </ContentContainer>
+            <MessageDetail
+              select={select}
+              detail={detail}
+              sendMessageContent={sendMessageContent}
+              handleMessage={handleMessage}
+              setSendMessageContent={setSendMessageContent}
+            />
           </>
         )}
       </CurrentContent>
+      {detail && select && (
+        <MessageDetailM
+          select={select}
+          closeModal={() => setSelect(null)}
+          handleMessageDelete={handleMessageDelete}
+        >
+          <MessageDetail
+            select={select}
+            detail={detail}
+            sendMessageContent={sendMessageContent}
+            handleMessage={handleMessage}
+            setSendMessageContent={setSendMessageContent}
+          />
+        </MessageDetailM>
+      )}
     </Wrapper>
   );
 }
-const NonMessage = styled.div`
-  margin: 20px 0;
-`;
+
 const MessageDeleteBtn = styled(AiOutlineDelete)`
   position: absolute;
   right: 0;
   top: 0;
   cursor: pointer;
 `;
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-`;
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% - 20px);
-`;
-const SendMessageContainer = styled.div`
-  min-height: 100px;
-  display: flex;
-  justify-content: space-between;
-  textarea {
-    height: 100%;
-    border: 1px solid #cecece;
-    padding: 20px;
-    border-radius: 10px;
-    width: calc(100% - 50px);
-  }
-  button {
-    height: 100%;
-    border-radius: 10px;
-    background-color: #4cbbc2;
-    border: 1px solid #4cbbc2;
-    width: 40px;
-    color: #fff;
-    cursor: pointer;
-  }
+const NonMessage = styled.div`
+  margin: 20px 0;
 `;
 const MessageOtherName = styled.div`
   font-weight: 700;
   font-size: 20px;
   position: relative;
 `;
-const SendUser = styled.div<{ sendOther: string }>`
-  color: ${props => (props.sendOther === 'send' ? ' #ffc963' : '#4cbbc2')};
+const Title = styled.div`
+  font-size: 20px;
   font-weight: 700;
-  padding: 10px 0;
 `;
 const MessageList = styled.ul`
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 20px 0;
-  height: fit-content;
+  height: calc(100% - 60px);
 `;
 const MessageItem = styled.li`
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  &.pointer {
-    cursor: pointer;
-  }
+  cursor: pointer;
   &.select {
-    background-color: #4cbbc2;
+    background-color: #75cbd1;
     color: #fff;
+    div {
+      color: #fff;
+    }
   }
   &.border-bottom {
     height: fit-content;
     border-bottom: 1px solid #cecece;
-  }
-  &.select,
-  &.non-select {
-    cursor: pointer;
   }
 `;
 const MessageItemName = styled.div`
@@ -221,6 +195,9 @@ const MessageListContainer = styled.div`
   padding: 20px;
   background-color: #fff;
   overflow-y: hidden;
+  @media all and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 const CurrentContent = styled.div<{ current?: any }>`
   background-color: #fff;
@@ -230,6 +207,9 @@ const CurrentContent = styled.div<{ current?: any }>`
   height: 100%;
   padding: 20px;
   border-radius: 15px;
+  @media all and (max-width: 900px) {
+    display: none;
+  }
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -241,5 +221,9 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: SuncheonR;
   background-color: #f9f9f9;
+  position: relative;
+  @media all and (max-width: 900px) {
+    height: calc(100% - 160px);
+  }
 `;
 export default Message;
