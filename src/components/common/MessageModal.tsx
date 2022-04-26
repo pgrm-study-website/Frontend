@@ -18,6 +18,9 @@ const MessageModal = ({
   sendMessageContent,
   setSendMessageContent,
 }: Props) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    e.keyCode === 13 && !e.shiftKey && handleMessageSend();
+  };
   return (
     <Wrapper className={open ? 'openModal modal' : 'modal'}>
       {open ? (
@@ -32,6 +35,7 @@ const MessageModal = ({
             <SendArea
               value={sendMessageContent}
               onChange={e => setSendMessageContent(e.target.value)}
+              onKeyDown={e => handleKeyDown(e)}
             ></SendArea>
           </main>
           <ModalFooter>
@@ -63,6 +67,7 @@ const SendArea = styled.textarea`
   border: 1px solid #a4a4a4;
   border-radius: 5px;
   min-height: 80px;
+  resize: none;
 `;
 const Wrapper = styled.div`
   display: none;

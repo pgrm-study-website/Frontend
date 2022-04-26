@@ -26,14 +26,16 @@ const Notification = () => {
     dispatch(noticeRead());
   }, []);
   const handleDelete = (id: number) => {
-    //삭제 데이터 서버에 전송
-    dispatch(noticeDeleteOne(id));
-    alert(`알림이 삭제되었습니다`);
+    const deleteFlag = window.confirm('알림를 삭제하시겠습니까?');
+    if (deleteFlag) {
+      dispatch(noticeDeleteOne(id));
+      alert(`알림이 삭제되었습니다`);
+    }
     dispatch(noticeRead());
   };
   const handleDeleteAll = () => {
-    dispatch(noticeDelete());
-    alert(`알림이 전체 삭제되었습니다`);
+    const deleteFlag = window.confirm('전체 알림를 삭제하시겠습니까?');
+    deleteFlag && dispatch(noticeDelete());
   };
 
   return (

@@ -12,7 +12,6 @@ import { messagesProps, sendMessageProps } from 'lib/api/message';
 import { useNavigate, useParams } from 'react-router-dom';
 import MessageDetail from 'components/sections/message/MessageDetail';
 import MessageDetailM from 'components/sections/message/MessageDetailM';
-import { BsXLg } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 function Message() {
@@ -58,10 +57,9 @@ function Message() {
     }
     //초기화
     setSendMessageContent('');
-    // TODO :  조금의 시간 뒤에 리로드가 필요하다.
-    // select && handleSelect(select);
   };
   const handleSelect = (item: messagesProps) => {
+    navigate(`/message/${item.otherPersonId}`);
     setSelect(item);
     if (user) {
       const sendParam = `userId=${user.id}&otherId=${item.otherPersonId}`;
@@ -69,7 +67,9 @@ function Message() {
     }
   };
   const handleMessageDelete = (id: number) => {
-    if (user) {
+    const deleteFlag = window.confirm('전체 메시지를 삭제하시겠습니까?');
+
+    if (deleteFlag && user) {
       const param = `userId=${user.id}&otherId=${id}`;
 
       dispatch(messageDeleteAll(param));

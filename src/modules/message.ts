@@ -128,7 +128,6 @@ const messages = createReducer<messageState, messagesAction>(initialState, {
   [MESSAGE_READ_SUCCESS]: (state: any, { payload }: any) => ({
     ...state,
     messages: payload.data,
-    // messages: messageUserListTestData,
   }),
   [MESSAGE_READ_FAILURE]: (state: any, { payload: error }: any) => {
     alert('message reading error');
@@ -150,7 +149,6 @@ export const messageDetail = createReducer(initialMessageDetailState, {
   [MESSAGE_DETAIL_READ_FAILURE]: (state, { payload: error }) => {
     // alert('message reading error');
     alert(error.response?.data.message);
-
     return {
       ...state,
       error,
