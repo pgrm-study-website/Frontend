@@ -17,25 +17,6 @@ import { logout } from 'modules/users';
 import styled, { css } from 'styled-components';
 
 import NotificationModal from './notification/NotificationModal';
-import { noticeRead } from 'modules/notices';
-
-const messageDummyData = [
-  {
-    id: 10,
-    content: '000에 댓글이 달렸습니다',
-    date: '2022.03.30',
-  },
-  {
-    id: 11,
-    date: '2022.03.30',
-    content: '000 스터디에 가입이 되었습니다',
-  },
-  {
-    id: 12,
-    date: '2022.03.30',
-    content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
-  },
-];
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -49,11 +30,6 @@ const Sidebar = () => {
     notice: state.notices.notice,
     user: state.users.user,
   }));
-  useEffect(() => {
-    if (user) {
-      dispatch(noticeRead());
-    }
-  }, [notificationOpen]);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -116,7 +92,7 @@ const Sidebar = () => {
                 <Notification open={notificationOpen}>
                   {notificationOpen && notice && (
                     <NotificationModal
-                      data={notice.data}
+                      data={notice}
                       close={setNotificationOpen}
                     />
                   )}
