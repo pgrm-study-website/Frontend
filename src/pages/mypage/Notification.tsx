@@ -33,25 +33,32 @@ const Notification = () => {
       </Title>
       <Container>
         {notice &&
-          notice.map((item: any) => (
-            <NotificationItem key={item.id}>
-              <NavigateBtn onClick={() => navigate(item.url)}>
-                <AiOutlineArrowRight />
-              </NavigateBtn>
-              <DeleteBtn onClick={() => handleDelete(item.id)}>
-                <BsX />
-              </DeleteBtn>
-              <Content>{item.content}</Content>
-              <SubContent>
-                <div>{item.createDate.split('T')[0]}</div>
-              </SubContent>
-            </NotificationItem>
+          (notice.length === 0 ? (
+            <NonNotice>알림이 없습니다</NonNotice>
+          ) : (
+            notice.map((item: any) => (
+              <NotificationItem key={item.id}>
+                <NavigateBtn onClick={() => navigate(item.url)}>
+                  <AiOutlineArrowRight />
+                </NavigateBtn>
+                <DeleteBtn onClick={() => handleDelete(item.id)}>
+                  <BsX />
+                </DeleteBtn>
+                <Content>{item.content}</Content>
+                <SubContent>
+                  <div>{item.createDate.split('T')[0]}</div>
+                </SubContent>
+              </NotificationItem>
+            ))
           ))}
       </Container>
     </Wrapper>
   );
 };
-
+const NonNotice = styled.div`
+  font-size: 20px;
+  margin: 10px 0;
+`;
 const DeleteBtn = styled.div`
   position: absolute;
   color: #454545;
