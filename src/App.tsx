@@ -1,5 +1,8 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'modules';
+import { changeField, noticeRead } from 'modules/notices';
 import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
@@ -112,36 +115,7 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="login" element={<Login />} />
-          <Route path="login/:social" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
-          <Route path="pwd_find" element={<PwdFind />} />
-          <Route
-            path="*"
-            element={
-              <Wrapper>
-                <Sidebar />
-                <ContentWrapper>
-                  <Header />
-                  <Routes>
-                    <Route path="" element={<Main />} />
-                    <Route path="posts/*">
-                      <Route path="" element={<List />} />
-                      <Route path="write" element={<Write />} />
-                      <Route path=":id" element={<Read />} />
-                    </Route>
-                    <Route path="mypage/:nickname" element={<Mypage />} />
-                    <Route path="pwd_change" element={<PwdChange />} />
-                    <Route path="signout" element={<SignOut />} />
-                    <Route path="message/*" element={<Message />} />
-                    <Route path="notification" element={<Notification />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                  <Footer />
-                </ContentWrapper>
-              </Wrapper>
-            }
-          />
+          <Route path="*" element={<InsideComponent />} />
         </Routes>
       </BrowserRouter>
     </>
@@ -149,6 +123,58 @@ const App = () => {
 };
 
 export default App;
+
+const InsideComponent = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const { notice, user } = useSelector((state: RootState) => ({
+    notice: state.notices,
+    user: state.users.user,
+  }));
+
+  useEffect(() => {
+    if (user) {
+      dispatch(noticeRead());
+      dispatch(changeField({ key: 'remove', value: null }));
+    }
+  }, [location, notice.remove]);
+
+  return (
+    <Routes>
+      <Route path="login" element={<Login />} />
+      <Route path="login/:social" element={<Login />} />
+      <Route path="signup" element={<SignUp />} />
+      <Route path="pwd_find" element={<PwdFind />} />
+      <Route
+        path="*"
+        element={
+          <Wrapper>
+            <Sidebar />
+            <ContentWrapper>
+              <Header />
+              <Routes>
+                <Route path="" element={<Main />} />
+                <Route path="posts/*">
+                  <Route path="" element={<List />} />
+                  <Route path="write" element={<Write />} />
+                  <Route path=":id" element={<Read />} />
+                </Route>
+                <Route path="mypage/:nickname" element={<Mypage />} />
+                <Route path="pwd_change" element={<PwdChange />} />
+                <Route path="signout" element={<SignOut />} />
+                <Route path="message/*" element={<Message />} />
+                <Route path="notification" element={<Notification />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Footer />
+            </ContentWrapper>
+          </Wrapper>
+        }
+      />
+    </Routes>
+  );
+};
 
 const Wrapper = styled.div`
   background-color: #f1f1f1;

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotifications, IoIosNotificationsOutline } from 'react-icons/io';
 import { RootState } from 'modules';
@@ -7,11 +7,11 @@ import { logout } from 'modules/users';
 import styled from 'styled-components';
 import { AiOutlineMessage } from 'react-icons/ai';
 import NotificationModal from './notification/NotificationModal';
-import { noticeRead } from 'modules/notices';
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
   const MyInfoWrapperRef = useRef<HTMLDivElement>(null);
@@ -21,11 +21,7 @@ const Header = () => {
   }));
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [myInfoOpen, setMyInfoOpen] = useState(false);
-  useEffect(() => {
-    if (user) {
-      dispatch(noticeRead());
-    }
-  }, []);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -54,6 +50,10 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [MyInfoWrapperRef]);
+  useEffect(() => {
+    setNotificationOpen(false);
+    setMyInfoOpen(false);
+  }, [location]);
 
   return user ? (
     <>
@@ -63,7 +63,7 @@ const Header = () => {
         </Title>
         <IconContainer>
           <NotificationWrapper ref={NotificationWrapperRef}>
-            {notice ? (
+            {notice && notice.length > 0 ? (
               <IoIosNotifications
                 className="navigationItem"
                 onClick={() => setNotificationOpen(!notificationOpen)}
@@ -76,10 +76,7 @@ const Header = () => {
             )}
             <Notification open={notificationOpen}>
               {notificationOpen && notice && (
-                <NotificationModal
-                  data={notice.data}
-                  close={setNotificationOpen}
-                />
+                <NotificationModal data={notice} close={setNotificationOpen} />
               )}
             </Notification>
           </NotificationWrapper>
@@ -191,7 +188,7 @@ const Notification = styled.div<{ open: boolean }>`
   background-color: #fff;
   width: 300px;
   border-radius: 5px;
-  right: -50px;
+  right: -100px;
   height: fit-content;
   color: #242424;
   font-size: 15px;
@@ -201,6 +198,11 @@ const Notification = styled.div<{ open: boolean }>`
   height: ${props => (props.open ? 'fit-content' : '0')};
   padding: ${props => (props.open ? '15px' : '0')};
   box-shadow: 2px 2px 2px black;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;
 const MyInfoWrapper = styled.div`
   position: relative;
@@ -234,6 +236,11 @@ const MyInfoModal = styled.div<{ open: boolean }>`
   div {
     cursor: pointer;
   }
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;
 const ButtonWrapper = styled.div`
   display: flex;

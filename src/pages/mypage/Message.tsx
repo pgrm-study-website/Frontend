@@ -21,11 +21,12 @@ function Message() {
   const [sendMessageContent, setSendMessageContent] = useState<string>('');
   const param = useParams()['*'];
 
-  const { user, messages, detail } = useSelector(
+  const { user, messages, detail, reload } = useSelector(
     ({ users, messages, messageDetail }: RootState) => ({
       user: users.user,
       messages: messages.messages,
       detail: messageDetail.messageDetail,
+      reload: messageDetail.reload,
     }),
   );
 
@@ -35,16 +36,30 @@ function Message() {
     } else {
       navigate(`/`);
     }
-  }, []);
+  }, [param]);
   useEffect(() => {
-    if (param && messages) {
-      const selected = messages.filter(
-        i => i.otherPersonId == parseInt(param),
-      )[0];
-      handleSelect(selected);
+    if (user) {
+      if (param === '' || param === undefined) {
+        setSelect(null);
+      } else if (messages) {
+        const item = messages.filter(
+          i => i.otherPersonId == parseInt(param),
+        )[0];
+        setSelect(item);
+        const sendParam = `userId=${user.id}&otherId=${item.otherPersonId}`;
+        dispatch(messageDetailRead(sendParam));
+      }
     }
   }, [messages]);
+  useEffect(() => {
+    if (user) {
+      dispatch(messageRead({ id: user.id }));
+    }
+    setSendMessageContent('');
+  }, [reload]);
+
   const handleMessage = () => {
+    if (sendMessageContent === '' || sendMessageContent === '\n') return;
     if (user && select) {
       const objtest: sendMessageProps = {
         userId: user.id.toString(),
@@ -52,32 +67,20 @@ function Message() {
         content: sendMessageContent,
       };
       dispatch(messageSend(objtest));
-      alert(`메시지를 전송하였습니다.  `);
-      dispatch(messageRead({ id: user.id }));
     }
-    //초기화
-    setSendMessageContent('');
   };
   const handleSelect = (item: messagesProps) => {
     navigate(`/message/${item.otherPersonId}`);
-    setSelect(item);
-    if (user) {
-      const sendParam = `userId=${user.id}&otherId=${item.otherPersonId}`;
-      dispatch(messageDetailRead(sendParam));
-    }
   };
   const handleMessageDelete = (id: number) => {
     const deleteFlag = window.confirm('전체 메시지를 삭제하시겠습니까?');
-
     if (deleteFlag && user) {
       const param = `userId=${user.id}&otherId=${id}`;
-
       dispatch(messageDeleteAll(param));
-      alert(`전체 메시지를 삭제하였습니다. `);
       navigate('/message');
-      dispatch(messageRead({ id: user.id }));
     }
   };
+
   return (
     <Wrapper>
       <MessageListContainer>
@@ -101,7 +104,7 @@ function Message() {
             })}
           </MessageList>
         ) : (
-          <NonMessage>메시지가 없습니다. </NonMessage>
+          <NonMessage>메시지가 없습니다.</NonMessage>
         )}
       </MessageListContainer>
       <CurrentContent>
