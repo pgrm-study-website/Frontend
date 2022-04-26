@@ -55,6 +55,7 @@ function Message() {
     if (user) {
       dispatch(messageRead({ id: user.id }));
     }
+    setSendMessageContent('');
   }, [reload]);
 
   const handleMessage = () => {
@@ -67,8 +68,6 @@ function Message() {
       };
       dispatch(messageSend(objtest));
     }
-    //초기화
-    setSendMessageContent('');
   };
   const handleSelect = (item: messagesProps) => {
     navigate(`/message/${item.otherPersonId}`);

@@ -38,7 +38,9 @@ const MessageDetail = ({
           id="sendMessage"
           value={sendMessageContent}
           onChange={e => setSendMessageContent(e.target.value)}
-          onKeyDown={e => handleKeyDown(e)}
+          onKeyPress={e => {
+            if (e.key === 'Enter') handleMessage();
+          }}
           style={{ resize: 'none' }}
         ></textarea>
         <button onClick={handleMessage}>
