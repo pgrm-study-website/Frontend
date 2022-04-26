@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { IoIosNotifications } from 'react-icons/io';
+import { IoIosNotifications, IoIosNotificationsOutline } from 'react-icons/io';
 import { RootState } from 'modules';
 import { logout } from 'modules/users';
 import styled from 'styled-components';
@@ -63,10 +63,17 @@ const Header = () => {
         </Title>
         <IconContainer>
           <NotificationWrapper ref={NotificationWrapperRef}>
-            <IoIosNotifications
-              className="navigationItem"
-              onClick={() => setNotificationOpen(!notificationOpen)}
-            />
+            {notice ? (
+              <IoIosNotifications
+                className="navigationItem"
+                onClick={() => setNotificationOpen(!notificationOpen)}
+              />
+            ) : (
+              <IoIosNotificationsOutline
+                className="navigationItem"
+                onClick={() => setNotificationOpen(!notificationOpen)}
+              />
+            )}
             <Notification open={notificationOpen}>
               {notificationOpen && notice && (
                 <NotificationModal
