@@ -14,9 +14,6 @@ const MESSAGE_DETAIL_READ_FAILURE = 'notices/MESSAGE_DETAIL_READ_FAILURE';
 const MESSAGE_DELETE_ALL = 'notices/MESSAGE_DELETE_ALL';
 const MESSAGE_DELETE_ALL_SUCCESS = 'notices/MESSAGE_DELETE_ALL_SUCCESS';
 const MESSAGE_DELETE_ALL_FAILURE = 'notices/MESSAGE_DELETE_ALL_FAILURE';
-// const MESSAGE_DELETE_ONE = 'notices/MESSAGE_DELETE_ONE';
-// const MESSAGE_DELETE_ONE_SUCCESS = 'notices/MESSAGE_DELETE_ONE_SUCCESS';
-// const MESSAGE_DELETE_ONE_FAILURE = 'notices/MESSAGE_DELETE_ONE_FAILURE';
 const MESSAGE_SEND = 'notices/MESSAGE_SEND';
 const MESSAGE_SEND_SUCCESS = 'notices/MESSAGE_SEND_SUCCESS';
 const MESSAGE_SEND_FAILURE = 'notices/MESSAGE_SEND_FAILURE';
@@ -46,21 +43,12 @@ export const messageDeleteAllFailure = createAction(
   MESSAGE_DELETE_ALL_FAILURE,
 )<AxiosError>();
 
-// export const messageDeleteOne = createAction(MESSAGE_DELETE_ONE)();
-// export const messageDeleteOneSuccess = createAction(
-//   MESSAGE_DELETE_ONE_SUCCESS,
-// )<any>();
-// export const messageDeleteOneFailure = createAction(
-//   MESSAGE_DELETE_ONE_FAILURE,
-// )<AxiosError>();
-
 export const messageSend = createAction(MESSAGE_SEND)<any>();
 export const messageSendSuccess = createAction(MESSAGE_SEND_SUCCESS)<any>();
 export const messageSendFailure =
   createAction(MESSAGE_SEND_FAILURE)<AxiosError>();
 
 //   Redux-Saga
-
 const readSaga = createRequestSaga(MESSAGE_READ, messageAPI.read);
 const readDetailSaga = createRequestSaga(
   MESSAGE_DETAIL_READ,
@@ -70,17 +58,12 @@ const removeAllSaga = createRequestSaga(
   MESSAGE_DELETE_ALL,
   messageAPI.removeAll,
 );
-// const removeOneSaga = createRequestSaga(
-//   MESSAGE_DELETE_ONE,
-//   messageAPI.removeOne,
-// );
 const sendSaga = createRequestSaga(MESSAGE_SEND, messageAPI.send);
 
 export function* messagesSaga() {
   yield takeLatest(MESSAGE_READ, readSaga);
   yield takeLatest(MESSAGE_DETAIL_READ, readDetailSaga);
   yield takeLatest(MESSAGE_DELETE_ALL, removeAllSaga);
-  // yield takeLatest(MESSAGE_DELETE_ONE, removeOneSaga);
   yield takeLatest(MESSAGE_SEND, sendSaga);
 }
 
@@ -95,9 +78,6 @@ const actions = {
   messageDeleteAll,
   messageDeleteAllSuccess,
   messageDeleteAllFailure,
-  // messageDeleteOne,
-  // messageDeleteOneSuccess,
-  // messageDeleteOneFailure,
   messageSend,
   messageSendSuccess,
   messageSendFailure,
@@ -174,22 +154,6 @@ export const messageDetail = createReducer(initialMessageDetailState, {
       error,
     };
   },
-  // [MESSAGE_DELETE_ONE]: state => ({
-  //   ...state,
-  //   messageDetail: null,
-  // }),
-  // [MESSAGE_DELETE_ONE_SUCCESS]: (state, { payload }) => ({
-  //   ...state,
-  //   remove: true,
-  //   messageDetail: payload.data,
-  // }),
-  // [MESSAGE_DELETE_ONE_FAILURE]: (state, { payload: error }) => {
-  //   alert(error.response?.data.message);
-  //   return {
-  //     ...state,
-  //     error,
-  //   };
-  // },
   [MESSAGE_SEND]: state => ({
     ...state,
     reload: null,
