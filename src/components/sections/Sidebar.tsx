@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AiOutlineLogout,
@@ -21,6 +21,7 @@ import NotificationModal from './notification/NotificationModal';
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(true);
@@ -45,6 +46,9 @@ const Sidebar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [NotificationWrapperRef]);
+  useEffect(() => {
+    setNotificationOpen(false);
+  }, [location]);
 
   return (
     <>

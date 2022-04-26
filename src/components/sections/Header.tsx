@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosNotifications, IoIosNotificationsOutline } from 'react-icons/io';
 import { RootState } from 'modules';
@@ -11,6 +11,7 @@ import NotificationModal from './notification/NotificationModal';
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
   const MyInfoWrapperRef = useRef<HTMLDivElement>(null);
@@ -49,6 +50,10 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [MyInfoWrapperRef]);
+  useEffect(() => {
+    setNotificationOpen(false);
+    setMyInfoOpen(false);
+  }, [location]);
 
   return user ? (
     <>
