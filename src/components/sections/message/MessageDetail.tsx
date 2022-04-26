@@ -17,6 +17,9 @@ const MessageDetail = ({
   handleMessage,
   setSendMessageContent,
 }: Props) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    e.keyCode === 13 && !e.shiftKey && handleMessage();
+  };
   return (
     <ContentContainer>
       <MessageList>
@@ -35,6 +38,8 @@ const MessageDetail = ({
           id="sendMessage"
           value={sendMessageContent}
           onChange={e => setSendMessageContent(e.target.value)}
+          onKeyDown={e => handleKeyDown(e)}
+          style={{ resize: 'none' }}
         ></textarea>
         <button onClick={handleMessage}>
           <FiSend />

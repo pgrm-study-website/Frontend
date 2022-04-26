@@ -80,7 +80,7 @@ const Header = () => {
             <AiOutlineMessage
               className="navigationItem"
               onClick={() => {
-                navigate(`/notification`);
+                navigate(`/message`);
               }}
             />
           </MessageWrapper>
