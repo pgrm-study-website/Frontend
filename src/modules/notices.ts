@@ -195,12 +195,10 @@ const notices = createReducer(initialState, {
   [NOTICE_DELETE_ONE]: (state, { payload }) => ({
     ...state,
     remove: null,
-    notice: null,
   }),
   [NOTICE_DELETE_ONE_SUCCESS]: (state, { payload }) => ({
     ...state,
     remove: true,
-    notice: payload.data,
   }),
   [NOTICE_DELETE_ONE_FAILURE]: (state, { payload: error }) => {
     alert('notice delete one error');
