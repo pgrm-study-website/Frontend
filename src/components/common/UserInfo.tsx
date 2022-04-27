@@ -47,11 +47,9 @@ const UserInfo = ({ userId }: { userId: number }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [WrapperRef]);
-  const openModal = () => {
-    setModalOpen(true);
-  };
   const closeModal = () => {
     setModalOpen(false);
+    setSendMessageContent('');
   };
   const handleMessageSend = () => {
     if (user && info) {
@@ -63,7 +61,6 @@ const UserInfo = ({ userId }: { userId: number }) => {
       dispatch(messageSend(obj));
       setSendMessageContent('');
       closeModal();
-      alert(`${info.nickname as string}님에게 메시지를 보냈습니다. `);
     }
   };
 
@@ -85,7 +82,7 @@ const UserInfo = ({ userId }: { userId: number }) => {
             <AiOutlineHome />
           </Link>
           {user && user.id !== userId && (
-            <div onClick={openModal}>
+            <div onClick={() => setModalOpen(true)}>
               <BiMessageAltDetail />
             </div>
           )}

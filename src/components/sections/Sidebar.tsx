@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AiOutlineLogout,
@@ -17,29 +17,11 @@ import { logout } from 'modules/users';
 import styled, { css } from 'styled-components';
 
 import NotificationModal from './notification/NotificationModal';
-import { noticeRead } from 'modules/notices';
-
-const messageDummyData = [
-  {
-    id: 10,
-    content: '000에 댓글이 달렸습니다',
-    date: '2022.03.30',
-  },
-  {
-    id: 11,
-    date: '2022.03.30',
-    content: '000 스터디에 가입이 되었습니다',
-  },
-  {
-    id: 12,
-    date: '2022.03.30',
-    content: '000님에게 쪽지가 왔습니다 "안녕하세요..."',
-  },
-];
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const NotificationWrapperRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(true);
@@ -49,11 +31,6 @@ const Sidebar = () => {
     notice: state.notices.notice,
     user: state.users.user,
   }));
-  useEffect(() => {
-    if (user) {
-      dispatch(noticeRead());
-    }
-  }, [notificationOpen]);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
       if (
@@ -69,6 +46,9 @@ const Sidebar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [NotificationWrapperRef]);
+  useEffect(() => {
+    setNotificationOpen(false);
+  }, [location]);
 
   return (
     <>
@@ -116,7 +96,7 @@ const Sidebar = () => {
                 <Notification open={notificationOpen}>
                   {notificationOpen && notice && (
                     <NotificationModal
-                      data={notice.data}
+                      data={notice}
                       close={setNotificationOpen}
                     />
                   )}
@@ -352,4 +332,9 @@ const Notification = styled.div<{ open: boolean }>`
   height: ${props => (props.open ? 'fit-content' : '0')};
   padding: ${props => (props.open ? '15px' : '0')};
   box-shadow: 2px 2px 2px black;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 `;

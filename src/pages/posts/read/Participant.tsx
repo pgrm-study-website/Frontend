@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,6 +19,7 @@ import styled, { css } from 'styled-components';
 import { LoadingBox } from 'components/common/Loading';
 import UserInfo from 'components/common/UserInfo';
 import SimpleUserInfo from 'components/common/SimpleUserInfo';
+import { messageSend } from 'modules/message';
 
 const SmallIcon: {
   [key: string]: any;
@@ -51,6 +51,7 @@ const Participant = ({
     }),
   );
   const [target, setTarget] = useState<any>(null);
+  const [messageValue, setMessageValue] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -75,6 +76,14 @@ const Participant = ({
   };
   const onWrite = () => {
     dispatch(applicationWrite(postId));
+    if (messageValue !== '') {
+      const objtest = {
+        userId: user!.id.toString(),
+        otherId: postUserId.toString(),
+        content: messageValue,
+      };
+      dispatch(messageSend(objtest));
+    }
   };
   const onUpdate = (status: string, nickname: string) => {
     if (last && status === '승인') {
@@ -87,12 +96,23 @@ const Participant = ({
       }
     }
     dispatch(applicationUpdate({ postId, status, nickname }));
+    if (messageValue !== '') {
+      const objtest = {
+        userId: user!.id.toString(),
+        otherId: target.user.id.toString(),
+        content: messageValue,
+      };
+      dispatch(messageSend(objtest));
+    }
     setTarget(null);
   };
   const onCancle = () => {
     if (window.confirm('정말 신청을 취소하시겠습니까?')) {
       dispatch(applicationRemove(postId));
     }
+  };
+  const onChangeMessage = (e: any) => {
+    setMessageValue(e.target.value);
   };
 
   if (!user) {
@@ -138,7 +158,10 @@ const Participant = ({
                 {list.map((i: any, idx: number) => (
                   <SimpleUserWrapper
                     key={idx}
-                    onClick={() => setTarget(target === i ? null : i)}
+                    onClick={() => {
+                      setTarget(target === i ? null : i);
+                      setMessageValue('');
+                    }}
                     target={target === i ? 'true' : 'false'}
                   >
                     <SimpleUserInfo userId={i.user ? i.user.id : i.id} />
@@ -172,7 +195,11 @@ const Participant = ({
                 </SubmitWrapper>
               ) : target.status === '대기' ? (
                 <>
-                  <MessageInput placeholder="ex) 승인/거절하겠습니다!" />
+                  <MessageInput
+                    placeholder="ex) 승인/거절하겠습니다!"
+                    onChange={onChangeMessage}
+                    value={messageValue}
+                  />
                   <ButtonWrapper>
                     <SubmitButton
                       onClick={() => onUpdate('승인', target.user.nickname)}
@@ -188,7 +215,11 @@ const Participant = ({
                 </>
               ) : target.status === '거절' ? (
                 <>
-                  <MessageInput placeholder="ex) 다시 승인하겠습니다." />
+                  <MessageInput
+                    placeholder="ex) 다시 승인하겠습니다."
+                    onChange={onChangeMessage}
+                    value={messageValue}
+                  />
                   <ButtonWrapper>
                     <SubmitButton
                       onClick={() => onUpdate('승인', target.user.nickname)}
@@ -200,7 +231,11 @@ const Participant = ({
               ) : (
                 target.status === '승인' && (
                   <>
-                    <MessageInput placeholder="ex) 다시 거절하겠습니다." />
+                    <MessageInput
+                      placeholder="ex) 다시 거절하겠습니다."
+                      onChange={onChangeMessage}
+                      value={messageValue}
+                    />
                     <ButtonWrapper>
                       <SubmitButton
                         onClick={() => onUpdate('거절', target.user.nickname)}
@@ -239,7 +274,11 @@ const Participant = ({
             <SubmitWrapper>
               {read === '미신청' ? (
                 <>
-                  <MessageInput placeholder="ex) 이 팀에 참가하고 싶어요!" />
+                  <MessageInput
+                    placeholder="ex) 이 팀에 참가하고 싶어요!"
+                    onChange={onChangeMessage}
+                    value={messageValue}
+                  />
                   <ButtonWrapper>
                     <SubmitButton onClick={onWrite}>신청하기</SubmitButton>
                   </ButtonWrapper>

@@ -1,5 +1,7 @@
 import { notificationProps } from 'lib/api/notice';
+import { noticeDeleteOne } from 'modules/notices';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -22,22 +24,29 @@ export default function NotificationModal({
             .map(item => (
               <NotificationItem key={item.id} item={item}></NotificationItem>
             ))}
-      {data.length !== 0 && (
-        <li>
-          <Link to="/notification">
-            <More onClick={() => close(false)}>more</More>
-          </Link>
-        </li>
-      )}
+
+      <li>
+        <Link to="/notification">
+          <More onClick={() => close(false)}>more</More>
+        </Link>
+      </li>
     </NotificationList>
   );
 }
 const NotificationItem = ({ item }: { item: notificationProps }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <Item>
-      <Content onClick={() => navigate(item.url)}>{item.content}</Content>
+      <Content
+        onClick={() => {
+          navigate(item.url);
+          dispatch(noticeDeleteOne(item.id));
+        }}
+      >
+        {item.content}
+      </Content>
       <Date>{item.createDate.split('T')[0]}</Date>
     </Item>
   );
