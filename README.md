@@ -15,22 +15,30 @@
 
 </br>
 
-## Main Image
+## 🖥 Main Image
 <img src="/src/assets/images/메인%20화면.gif"/>
 
+</br>
 
----
-
-## Update
-- 2021.04.30 초기 개발 완료
-
-## FrontEnd
+## 🏭 FrontEnd
+![image](https://user-images.githubusercontent.com/79067549/166221135-005f08bb-a794-4deb-b97c-eddae4dcc3e6.png)
 - FrontEnd: _React_ + _TypeScript_
+- Deploy: _Netlify_
+- Main Library: _Redux_ + _Redux-saga_ + _react-quill_
 - 구현 기능:
   - 팀원 모집 게시글 작성, 수정, 삭제
   - 댓글 및 답글 작성, 삭제
   - 신청, 메시지, 알림
-  - 소셜 로그인 및 회원가입
+  - 소셜 로그인 및 회원가입, 유저 정보 관리
 
-## Other
+</br>
+
+## 🗃 Update
+- **1.0**
+  > 개발 기간: 2022년 3월 16일 ~ 2022년 4월 30일
+  - 기능 구현 및 초기 배포
+
+</br>
+
+## 📝 Other
 - [Plming_BackEnd](https://github.com/pgrm-study-website/Backend)
