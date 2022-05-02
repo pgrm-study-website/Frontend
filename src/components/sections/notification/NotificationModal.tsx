@@ -35,14 +35,12 @@ export default function NotificationModal({
 }
 const NotificationItem = ({ item }: { item: notificationProps }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   return (
     <Item>
       <Content
         onClick={() => {
           navigate(item.url);
-          dispatch(noticeDeleteOne(item.id));
         }}
       >
         {item.content}
