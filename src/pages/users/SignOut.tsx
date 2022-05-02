@@ -53,6 +53,7 @@ const SignOut = () => {
   useEffect(() => {
     if (!user || remove) {
       navigate('/');
+      dispatch(logout());
     }
   }, [navigate, dispatch, user, remove]);
   useEffect(() => {
@@ -79,7 +80,6 @@ const SignOut = () => {
   const signout = () => {
     if (window.confirm('정말 탈퇴하시겠습니까?')) {
       dispatch(userRemove(user!.id));
-      dispatch(logout());
     }
   };
 
