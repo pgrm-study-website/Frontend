@@ -3,7 +3,7 @@
 - [Link To Website](https://plming.netlify.app/)
 
 ## Example
-<img src="https://user-images.githubusercontent.com/79067549/166171978-b2199a8a-cfe0-44ce-9cd6-85fda7f85d65.png" width="50%" height="50%">
+![image](https://user-images.githubusercontent.com/79067549/166218754-ed0d0836-b469-4cd4-a1cd-301b8dc4a3c7.png)
 
 ---
 
